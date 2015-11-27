@@ -44,7 +44,7 @@ public class ReturnIndexYahooFinanceObject implements Serializable {
 
 		private Meta meta;
 		
-		private Resource[] resources;
+		private Resources[] resources;
 
 		public Meta getMeta() {
 			return meta;
@@ -118,13 +118,35 @@ public class ReturnIndexYahooFinanceObject implements Serializable {
 
 		}
 		
-		public class Resource implements Serializable {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 7988773852570114427L;
+		public class Resources{
 			
+			
+			private Resource resource;
+			
+			public Resource getResource() {
+				return resource;
+			}
+
+
+
+			public void setResource(Resource resource) {
+				this.resource = resource;
+			}
+			
+			@Override
+		    public String toString() {
+			StringBuffer s = new StringBuffer();
+			if (this.resource !=null){
+				s.append("\n resource [" + this.resource.toString() + "]");
+			}
+
+			return s.toString();
+		    }
+			
+			
+			
+		public class Resource{	
+
 			private String classname;
 			
 			private Fields fields;
@@ -137,6 +159,9 @@ public class ReturnIndexYahooFinanceObject implements Serializable {
 				this.classname = classname;
 			}
 			
+			
+
+			
 			public Fields getFields() {
 				return fields;
 			}
@@ -145,6 +170,7 @@ public class ReturnIndexYahooFinanceObject implements Serializable {
 				this.fields = fields;
 			}
 
+			
 			public class Fields{
 				
 			}
@@ -159,6 +185,11 @@ public class ReturnIndexYahooFinanceObject implements Serializable {
 
 			return s.toString();
 		    }
+		}
+
+
+
+		
 			
 		}
 		
