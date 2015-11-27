@@ -34,7 +34,7 @@ public class ReturnIndexYahooFinanceObject implements Serializable {
     public String toString() {
 	StringBuffer s = new StringBuffer(this.getClass().getCanonicalName());
 	if (this.list !=null){
-		s.append(" list [" + this.list.toString() + "]");
+		s.append("\n list [" + this.list.toString() + "]");
 	}
 
 	return s.toString();
@@ -56,9 +56,17 @@ public class ReturnIndexYahooFinanceObject implements Serializable {
 		
 		@Override
 	    public String toString() {
-		StringBuffer s = new StringBuffer(this.getClass().getCanonicalName());
+		StringBuffer s = new StringBuffer();
 		if (this.meta !=null){
-			s.append(" meta [" + this.meta.toString() + "]");
+			s.append("\n meta [" + this.meta.toString() + "]");
+		}
+		if (null != resources && resources.length > 0) {
+		    for (int i = 0; i < resources.length; i++) {
+			s.append("\n resources{" + i + "} [" + this.resources[i].toString() + "]");
+		    }
+
+		} else {
+		    s.append("  El arreglo no tiene resources  ");
 		}
 
 		return s.toString();
@@ -100,8 +108,8 @@ public class ReturnIndexYahooFinanceObject implements Serializable {
 			
 			@Override
 		    public String toString() {
-			StringBuffer s = new StringBuffer(this.getClass().getCanonicalName());
-			s.append(" type [" + this.type + "]");
+			StringBuffer s = new StringBuffer();
+			s.append("\n type [" + this.type + "]");
 			s.append(" start [" + this.start + "]");
 			s.append(" count [" + this.count + "]");
 
@@ -116,6 +124,41 @@ public class ReturnIndexYahooFinanceObject implements Serializable {
 			 * 
 			 */
 			private static final long serialVersionUID = 7988773852570114427L;
+			
+			private String classname;
+			
+			private Fields fields;
+
+			public String getClassname() {
+				return classname;
+			}
+
+			public void setClassname(String classname) {
+				this.classname = classname;
+			}
+			
+			public Fields getFields() {
+				return fields;
+			}
+
+			public void setFields(Fields fields) {
+				this.fields = fields;
+			}
+
+			public class Fields{
+				
+			}
+			
+			@Override
+		    public String toString() {
+			StringBuffer s = new StringBuffer();
+			s.append("\n classname [" + this.classname + "]");
+			if (this.fields !=null){
+				s.append("\n fields [" + this.fields.toString() + "]");
+			}
+
+			return s.toString();
+		    }
 			
 		}
 		
