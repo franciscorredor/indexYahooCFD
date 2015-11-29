@@ -16,6 +16,8 @@ import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnIndexYahoo
  * Clase principal encargada de obtener los indices de diferentes compañias 
  * @author Francisco Corredor
  * https://sites.google.com/site/gson/gson-user-guide
+ * TODO
+ * Conseguir BD en la nube y realizar lógica de negocio en CLOUD
  */
 public class ObtenerMarketIndex {
 	
