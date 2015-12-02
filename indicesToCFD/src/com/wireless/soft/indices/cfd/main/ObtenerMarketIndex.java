@@ -33,6 +33,7 @@ public class ObtenerMarketIndex {
 		
 		System.out.print("obtener indices de compañias");
 		
+		//http://finance.yahoo.com/webservice/v1/symbols/COALINDIA.NS/quote?format=json&view=detail
 					
 		String urlString = "http://finance.yahoo.com/webservice/v1/symbols/AMZN/quote?format=json";
 		//String urlString = "http://finance.yahoo.com/webservice/v1/symbols/NKE/quote?format=json";
