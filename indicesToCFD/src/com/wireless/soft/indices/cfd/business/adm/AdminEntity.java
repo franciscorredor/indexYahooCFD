@@ -1,5 +1,6 @@
 package com.wireless.soft.indices.cfd.business.adm;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -11,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import com.wireless.soft.indices.cfd.business.entities.Company;
 import com.wireless.soft.indices.cfd.exception.BusinessException;
+import com.wireless.soft.indices.cfd.util.UtilSession;
 
 /**
  * @author Francisco Corredor
@@ -53,17 +55,35 @@ public class AdminEntity {
     // ////////////////////////////////////////////////////////////////////////
     // Metodos de negocio
     // ////////////////////////////////////////////////////////////////////////
-    /**
-     * @see org.colfuturo.semillero.business.interfaces.ISemillero#guardarSemillero(org.colfuturo.semillero.model.to.SemilleroTO)
-     */
-    public List<Company> getCompanies() throws BusinessException {
-		return null;
-	
-			// Tiene idPersona y es mayor a 0, se busca la persona
-    	   //Realizar consulta de entity, basarse en Ejemplo..
-			//persona = em.find(Persona.class, semilleroTO.getPersona().getId());
-	
-    }
+
+	/**
+	 * @return
+	 * @throws BusinessException
+	 */
+	public List<Company> getCompanies() throws BusinessException {
+		List<Company> lstCompanies = new ArrayList<Company>();
+
+		try {
+
+			List<Object> list = UtilSession.getObjectsByNamedQuery(this.em,
+					Company.FIND_COMPANIES, null);
+
+			for (Object object : list) {
+				Company vnt = (Company) object;
+				lstCompanies.add(vnt);
+			}
+
+		} catch (Exception ex) {
+			String s = "Error al consultar las compañias";
+			_logger.error(s, ex);
+			throw new BusinessException(s, ex);
+		}
+
+		
+
+		return lstCompanies;
+
+	}
 
 
 

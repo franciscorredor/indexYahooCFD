@@ -5,12 +5,16 @@ import java.io.IOException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.log4j.PropertyConfigurator;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.wireless.soft.indices.cfd.business.adm.AdminEntity;
+import com.wireless.soft.indices.cfd.business.entities.Company;
 import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnIndexYahooFinanceObject;
+import com.wireless.soft.indices.cfd.exception.BusinessException;
 
 /**
  * Clase principal encargada de obtener los indices de diferentes compañias 
@@ -26,12 +30,19 @@ public class ObtenerMarketIndex {
     // ////////////////////////////////////////////////////////////////////////
     /** */
     private final Gson gson = this.createGson();
+    
+    private AdminEntity admEnt = null;
+    
+    public ObtenerMarketIndex(){
+    	admEnt = new AdminEntity();
+    }
 
 	
 	
 	public static void main(String[] args) {
 		
 		System.out.print("obtener indices de compañias");
+		PropertyConfigurator.configure("log4j.properties");
 		
 		//http://finance.yahoo.com/webservice/v1/symbols/COALINDIA.NS/quote?format=json&view=detail
 		//TODO
@@ -61,8 +72,12 @@ public class ObtenerMarketIndex {
 			//System.out.println(omi.execute(urlString, "{\"apikey\":\"1c0dd511df2319f26bccfaf5f679ed27-us7\"}"));
 			ReturnIndexYahooFinanceObject ri = omi.executeYahooIndex(urlString);
 			System.out.println(ri.toString());
+			omi.printCompanies();
+			
+			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (BusinessException e) {
 			e.printStackTrace();
 		}
 	}
@@ -120,6 +135,22 @@ public class ObtenerMarketIndex {
     private Gson createGson() {
 	GsonBuilder builder = new GsonBuilder();
 	return builder.create();
+    }
+    
+    /**
+     * @throws BusinessException
+     * @throws IOException 
+     */
+    private  void printCompanies() throws BusinessException, IOException{
+    	
+    	System.out.println("--- Lista Compañias en la BD ---");
+    	for (Company cmp : admEnt.getCompanies()) {
+			System.out.println(cmp.getName());
+			
+			ReturnIndexYahooFinanceObject ri = this.executeYahooIndex(cmp.getUrlIndex());
+			System.out.println(ri.toString());
+		}
+    	
     }
 
 }
