@@ -34,7 +34,6 @@ public class ObtenerMarketIndex {
 		System.out.print("obtener indices de compañias");
 		
 		//http://finance.yahoo.com/webservice/v1/symbols/COALINDIA.NS/quote?format=json&view=detail
-		//http://finance.yahoo.com/webservice/v1/symbols/COALINDIA.NS/quote?format=json&view=detail
 		//TODO
 		//Obtener la siguiente consulta:
 		//	SELECT	com.SCN_NAME, sci.SCI_URL_INDEX
