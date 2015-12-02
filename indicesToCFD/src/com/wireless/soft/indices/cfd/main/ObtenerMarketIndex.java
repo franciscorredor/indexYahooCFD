@@ -33,7 +33,14 @@ public class ObtenerMarketIndex {
 		
 		System.out.print("obtener indices de compañias");
 		
-					
+		//http://finance.yahoo.com/webservice/v1/symbols/COALINDIA.NS/quote?format=json&view=detail
+		//TODO
+		//Obtener la siguiente consulta:
+		//	SELECT	com.SCN_NAME, sci.SCI_URL_INDEX
+		//	FROM		indexyahoocfd.iyc_stack_company_index sci  INNER JOIN  indexyahoocfd.iyc_stock_companies com   on com.SCN_CODIGO = sci.SCN_CODIGO
+
+		
+		//http://finance.yahoo.com/webservice/v1/symbols/COALINDIA.NS/quote?format=json&view=detail			
 		String urlString = "http://finance.yahoo.com/webservice/v1/symbols/AMZN/quote?format=json";
 		//String urlString = "http://finance.yahoo.com/webservice/v1/symbols/NKE/quote?format=json";
 		//String urlString = "http://www.google.com/finance/info?q=NSE:AIAENG,ATULAUTO";
