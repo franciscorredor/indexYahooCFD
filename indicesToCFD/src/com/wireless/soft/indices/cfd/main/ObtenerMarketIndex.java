@@ -52,7 +52,7 @@ public class ObtenerMarketIndex {
 
 		
 		//http://finance.yahoo.com/webservice/v1/symbols/COALINDIA.NS/quote?format=json&view=detail			
-		String urlString = "http://finance.yahoo.com/webservice/v1/symbols/AMZN/quote?format=json";
+		String urlString = "http://finance.yahoo.com/webservice/v1/symbols/AMZN/quote?format=json&view=detail";
 		//String urlString = "http://finance.yahoo.com/webservice/v1/symbols/NKE/quote?format=json";
 		//String urlString = "http://www.google.com/finance/info?q=NSE:AIAENG,ATULAUTO";
 		//String urlString = "http://www.google.com/finance/info?q=NSE:AIAENG,AMZN,NKE,YHOO";
