@@ -54,15 +54,23 @@ public class ReturnIndexYahooFinanceObject implements Serializable {
 			this.meta = meta;
 		}
 		
+		public Resources[] getResources() {
+			return resources;
+		}
+
+		public void setResources(Resources[] resources) {
+			this.resources = resources;
+		}
+
 		@Override
 	    public String toString() {
 		StringBuffer s = new StringBuffer();
 		if (this.meta !=null){
 			s.append("\n meta [" + this.meta.toString() + "]");
 		}
-		if (null != resources && resources.length > 0) {
-		    for (int i = 0; i < resources.length; i++) {
-			s.append("\n resources{" + i + "} [" + this.resources[i].toString() + "]");
+		if (null != getResources() && getResources().length > 0) {
+		    for (int i = 0; i < getResources().length; i++) {
+			s.append("\n resources{" + i + "} [" + this.getResources()[i].toString() + "]");
 		    }
 
 		} else {

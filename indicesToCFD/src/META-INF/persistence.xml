@@ -17,6 +17,13 @@
 				value="jdbc:mysql://localhost:3306/" />
 			<property name="hibernate.connection.username" value="root" />
 			<property name="hibernate.connection.password" value="h24p1977" />
+			
+			<!-- property name="hibernate.connection.url"
+				value="jdbc:mysql://localhost:3306/" />
+			<property name="hibernate.connection.username" value="root" />
+			<property name="hibernate.connection.password" value="" / -->
+			
+			<property name="hibernate.hbm2ddl.auto" value="none" />
 			<property name="hibernate.hbm2ddl.auto" value="none" />
 		</properties>
 	</persistence-unit>

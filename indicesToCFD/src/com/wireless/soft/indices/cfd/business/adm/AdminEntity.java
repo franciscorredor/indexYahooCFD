@@ -1,6 +1,7 @@
 package com.wireless.soft.indices.cfd.business.adm;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -11,6 +12,11 @@ import javax.persistence.Persistence;
 import org.apache.log4j.Logger;
 
 import com.wireless.soft.indices.cfd.business.entities.Company;
+import com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany;
+import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnIndexYahooFinanceObject;
+import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnIndexYahooFinanceObject.List.Resources;
+import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnIndexYahooFinanceObject.List.Resources.Resource;
+import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnIndexYahooFinanceObject.List.Resources.Resource.Fields;
 import com.wireless.soft.indices.cfd.exception.BusinessException;
 import com.wireless.soft.indices.cfd.util.UtilSession;
 
@@ -83,6 +89,54 @@ public class AdminEntity {
 
 		return lstCompanies;
 
+	}
+	
+	/**
+	 * @param ri
+	 * @param cmp
+	 */
+	public void persistirCompaniesQuotes(ReturnIndexYahooFinanceObject ri, Company cmp){
+		
+		
+		if (null != ri && null != ri.getList()
+			&& null != ri.getList().getResources()){
+			ReturnIndexYahooFinanceObject.List.Resources[] rs = ri.getList().getResources();
+			
+			for (Resources resources : rs) {
+				Resource r = resources.getResource();
+				if (null != r && null != r.getFields()){
+					try{
+					Fields f =  r.getFields();
+					QuoteHistoryCompany qhc = new QuoteHistoryCompany();
+					qhc.setCompany(cmp);
+					qhc.setFechaCreacion(Calendar.getInstance());
+					qhc.setName( f.getName() );
+					qhc.setSymbol(f.getSymbol());
+					qhc.setTs(f.getTs());
+					qhc.setType(f.getType());
+					qhc.setUtctime(f.getUtctime());
+					qhc.setVolume(f.getVolume());
+					qhc.setChange(f.getChange());
+					qhc.setChg_percent(f.getChg_percent());
+					qhc.setDay_high(f.getDay_high());
+					qhc.setDay_low(f.getDay_low());
+					qhc.setIssuer_name(f.getIssuer_name());
+					qhc.setIssuer_name_lang(f.getIssuer_name_lang());
+					em.persist(qhc);
+					_logger.info("PErsistio.." + qhc.toString());
+					}
+					catch(Exception e){
+						e.printStackTrace();
+					}
+					
+				}
+			}
+			
+			
+		}
+		
+		
+		
 	}
 
 

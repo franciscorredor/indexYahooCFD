@@ -70,8 +70,8 @@ public class ObtenerMarketIndex {
 		ObtenerMarketIndex omi = new ObtenerMarketIndex();
 		try {
 			//System.out.println(omi.execute(urlString, "{\"apikey\":\"1c0dd511df2319f26bccfaf5f679ed27-us7\"}"));
-			ReturnIndexYahooFinanceObject ri = omi.executeYahooIndex(urlString);
-			System.out.println(ri.toString());
+			//ReturnIndexYahooFinanceObject ri = omi.executeYahooIndex(urlString);
+			//System.out.println(ri.toString());
 			omi.printCompanies();
 			
 			
@@ -148,8 +148,19 @@ public class ObtenerMarketIndex {
 			System.out.println(cmp.getName());
 			
 			ReturnIndexYahooFinanceObject ri = this.executeYahooIndex(cmp.getUrlIndex());
-			System.out.println(ri.toString());
+			this.persistirCompaniesQuotes(ri, cmp);
+			System.out.println("Persiste");
 		}
+    	
+    }
+    
+    /**
+     * @throws BusinessException
+     * @throws IOException 
+     */
+    private  void persistirCompaniesQuotes(ReturnIndexYahooFinanceObject ri, Company cmp) throws BusinessException, IOException{
+    	
+    	admEnt.persistirCompaniesQuotes(ri, cmp);
     	
     }
 

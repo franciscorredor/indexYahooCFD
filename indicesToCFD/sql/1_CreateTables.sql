@@ -34,6 +34,30 @@ CREATE TABLE `indexyahoocfd`.`iyc_stack_company_index` (
 `SCI_FECHA_CREACION` DATE NULL,
   PRIMARY KEY (`SCI_CODIGO`));
 
+--DROP TABLE  `indexyahoocfd`.`iyc_quote_company_history`  
+ -- almacena el historico de las quotes de la diferentes compañias 
+CREATE TABLE `indexyahoocfd`.`iyc_quote_company_history` (
+--identificador unico de la tabla 
+`QCH_CODIGO` INT NOT NULL AUTO_INCREMENT,
+--identificador que relaciona con el nombre de la compañia 
+`SCN_CODIGO` INT NOT NULL, 
+-- Fecha creación del indice 
+`QHC_FECHA_CREACION` DATE NOT NULL,
+`name` VARCHAR(1000),
+`symbol` VARCHAR(1000),
+`ts` VARCHAR(1000),
+`type` VARCHAR(1000),
+`utctime` VARCHAR(1000),
+`volume` VARCHAR(1000),
+`change` VARCHAR(1000),
+`chg_percent` VARCHAR(1000),
+`day_high` VARCHAR(1000),
+`day_low` VARCHAR(1000),
+`issuer_name` VARCHAR(1000),
+`issuer_name_lang` VARCHAR(1000),
+`year_high` VARCHAR(1000),
+`year_low` VARCHAR(1000),
+PRIMARY KEY (`QCH_CODIGO`));
 
  
  
