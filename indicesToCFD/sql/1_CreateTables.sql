@@ -49,7 +49,8 @@ CREATE TABLE `indexyahoocfd`.`iyc_quote_company_history` (
 `type` VARCHAR(1000),
 `utctime` VARCHAR(1000),
 `volume` VARCHAR(1000),
-`change` VARCHAR(1000),
+--Se modifica nombre de tabla porque cuando se inserta, genera error de syntaxis
+`syntaxis_change` VARCHAR(1000),
 `chg_percent` VARCHAR(1000),
 `day_high` VARCHAR(1000),
 `day_low` VARCHAR(1000),

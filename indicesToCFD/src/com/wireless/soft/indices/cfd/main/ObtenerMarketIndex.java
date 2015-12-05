@@ -80,6 +80,7 @@ public class ObtenerMarketIndex {
 		} catch (BusinessException e) {
 			e.printStackTrace();
 		}
+		System.exit(0);
 	}
 	
 	

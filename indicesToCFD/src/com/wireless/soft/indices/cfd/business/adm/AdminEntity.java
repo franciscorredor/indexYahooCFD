@@ -51,9 +51,9 @@ public class AdminEntity {
      * Constructor de la clase
      */
     public AdminEntity() {
-	super();
+    	super();
 
-	this.emf = Persistence.createEntityManagerFactory("entityManager");
+    	this.emf = Persistence.createEntityManagerFactory("entityManager");
 	this.em = this.emf.createEntityManager();
 	this.tx = this.em.getTransaction();
     }
@@ -97,6 +97,7 @@ public class AdminEntity {
 	 */
 	public void persistirCompaniesQuotes(ReturnIndexYahooFinanceObject ri, Company cmp){
 		
+		this.tx.begin();
 		
 		if (null != ri && null != ri.getList()
 			&& null != ri.getList().getResources()){
@@ -106,9 +107,10 @@ public class AdminEntity {
 				Resource r = resources.getResource();
 				if (null != r && null != r.getFields()){
 					try{
+					
 					Fields f =  r.getFields();
 					QuoteHistoryCompany qhc = new QuoteHistoryCompany();
-					qhc.setCompany(cmp);
+					qhc.setCompany(cmp.getId());
 					qhc.setFechaCreacion(Calendar.getInstance());
 					qhc.setName( f.getName() );
 					qhc.setSymbol(f.getSymbol());
@@ -123,6 +125,7 @@ public class AdminEntity {
 					qhc.setIssuer_name(f.getIssuer_name());
 					qhc.setIssuer_name_lang(f.getIssuer_name_lang());
 					em.persist(qhc);
+					this.em.flush();
 					_logger.info("PErsistio.." + qhc.toString());
 					}
 					catch(Exception e){
@@ -137,6 +140,7 @@ public class AdminEntity {
 		
 		
 		
+	    this.tx.commit();	
 	}
 
 

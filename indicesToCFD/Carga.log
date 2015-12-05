@@ -15,3 +15,173 @@
 2015-12-04 17:28:05 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [126] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@55fb03cb
 2015-12-04 17:28:06 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [126] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@6cd7c975
 2015-12-04 17:28:06 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [126] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@732566c1
+2015-12-05 08:04:15 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper [144] logExceptions - Access denied for user 'root'@'localhost' (using password: NO)
+2015-12-05 08:04:15 [main] ERROR com.wireless.soft.indices.cfd.util.UtilSession [113] getObjectsByNamedQuery - org.hibernate.exception.GenericJDBCException: Could not open connection
+javax.persistence.PersistenceException: org.hibernate.exception.GenericJDBCException: Could not open connection
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1361)
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1289)
+	at org.hibernate.ejb.QueryImpl.getResultList(QueryImpl.java:261)
+	at com.wireless.soft.indices.cfd.util.UtilSession.getObjectsByNamedQuery(UtilSession.java:111)
+	at com.wireless.soft.indices.cfd.business.adm.AdminEntity.getCompanies(AdminEntity.java:74)
+	at com.wireless.soft.indices.cfd.main.ObtenerMarketIndex.printCompanies(ObtenerMarketIndex.java:147)
+	at com.wireless.soft.indices.cfd.main.ObtenerMarketIndex.main(ObtenerMarketIndex.java:75)
+Caused by: org.hibernate.exception.GenericJDBCException: Could not open connection
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:52)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:125)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:110)
+	at org.hibernate.engine.jdbc.internal.LogicalConnectionImpl.obtainConnection(LogicalConnectionImpl.java:304)
+	at org.hibernate.engine.jdbc.internal.LogicalConnectionImpl.getConnection(LogicalConnectionImpl.java:169)
+	at org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler.extractPhysicalConnection(ConnectionProxyHandler.java:82)
+	at org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler.continueInvocation(ConnectionProxyHandler.java:138)
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractProxyHandler.invoke(AbstractProxyHandler.java:81)
+	at com.sun.proxy.$Proxy15.prepareStatement(Unknown Source)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl$5.doPrepare(StatementPreparerImpl.java:147)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl$StatementPreparationTemplate.prepareStatement(StatementPreparerImpl.java:166)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl.prepareQueryStatement(StatementPreparerImpl.java:145)
+	at org.hibernate.loader.Loader.prepareQueryStatement(Loader.java:1739)
+	at org.hibernate.loader.Loader.doQuery(Loader.java:828)
+	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:289)
+	at org.hibernate.loader.Loader.doList(Loader.java:2463)
+	at org.hibernate.loader.Loader.doList(Loader.java:2449)
+	at org.hibernate.loader.Loader.listIgnoreQueryCache(Loader.java:2279)
+	at org.hibernate.loader.Loader.list(Loader.java:2274)
+	at org.hibernate.loader.custom.CustomLoader.list(CustomLoader.java:331)
+	at org.hibernate.internal.SessionImpl.listCustomQuery(SessionImpl.java:1585)
+	at org.hibernate.internal.AbstractSessionImpl.list(AbstractSessionImpl.java:224)
+	at org.hibernate.internal.SQLQueryImpl.list(SQLQueryImpl.java:156)
+	at org.hibernate.ejb.QueryImpl.getResultList(QueryImpl.java:252)
+	... 4 more
+Caused by: java.sql.SQLException: Access denied for user 'root'@'localhost' (using password: NO)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:959)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3870)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3806)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:871)
+	at com.mysql.jdbc.MysqlIO.proceedHandshakeWithPluggableAuthentication(MysqlIO.java:1686)
+	at com.mysql.jdbc.MysqlIO.doHandshake(MysqlIO.java:1207)
+	at com.mysql.jdbc.ConnectionImpl.coreConnect(ConnectionImpl.java:2254)
+	at com.mysql.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:2285)
+	at com.mysql.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:2084)
+	at com.mysql.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:795)
+	at com.mysql.jdbc.JDBC4Connection.<init>(JDBC4Connection.java:44)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.lang.reflect.Constructor.newInstance(Unknown Source)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:404)
+	at com.mysql.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:400)
+	at com.mysql.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:327)
+	at java.sql.DriverManager.getConnection(Unknown Source)
+	at java.sql.DriverManager.getConnection(Unknown Source)
+	at org.hibernate.service.jdbc.connections.internal.DriverManagerConnectionProviderImpl.getConnection(DriverManagerConnectionProviderImpl.java:173)
+	at org.hibernate.internal.AbstractSessionImpl$NonContextualJdbcConnectionAccess.obtainConnection(AbstractSessionImpl.java:276)
+	at org.hibernate.engine.jdbc.internal.LogicalConnectionImpl.obtainConnection(LogicalConnectionImpl.java:297)
+	... 24 more
+2015-12-05 08:04:15 [main] ERROR com.wireless.soft.indices.cfd.business.adm.AdminEntity [84] getCompanies - Error al consultar las compañias
+java.lang.Exception: javax.persistence.PersistenceException: org.hibernate.exception.GenericJDBCException: Could not open connection
+	at com.wireless.soft.indices.cfd.util.UtilSession.getObjectsByNamedQuery(UtilSession.java:114)
+	at com.wireless.soft.indices.cfd.business.adm.AdminEntity.getCompanies(AdminEntity.java:74)
+	at com.wireless.soft.indices.cfd.main.ObtenerMarketIndex.printCompanies(ObtenerMarketIndex.java:147)
+	at com.wireless.soft.indices.cfd.main.ObtenerMarketIndex.main(ObtenerMarketIndex.java:75)
+Caused by: javax.persistence.PersistenceException: org.hibernate.exception.GenericJDBCException: Could not open connection
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1361)
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1289)
+	at org.hibernate.ejb.QueryImpl.getResultList(QueryImpl.java:261)
+	at com.wireless.soft.indices.cfd.util.UtilSession.getObjectsByNamedQuery(UtilSession.java:111)
+	... 3 more
+Caused by: org.hibernate.exception.GenericJDBCException: Could not open connection
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:52)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:125)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:110)
+	at org.hibernate.engine.jdbc.internal.LogicalConnectionImpl.obtainConnection(LogicalConnectionImpl.java:304)
+	at org.hibernate.engine.jdbc.internal.LogicalConnectionImpl.getConnection(LogicalConnectionImpl.java:169)
+	at org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler.extractPhysicalConnection(ConnectionProxyHandler.java:82)
+	at org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler.continueInvocation(ConnectionProxyHandler.java:138)
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractProxyHandler.invoke(AbstractProxyHandler.java:81)
+	at com.sun.proxy.$Proxy15.prepareStatement(Unknown Source)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl$5.doPrepare(StatementPreparerImpl.java:147)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl$StatementPreparationTemplate.prepareStatement(StatementPreparerImpl.java:166)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl.prepareQueryStatement(StatementPreparerImpl.java:145)
+	at org.hibernate.loader.Loader.prepareQueryStatement(Loader.java:1739)
+	at org.hibernate.loader.Loader.doQuery(Loader.java:828)
+	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:289)
+	at org.hibernate.loader.Loader.doList(Loader.java:2463)
+	at org.hibernate.loader.Loader.doList(Loader.java:2449)
+	at org.hibernate.loader.Loader.listIgnoreQueryCache(Loader.java:2279)
+	at org.hibernate.loader.Loader.list(Loader.java:2274)
+	at org.hibernate.loader.custom.CustomLoader.list(CustomLoader.java:331)
+	at org.hibernate.internal.SessionImpl.listCustomQuery(SessionImpl.java:1585)
+	at org.hibernate.internal.AbstractSessionImpl.list(AbstractSessionImpl.java:224)
+	at org.hibernate.internal.SQLQueryImpl.list(SQLQueryImpl.java:156)
+	at org.hibernate.ejb.QueryImpl.getResultList(QueryImpl.java:252)
+	... 4 more
+Caused by: java.sql.SQLException: Access denied for user 'root'@'localhost' (using password: NO)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:959)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3870)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3806)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:871)
+	at com.mysql.jdbc.MysqlIO.proceedHandshakeWithPluggableAuthentication(MysqlIO.java:1686)
+	at com.mysql.jdbc.MysqlIO.doHandshake(MysqlIO.java:1207)
+	at com.mysql.jdbc.ConnectionImpl.coreConnect(ConnectionImpl.java:2254)
+	at com.mysql.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:2285)
+	at com.mysql.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:2084)
+	at com.mysql.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:795)
+	at com.mysql.jdbc.JDBC4Connection.<init>(JDBC4Connection.java:44)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.lang.reflect.Constructor.newInstance(Unknown Source)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:404)
+	at com.mysql.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:400)
+	at com.mysql.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:327)
+	at java.sql.DriverManager.getConnection(Unknown Source)
+	at java.sql.DriverManager.getConnection(Unknown Source)
+	at org.hibernate.service.jdbc.connections.internal.DriverManagerConnectionProviderImpl.getConnection(DriverManagerConnectionProviderImpl.java:173)
+	at org.hibernate.internal.AbstractSessionImpl$NonContextualJdbcConnectionAccess.obtainConnection(AbstractSessionImpl.java:276)
+	at org.hibernate.engine.jdbc.internal.LogicalConnectionImpl.obtainConnection(LogicalConnectionImpl.java:297)
+	... 24 more
+2015-12-05 08:05:56 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [126] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@469f3b5a
+2015-12-05 08:05:56 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [126] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@17d9adc3
+2015-12-05 08:05:56 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [126] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@31ab04ce
+2015-12-05 08:05:57 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [126] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@372bd7d6
+2015-12-05 08:05:57 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [126] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@20e84d37
+2015-12-05 08:05:57 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [126] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@63f8da16
+2015-12-05 08:05:58 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [126] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@73bd819e
+2015-12-05 08:05:59 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [126] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4f63fa1
+2015-12-05 08:09:21 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper [144] logExceptions - No database selected
+2015-12-05 08:12:19 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@699cb714
+2015-12-05 08:12:19 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@7b5d82b7
+2015-12-05 08:12:20 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@396fe335
+2015-12-05 08:12:20 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@55fb03cb
+2015-12-05 08:12:21 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@6cd7c975
+2015-12-05 08:12:21 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@732566c1
+2015-12-05 08:12:22 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@61bbbcfe
+2015-12-05 08:12:22 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2e123812
+2015-12-05 08:17:09 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@32c8cd68
+2015-12-05 08:17:12 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@725651ca
+2015-12-05 08:17:14 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4dd5d6bb
+2015-12-05 08:17:15 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@b6220c7
+2015-12-05 08:17:16 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@72313123
+2015-12-05 08:17:17 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@b5d5daa
+2015-12-05 08:17:19 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@72133137
+2015-12-05 08:17:21 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2969c7e1
+2015-12-05 08:19:31 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@9601d29
+2015-12-05 08:19:32 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2fe90cff
+2015-12-05 08:19:32 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@3fc3e1c9
+2015-12-05 08:19:33 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@25512b6c
+2015-12-05 08:19:33 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2317a576
+2015-12-05 08:19:34 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4414a050
+2015-12-05 08:19:34 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@516986e6
+2015-12-05 08:19:35 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5503d8f1
+2015-12-05 08:23:05 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper [144] logExceptions - No database selected
+2015-12-05 08:26:09 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper [144] logExceptions - No database selected
+2015-12-05 08:26:09 [main] ERROR org.hibernate.AssertionFailure [43] <init> - HHH000099: an assertion failure occured (this may indicate a bug in Hibernate, but is more likely due to unsafe use of the session): org.hibernate.AssertionFailure: null id in com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany entry (don't flush the Session after an exception occurs)
+2015-12-05 08:27:01 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper [144] logExceptions - No database selected
+2015-12-05 08:35:40 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper [144] logExceptions - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'change, chg_percent, SCN_CODIGO, day_high, day_low, QHC_FECHA_CREACION, issuer_n' at line 1
+2015-12-05 08:51:39 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2efbfe50
+2015-12-05 08:51:39 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@6cd7c975
+2015-12-05 08:51:40 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@6c74f9d2
+2015-12-05 08:51:40 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@fe25f1
+2015-12-05 08:51:40 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@52c0a65f
+2015-12-05 08:51:41 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@10877316
+2015-12-05 08:51:42 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1a1510b6
+2015-12-05 08:51:42 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@22aa0b69

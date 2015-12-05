@@ -25,7 +25,7 @@ import javax.persistence.Table;
 		@NamedQuery(name = "findAllQuoteHistoryCompany", query = "SELECT s FROM QuoteHistoryCompany s ORDER BY s.id")
 					})
 @Entity
-@Table(name = "iyc_quote_company_history")
+@Table(name = "indexyahoocfd.iyc_quote_company_history")
 public class QuoteHistoryCompany implements Serializable{
 	
 
@@ -43,9 +43,11 @@ public class QuoteHistoryCompany implements Serializable{
     private Long id;
 
     /** Informacion de la Compania */
-    @OneToOne(targetEntity = Company.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "SCN_CODIGO", nullable = false)
-    private Company company;
+    //@OneToOne(targetEntity = Company.class, fetch = FetchType.EAGER)
+    //@JoinColumn(name = "SCN_CODIGO", nullable = false)
+    //private Company company;
+    @Column(name = "SCN_CODIGO", nullable = false)
+    private Long company;
     
     @Column(name = "QHC_FECHA_CREACION", nullable = false)
     /** Fecha Creacion */
@@ -69,7 +71,7 @@ public class QuoteHistoryCompany implements Serializable{
     @Column(name = "volume", nullable = true)
     private String volume;
     
-    @Column(name = "change", nullable = true)
+    @Column(name = "syntaxis_change", nullable = true)
     private String change;
     
     @Column(name = "chg_percent", nullable = true)
@@ -107,14 +109,14 @@ public class QuoteHistoryCompany implements Serializable{
 	/**
 	 * @return the company
 	 */
-	public Company getCompany() {
+	public Long getCompany() {
 		return company;
 	}
 
 	/**
 	 * @param company the company to set
 	 */
-	public void setCompany(Company company) {
+	public void setCompany(Long company) {
 		this.company = company;
 	}
 
