@@ -42,7 +42,7 @@ CREATE TABLE `indexyahoocfd`.`iyc_quote_company_history` (
 --identificador que relaciona con el nombre de la compañia 
 `SCN_CODIGO` INT NOT NULL, 
 -- Fecha creación del indice 
-`QHC_FECHA_CREACION` DATE NOT NULL,
+`QHC_FECHA_CREACION` TIMESTAMP NOT NULL,
 `name` VARCHAR(1000),
 `symbol` VARCHAR(1000),
 `ts` VARCHAR(1000),
@@ -59,13 +59,3 @@ CREATE TABLE `indexyahoocfd`.`iyc_quote_company_history` (
 `year_high` VARCHAR(1000),
 `year_low` VARCHAR(1000),
 PRIMARY KEY (`QCH_CODIGO`));
-
- 
- 
-
-
- 
-
-
-
-
