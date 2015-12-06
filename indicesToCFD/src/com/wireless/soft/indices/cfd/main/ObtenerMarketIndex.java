@@ -187,6 +187,8 @@ public class ObtenerMarketIndex {
     	
     	System.out.println("--- Imprime OBV On-Balance Volume ---");
     	//Itera por cada una de las compañias
+    	
+    	
     	try {
 			for (Company cmp : admEnt.getCompanies()) {
 				//System.out.println(cmp.getName());
@@ -210,6 +212,13 @@ public class ObtenerMarketIndex {
 				/*
 				 * TODO Calcular cuanto porcentaje subio y dar un ponderado
 				 *  i. Si encuentra una noticia que contenga palabras positivas, dar una nota apreciativa al ponderad de 0,05%
+				 *      	//Guaardar la informacion que se itera en Collections y que realize ordenamiento, para que imprima en linea el resultado
+				 *      y no tener que almacenarlo en ls BD para despues leerlo o calcularlo. Realixar el calculo de las
+				 *      mejoras comañias depues de la iteración por cada uno de las compañias que estan cumplienod con el
+//				 *      calculo/estrategia definida en el algoritmo!
+ * 							adicionar la variable /indice P/e usando http://jsoup.org/
+				*
+				*
 				 */
 				if (valueNowPrice > valueBeforePrice){
 					if (   (((valueNowVolume*100)/valueBeforeVolume)-100) > 0){
