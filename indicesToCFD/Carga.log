@@ -203,3 +203,123 @@ Caused by: java.sql.SQLException: Access denied for user 'root'@'localhost' (usi
 2015-12-05 12:41:07 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@440e7e7b
 2015-12-05 12:41:07 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@53fd9439
 2015-12-05 12:41:07 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@35d0bb5e
+2015-12-05 21:49:48 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5b5b6746
+2015-12-05 21:49:48 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@764be083
+2015-12-05 21:49:48 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@52c889db
+2015-12-05 21:49:49 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@732566c1
+2015-12-05 21:49:49 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1e88e76f
+2015-12-05 21:49:50 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@fe25f1
+2015-12-05 21:49:50 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@65ead16a
+2015-12-05 21:49:51 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2c94b1d4
+2015-12-05 21:49:51 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5eb09153
+2015-12-05 21:55:00 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@66141e2b
+2015-12-05 21:55:15 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@3f06c91d
+2015-12-05 21:55:15 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@40732ae1
+2015-12-05 21:55:16 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4cbfe8c3
+2015-12-05 21:55:16 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@79317916
+2015-12-05 21:55:16 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@736338c8
+2015-12-05 21:55:17 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@42ae811c
+2015-12-05 21:55:17 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@57887445
+2015-12-05 21:55:18 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [129] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@3d04148c
+2015-12-05 23:12:02 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [130] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@3bead2d
+2015-12-05 23:12:02 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [130] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@6c1194fa
+2015-12-05 23:12:02 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [130] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@60adca08
+2015-12-05 23:12:03 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [130] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@20e84d37
+2015-12-05 23:12:03 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [130] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@73bd819e
+2015-12-05 23:12:04 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [130] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@547d95ed
+2015-12-05 23:12:04 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [130] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@333ca628
+2015-12-05 23:12:05 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [130] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@7d07e203
+2015-12-05 23:12:05 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [130] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@b568ac5
+2015-12-05 23:18:06 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5b5b6746
+2015-12-05 23:18:06 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@764be083
+2015-12-05 23:18:06 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@52c889db
+2015-12-05 23:18:07 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1c7d43f6
+2015-12-05 23:18:07 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2e123812
+2015-12-05 23:18:07 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2d6cf1b9
+2015-12-05 23:18:08 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@65ead16a
+2015-12-05 23:18:08 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2c94b1d4
+2015-12-05 23:18:08 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5eb09153
+2015-12-05 23:23:47 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@76fa68b0
+2015-12-05 23:23:47 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@7b5d82b7
+2015-12-05 23:23:48 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@55fb03cb
+2015-12-05 23:23:51 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@66b60da0
+2015-12-05 23:23:51 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4f63fa1
+2015-12-05 23:23:51 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@18f31e6f
+2015-12-05 23:23:52 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4e6ff0de
+2015-12-05 23:23:53 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@32150682
+2015-12-05 23:23:53 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@71fb1192
+2015-12-05 23:23:54 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@537d147e
+2015-12-05 23:29:35 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@7057323f
+2015-12-05 23:29:36 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@6bd2b352
+2015-12-05 23:29:36 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@20e84d37
+2015-12-05 23:29:37 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2e1f3d5f
+2015-12-05 23:29:42 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@18f31e6f
+2015-12-05 23:29:42 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@6185167b
+2015-12-05 23:29:44 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@48362efe
+2015-12-05 23:29:44 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1cbaaf
+2015-12-05 23:29:44 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4736efa7
+2015-12-05 23:29:45 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5c814530
+2015-12-06 01:33:46 [main] ERROR org.hibernate.hql.internal.ast.ErrorCounter [54] reportError - line 1:12: unexpected token: 2
+2015-12-06 01:33:46 [main] ERROR org.hibernate.hql.internal.ast.ErrorCounter [50] reportError - line 1:12: unexpected token: 2
+line 1:12: unexpected token: 2
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.identPrimary(HqlBaseParser.java:4016)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.primaryExpression(HqlBaseParser.java:859)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.atom(HqlBaseParser.java:3390)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.unaryExpression(HqlBaseParser.java:3168)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.multiplyExpression(HqlBaseParser.java:3040)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.additiveExpression(HqlBaseParser.java:2750)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.concatenation(HqlBaseParser.java:568)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.relationalExpression(HqlBaseParser.java:2518)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.equalityExpression(HqlBaseParser.java:2379)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.negatedExpression(HqlBaseParser.java:2343)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.logicalAndExpression(HqlBaseParser.java:2259)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.logicalOrExpression(HqlBaseParser.java:2224)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.expression(HqlBaseParser.java:2010)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.aliasedExpression(HqlBaseParser.java:2177)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectedPropertiesList(HqlBaseParser.java:1383)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectClause(HqlBaseParser.java:1293)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectFrom(HqlBaseParser.java:1030)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.queryRule(HqlBaseParser.java:700)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.selectStatement(HqlBaseParser.java:294)
+	at org.hibernate.hql.internal.antlr.HqlBaseParser.statement(HqlBaseParser.java:157)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.parse(QueryTranslatorImpl.java:266)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:180)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.compile(QueryTranslatorImpl.java:136)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:101)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:80)
+	at org.hibernate.engine.query.spi.QueryPlanCache.getHQLQueryPlan(QueryPlanCache.java:119)
+	at org.hibernate.internal.SessionFactoryImpl.checkNamedQueries(SessionFactoryImpl.java:974)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:485)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:1737)
+	at org.hibernate.ejb.EntityManagerFactoryImpl.<init>(EntityManagerFactoryImpl.java:84)
+	at org.hibernate.ejb.Ejb3Configuration.buildEntityManagerFactory(Ejb3Configuration.java:904)
+	at org.hibernate.ejb.Ejb3Configuration.buildEntityManagerFactory(Ejb3Configuration.java:889)
+	at org.hibernate.ejb.HibernatePersistence.createEntityManagerFactory(HibernatePersistence.java:56)
+	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:63)
+	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:47)
+	at com.wireless.soft.indices.cfd.business.adm.AdminEntity.<init>(AdminEntity.java:57)
+	at com.wireless.soft.indices.cfd.main.ObtenerMarketIndex.<init>(ObtenerMarketIndex.java:41)
+	at com.wireless.soft.indices.cfd.main.ObtenerMarketIndex.main(ObtenerMarketIndex.java:80)
+2015-12-06 01:33:46 [main] ERROR org.hibernate.internal.SessionFactoryImpl [490] <init> - HHH000177: Error in named query: findQuoteHistoryByCompany
+org.hibernate.hql.internal.ast.QuerySyntaxException: unexpected token: 2 near line 1, column 12 [SELECT top 2 s FROM com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany s WHERE s.company = :company ORDER BY s.id desc ]
+	at org.hibernate.hql.internal.ast.QuerySyntaxException.convert(QuerySyntaxException.java:54)
+	at org.hibernate.hql.internal.ast.QuerySyntaxException.convert(QuerySyntaxException.java:47)
+	at org.hibernate.hql.internal.ast.ErrorCounter.throwQueryException(ErrorCounter.java:79)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.parse(QueryTranslatorImpl.java:276)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:180)
+	at org.hibernate.hql.internal.ast.QueryTranslatorImpl.compile(QueryTranslatorImpl.java:136)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:101)
+	at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:80)
+	at org.hibernate.engine.query.spi.QueryPlanCache.getHQLQueryPlan(QueryPlanCache.java:119)
+	at org.hibernate.internal.SessionFactoryImpl.checkNamedQueries(SessionFactoryImpl.java:974)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:485)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:1737)
+	at org.hibernate.ejb.EntityManagerFactoryImpl.<init>(EntityManagerFactoryImpl.java:84)
+	at org.hibernate.ejb.Ejb3Configuration.buildEntityManagerFactory(Ejb3Configuration.java:904)
+	at org.hibernate.ejb.Ejb3Configuration.buildEntityManagerFactory(Ejb3Configuration.java:889)
+	at org.hibernate.ejb.HibernatePersistence.createEntityManagerFactory(HibernatePersistence.java:56)
+	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:63)
+	at javax.persistence.Persistence.createEntityManagerFactory(Persistence.java:47)
+	at com.wireless.soft.indices.cfd.business.adm.AdminEntity.<init>(AdminEntity.java:57)
+	at com.wireless.soft.indices.cfd.main.ObtenerMarketIndex.<init>(ObtenerMarketIndex.java:41)
+	at com.wireless.soft.indices.cfd.main.ObtenerMarketIndex.main(ObtenerMarketIndex.java:80)

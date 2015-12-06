@@ -22,7 +22,8 @@ import javax.persistence.Table;
  * entity de la tabla indexyahoocfd.iyc_quote_company_history
  */
 @NamedQueries(value = {				
-		@NamedQuery(name = "findAllQuoteHistoryCompany", query = "SELECT s FROM QuoteHistoryCompany s ORDER BY s.id")
+		@NamedQuery(name = "findAllQuoteHistory", query = "SELECT s FROM QuoteHistoryCompany s ORDER BY s.id"),
+		@NamedQuery(name = "findQuoteHistoryByCompany", query = "SELECT s FROM QuoteHistoryCompany s WHERE s.company = :company ORDER BY s.id desc ")
 					})
 @Entity
 @Table(name = "indexyahoocfd.iyc_quote_company_history")
@@ -33,6 +34,17 @@ public class QuoteHistoryCompany implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -4861537089116018142L;
+	
+    // ////////////////////////////////////////////////////////////////////////
+    // Constantes de la clase
+    // ////////////////////////////////////////////////////////////////////////
+
+    /** */
+    public static final String FIND_ALL_QUOTEHISTORY = "findAllQuoteHistory";
+    /** */
+    public static final String FIND_QUOTEHISTORY_BYCOMPANY = "findQuoteHistoryByCompany";
+
+    
     // ////////////////////////////////////////////////////////////////////////
     // Atributos de la clase
     // ////////////////////////////////////////////////////////////////////////
@@ -88,6 +100,15 @@ public class QuoteHistoryCompany implements Serializable{
     
     @Column(name = "issuer_name_lang", nullable = true)
     private String issuer_name_lang;
+    
+    @Column(name = "year_high", nullable = true)
+    private String year_high;
+    
+    @Column(name = "year_low", nullable = true)
+    private String year_low;
+    
+    @Column(name = "price", nullable = true)
+    private String price;
     
     // ////////////////////////////////////////////////////////////////////////
     // Getter/Setter de la clase
@@ -301,13 +322,48 @@ public class QuoteHistoryCompany implements Serializable{
 	public void setIssuer_name_lang(String issuer_name_lang) {
 		this.issuer_name_lang = issuer_name_lang;
 	}
-	
-	
-	
-	
-	
-	
-	
 
+	/**
+	 * @return the year_high
+	 */
+	public String getYear_high() {
+		return year_high;
+	}
+
+	/**
+	 * @param year_high the year_high to set
+	 */
+	public void setYear_high(String year_high) {
+		this.year_high = year_high;
+	}
+
+	/**
+	 * @return the year_low
+	 */
+	public String getYear_low() {
+		return year_low;
+	}
+
+	/**
+	 * @param year_low the year_low to set
+	 */
+	public void setYear_low(String year_low) {
+		this.year_low = year_low;
+	}
+
+	/**
+	 * @return the price
+	 */
+	public String getPrice() {
+		return price;
+	}
+
+	/**
+	 * @param price the price to set
+	 */
+	public void setPrice(String price) {
+		this.price = price;
+	}
+	
 
 }

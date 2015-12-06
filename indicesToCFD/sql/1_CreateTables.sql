@@ -58,4 +58,5 @@ CREATE TABLE `indexyahoocfd`.`iyc_quote_company_history` (
 `issuer_name_lang` VARCHAR(1000),
 `year_high` VARCHAR(1000),
 `year_low` VARCHAR(1000),
+`price` VARCHAR(1000),
 PRIMARY KEY (`QCH_CODIGO`));

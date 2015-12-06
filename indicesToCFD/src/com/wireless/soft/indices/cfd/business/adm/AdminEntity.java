@@ -2,6 +2,7 @@ package com.wireless.soft.indices.cfd.business.adm;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -124,6 +125,9 @@ public class AdminEntity {
 					qhc.setDay_low(f.getDay_low());
 					qhc.setIssuer_name(f.getIssuer_name());
 					qhc.setIssuer_name_lang(f.getIssuer_name_lang());
+					qhc.setYear_high(f.getYear_high());
+					qhc.setYear_low(f.getYear_low());
+					qhc.setPrice(f.getPrice());
 					em.persist(qhc);
 					this.em.flush();
 					_logger.info("PErsistio.." + qhc.toString());
@@ -144,5 +148,22 @@ public class AdminEntity {
 	}
 
 
+	/**
+	 * @param cmp
+	 * @return
+	 * @throws Exception 
+	 */
+	public List<Object> getCompIdxQuote(Company cmp) throws Exception{
+		Hashtable<String, Object> param = new Hashtable<String, Object>();
+		param.put("company", cmp.getId());
+		List<Object> listIdxCompany = UtilSession
+			.getObjectsByNamedQuery(
+				em,
+				QuoteHistoryCompany.FIND_QUOTEHISTORY_BYCOMPANY,
+				param);
+		
+		return listIdxCompany;
+		
+	}
 
 }
