@@ -1,7 +1,9 @@
 package com.wireless.soft.indices.cfd.main;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Hashtable;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.http.client.methods.HttpGet;
@@ -16,6 +18,7 @@ import com.google.gson.JsonParser;
 import com.wireless.soft.indices.cfd.business.adm.AdminEntity;
 import com.wireless.soft.indices.cfd.business.entities.Company;
 import com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany;
+import com.wireless.soft.indices.cfd.collections.CompanyRanking;
 import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnIndexYahooFinanceObject;
 import com.wireless.soft.indices.cfd.exception.BusinessException;
 import com.wireless.soft.indices.cfd.util.UtilSession;
@@ -173,9 +176,13 @@ public class ObtenerMarketIndex {
     	for (Company cmp : admEnt.getCompanies()) {
 			System.out.println(cmp.getName());
 			
+			if (null != cmp && null != cmp.getUrlIndex() 
+					&& cmp.getUrlIndex().length() > 3){
+			
 			ReturnIndexYahooFinanceObject ri = this.executeYahooIndex(cmp.getUrlIndex());
 			this.persistirCompaniesQuotes(ri, cmp);
 			System.out.println("Persiste");
+			}
 		}
     	
     }
@@ -187,20 +194,26 @@ public class ObtenerMarketIndex {
     	
     	System.out.println("--- Imprime OBV On-Balance Volume ---");
     	//Itera por cada una de las compañias
-    	
+    	List<CompanyRanking> cr = new LinkedList<CompanyRanking>(); 
     	
     	try {
 			for (Company cmp : admEnt.getCompanies()) {
 				//System.out.println(cmp.getName());
 				//Obtener el valor de los ultimos dos regitros para saber el OBV
-				//Imprimir PRecio y Volume de los dos ultimps REgistros
+				//Imprimir PRecio y Volume de los dos ultimps REgistros+ 
+				
+				if ( null != cmp && cmp.getId() == 11 ){
+					System.out.println("BReak:"+cmp.getName() );
+				}
 				
 				List<Object> listIdxCompany = admEnt.getCompIdxQuote(cmp);
 				
 				Object tmp[] = listIdxCompany.toArray();
 				
-				QuoteHistoryCompany qhcBefore = (QuoteHistoryCompany) tmp[0];
-				QuoteHistoryCompany qhcNow = (QuoteHistoryCompany) tmp[1];
+				if (null != tmp && tmp.length > 1){
+				
+				QuoteHistoryCompany qhcBefore = (QuoteHistoryCompany) tmp[1];
+				QuoteHistoryCompany qhcNow = (QuoteHistoryCompany) tmp[0];
 				
 				
 				Double valueBeforePrice = Double.valueOf( qhcBefore.getPrice() );
@@ -222,9 +235,18 @@ public class ObtenerMarketIndex {
 				 */
 				if (valueNowPrice > valueBeforePrice){
 					if (   (((valueNowVolume*100)/valueBeforeVolume)-100) > 0){
-					System.out.println( cmp.getName() + " " + "+ OBV =" + (valueBeforeVolume+valueNowVolume) + " -- Crecio un % en Volumen de: " + ( ((valueNowVolume*100)/valueBeforeVolume)-100) );
-					System.out.println( "-------------------------- Crecio un % en Precio de: " + ( ((valueNowPrice*100)/valueBeforePrice)-100) );
+					//System.out.println( cmp.getName() + " " + "+ OBV =" + (valueBeforeVolume+valueNowVolume) + " -- Crecio un % en Volumen de: " + ( ((valueNowVolume*100)/valueBeforeVolume)-100) );
+					//System.out.println( "-------------------------- Crecio un % en Precio de: " + ( ((valueNowPrice*100)/valueBeforePrice)-100) );
+					CompanyRanking addAR = new CompanyRanking();
+					addAR.setCompanyName(cmp.getName());
+					addAR.setIdCompany(cmp.getId());
+					addAR.setOBV((valueBeforeVolume+valueNowVolume));
+					addAR.setVolumePercentageIncrement(( ((valueNowVolume*100)/valueBeforeVolume)-100));
+					addAR.setPricePercentageincrement((((valueNowPrice*100)/valueBeforePrice)-100));
+					cr.add(addAR);
 					}
+					
+					
 					
 				}
 //				else if (valueNowPrice < valueBeforePrice){
@@ -245,8 +267,22 @@ public class ObtenerMarketIndex {
 				//if (listIdxCompany != null && listaCandidatoObject.size() > 0) {
 				 //   for (Object o : listaCandidatoObject) {
 					//CandidatoConvocatoria candidatoConvocatoria = ((CandidatoConvocatoria) o);
-				
+				}
 			}
+			
+			//Imprime Arreglo ordenado
+			Collections.sort(cr);
+			
+			//imprime Arreglo ordenado
+			//TODO persistir la informacion del resultado, con la fecha de la
+			//ejecuión del proceso
+			int i = 0;
+			for (CompanyRanking companyRanking : cr) {
+				if (null!=companyRanking && companyRanking.getNotaPonderada() > 25){
+				System.out.println((++i) + " " + companyRanking.toString() );
+				}
+			}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
