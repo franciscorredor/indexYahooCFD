@@ -88,16 +88,16 @@ public class ObtenerMarketIndex {
 			String accion = args[0];
 			switch (accion){
 			case "0":
-				System.out.println("PErsiste info de las compañias, consultando de yahoo");
+				System.out.println("\n Persiste info de las compañias, consultando de yahoo");
 				omi.printCompanies();
 				break;
 			case "1":
-				System.out.println("Inprime el indicador OBV");
+				System.out.println("\n Imprime el indicador OBV");
 				omi.printOBV();
 				break;
 				
 			default:
-				System.out.println("No realiza acción");
+				System.out.println("\n No realiza acción");
 				break;
 			}
 			
