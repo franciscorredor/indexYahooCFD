@@ -320,6 +320,7 @@ public class ObtenerMarketIndex {
 			int i = 0;
 			for (CompanyRanking companyRanking : cr) {
 				if (null!=companyRanking && companyRanking.getNotaPonderada() > (cortePorcentajePonderado==null?25:cortePorcentajePonderado)){
+				//TODO --> PErsisistir la información para saber cada cuanto aparece una compañia en la impresion del lsitado en un determinado tiempo.
 				System.out.println((++i) + " " + companyRanking.toString() );
 				}
 			}

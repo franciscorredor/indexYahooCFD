@@ -199,18 +199,18 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	 * @return
 	 * Compara Volumen
 	 */
-	@Override
-	public int compareTo(CompanyRanking compareCR) {
-		
-		int compareQuantity = (int) ((CompanyRanking) compareCR).getVolumePercentageIncrement();
+//	@Override
+//	public int compareTo(CompanyRanking compareCR) {
 //		
-//		//ascending order
-//		//return (int) this.volumePercentageIncrement - compareQuantity;
-//		
-		//descending order
-		return (int) ((int) compareQuantity - this.volumePercentageIncrement);
+//		int compareQuantity = (int) ((CompanyRanking) compareCR).getVolumePercentageIncrement();
+////		
+////		//ascending order
+////		//return (int) this.volumePercentageIncrement - compareQuantity;
+////		
+//		//descending order
+//		return (int) ((int) compareQuantity - this.volumePercentageIncrement);
 		
-	}
+//	}
 	
 	/* (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
@@ -228,17 +228,44 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 //		return (int) ((int) comparePonderado - this.getNotaPonderada());
 //		
 //	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 * Compara Ponderado y volumen
+	 */
+	@Override
+	public int compareTo(CompanyRanking compareCR) {
+		
+		int value1 = 0;
+		int value2 = 0;
+		try{
+		int comparePonderado = (int) ((CompanyRanking) compareCR).getNotaPonderada();
+		int compareQuantity = (int) ((CompanyRanking) compareCR).getVolumePercentageIncrement();
+		
+		value1 = (int) ((int) comparePonderado - this.getNotaPonderada());
+		value2 = (int) ((int) compareQuantity - this.volumePercentageIncrement);
+		
+		//ascending order
+		//return (int) this.volumePercentageIncrement - compareQuantity;
+		
+		//descending order
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return value1 + value2;
+		
+	}
 
 	
 	
 	@Override
     public String toString() {
 	StringBuffer s = new StringBuffer();
-	s.append("\n idCompany [" + this.idCompany + "]");
-	s.append(" companyName [" + this.companyName + "]");
-	s.append(" OBV [" + this.OBV + "]");
-	s.append(" pricePercentageincrement [" + this.pricePercentageincrement + "]");
-	s.append(" volumePercentageIncrement [" + this.volumePercentageIncrement + "]");
+	//s.append("\n idCompany [" + this.idCompany + "]");
+	s.append("\n companyName [" + this.companyName + "]");
+	//s.append(" OBV [" + this.OBV + "]");
+	s.append(" pricePercentageincrement [" + UtilGeneral.printNumberFormat(this.pricePercentageincrement, "###.###") + "]");
+	s.append(" volumePercentageIncrement [" + UtilGeneral.printNumberFormat(this.volumePercentageIncrement, "###.###") + "]");
 	s.append("\n notaPonderada [" + this.getNotaPonderada() + "]");
 	s.append(" precioEvaluado [" + this.precioEvaluado + "]");
 	s.append(" dayHigh [" + this.dayHigh + "]");

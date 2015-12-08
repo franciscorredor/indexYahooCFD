@@ -1,5 +1,6 @@
 package com.wireless.soft.indices.cfd.util;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -92,6 +93,19 @@ public class UtilGeneral {
 		
 		return retornoFF;
 		
+	}
+	
+	public static String printNumberFormat(double valNum, String format){
+		String retNF = null;
+		
+//		customFormat("###,###.###", 123456.789);
+//	      customFormat("###.##", 123456.789);
+//	      customFormat("000000.000", 123.78);
+//	      customFormat("$###,###.###", 12345.67);  
+		DecimalFormat myFormatter = new DecimalFormat(format);
+		retNF = myFormatter.format(valNum);
+				
+		return retNF;
 	}
 
 }
