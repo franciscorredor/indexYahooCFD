@@ -21,6 +21,7 @@ import com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany;
 import com.wireless.soft.indices.cfd.collections.CompanyRanking;
 import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnIndexYahooFinanceObject;
 import com.wireless.soft.indices.cfd.exception.BusinessException;
+import com.wireless.soft.indices.cfd.util.UtilMath;
 import com.wireless.soft.indices.cfd.util.UtilSession;
 
 /**
@@ -201,9 +202,9 @@ public class ObtenerMarketIndex {
 				//Obtener el valor de los ultimos dos regitros para saber el OBV
 				//Imprimir PRecio y Volume de los dos ultimps REgistros+ 
 				
-				if ( null != cmp && cmp.getId() == 11 ){
-					System.out.println("BReak:"+cmp.getName() );
-				}
+//				if ( null != cmp && cmp.getId() == 11 ){
+//					System.out.println("BReak:"+cmp.getName() );
+//				}
 				
 				List<Object> listIdxCompany = admEnt.getCompIdxQuote(cmp);
 				
@@ -232,16 +233,24 @@ public class ObtenerMarketIndex {
 				*
 				*
 				 */
-				if (valueNowPrice > valueBeforePrice){
+				if (valueNowPrice > valueBeforePrice  
+						//&&  UtilMath.isPriceBetweenHighLow(qhcNow.getPrice(), qhcNow.getDay_high(), qhcNow.getDay_low())
+						){
 					if (   (((valueNowVolume*100)/valueBeforeVolume)-100) > 0){
 					//System.out.println( cmp.getName() + " " + "+ OBV =" + (valueBeforeVolume+valueNowVolume) + " -- Crecio un % en Volumen de: " + ( ((valueNowVolume*100)/valueBeforeVolume)-100) );
 					//System.out.println( "-------------------------- Crecio un % en Precio de: " + ( ((valueNowPrice*100)/valueBeforePrice)-100) );
+//					System.out.println("qhcNow.getPrice(): "+ qhcNow.getPrice());
+//					System.out.println("qhcNow.getDay_high(): "+ qhcNow.getDay_high());
+//					System.out.println("qhcNow.getDay_low(): "+ qhcNow.getDay_low());
+//					System.out.println("qhcNow.getName(): "+ qhcNow.getName());
+						
 					CompanyRanking addAR = new CompanyRanking();
 					addAR.setCompanyName(cmp.getName());
 					addAR.setIdCompany(cmp.getId());
 					addAR.setOBV((valueBeforeVolume+valueNowVolume));
 					addAR.setVolumePercentageIncrement(( ((valueNowVolume*100)/valueBeforeVolume)-100));
 					addAR.setPricePercentageincrement((((valueNowPrice*100)/valueBeforePrice)-100));
+					addAR.setPrecioEvaluado(valueNowPrice);
 					cr.add(addAR);
 					}
 					
@@ -277,7 +286,7 @@ public class ObtenerMarketIndex {
 			//ejecuión del proceso
 			int i = 0;
 			for (CompanyRanking companyRanking : cr) {
-				if (null!=companyRanking && companyRanking.getNotaPonderada() > 25){
+				if (null!=companyRanking && companyRanking.getNotaPonderada() > 2){
 				System.out.println((++i) + " " + companyRanking.toString() );
 				}
 			}

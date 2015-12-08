@@ -1,5 +1,7 @@
 package com.wireless.soft.indices.cfd.collections;
 
+import com.wireless.soft.indices.cfd.util.UtilMath;
+
 
 /**
  * @author Francisco
@@ -21,6 +23,12 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	private double OBV;
 	
 	private double notaPonderada;
+	
+	private double precioEvaluado;
+	
+	private double dayHigh;
+	
+	private double dayLow;
 	
 
 	/**
@@ -86,6 +94,15 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 		return OBV;
 	}
 
+	
+	public void setPrecioEvaluado(double precioEvaluado) {
+		this.precioEvaluado = precioEvaluado;
+	}
+	
+	public double getPrecioEvaluado() {
+		return this.precioEvaluado;
+	}
+
 	/**
 	 * @param oBV the oBV to set
 	 */
@@ -98,8 +115,8 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	 */
 	public double getNotaPonderada() {
 		
-		float calificacionVariable1 = (float)  0.55; 
-		float calificacionVariable2 = (float)  0.45;
+		float calificacionVariable1 = (float)  0.61; 
+		float calificacionVariable2 = (float)  0.39;
 		//55%  precio
 		//45% volumen
 		this.notaPonderada =  this.pricePercentageincrement  * calificacionVariable1
@@ -116,21 +133,67 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	}
 
 	/**
+	 * @return the dayHigh
+	 */
+	public double getDayHigh() {
+		return dayHigh;
+	}
+
+	/**
+	 * @param dayHigh the dayHigh to set
+	 */
+	public void setDayHigh(double dayHigh) {
+		this.dayHigh = dayHigh;
+	}
+
+	/**
+	 * @return the dayLow
+	 */
+	public double getDayLow() {
+		return dayLow;
+	}
+
+	/**
+	 * @param dayLow the dayLow to set
+	 */
+	public void setDayLow(double dayLow) {
+		this.dayLow = dayLow;
+	}
+
+	/**
 	 * @param compareCR
 	 * @return
+	 * Compara Volumen
 	 */
 	@Override
 	public int compareTo(CompanyRanking compareCR) {
 		
 		int compareQuantity = (int) ((CompanyRanking) compareCR).getVolumePercentageIncrement();
-		
-		//ascending order
-		//return (int) this.volumePercentageIncrement - compareQuantity;
-		
+//		
+//		//ascending order
+//		//return (int) this.volumePercentageIncrement - compareQuantity;
+//		
 		//descending order
 		return (int) ((int) compareQuantity - this.volumePercentageIncrement);
 		
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 * Compara Ponderado
+	 */
+//	@Override
+//	public int compareTo(CompanyRanking compareCR) {
+//		
+//		int comparePonderado = (int) ((CompanyRanking) compareCR).getNotaPonderada();
+//		
+//		//ascending order
+//		//return (int) this.volumePercentageIncrement - compareQuantity;
+//		
+//		//descending order
+//		return (int) ((int) comparePonderado - this.getNotaPonderada());
+//		
+//	}
 
 	
 	
@@ -143,9 +206,17 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	s.append(" pricePercentageincrement [" + this.pricePercentageincrement + "]");
 	s.append(" volumePercentageIncrement [" + this.volumePercentageIncrement + "]");
 	s.append(" notaPonderada [" + this.getNotaPonderada() + "]");
+	s.append(" precioEvaluado [" + this.precioEvaluado + "]");
+	s.append(" dayHigh [" + this.dayHigh + "]");
+	s.append(" dayLow [" + this.dayLow + "]");
+	s.append(" isPriceBetweenHighLow [" + this.isPriceBetweenHighLow() + "]");
 
 	return s.toString();
     }
+	
+	private Boolean isPriceBetweenHighLow(){
+		return  UtilMath.isPriceBetweenHighLow(this.precioEvaluado, this.dayHigh, this.dayLow);
+	}
 
 
 }
