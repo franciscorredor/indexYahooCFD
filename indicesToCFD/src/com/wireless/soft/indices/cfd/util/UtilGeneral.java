@@ -1,11 +1,15 @@
 package com.wireless.soft.indices.cfd.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 /**
  * @author Francisco
  * Clase encargada de calculos matematicos para validar la compra o no de las acciones
+ * e impresión de formatos de fecha, entre otros. General
  *
  */
-public class UtilMath {
+public class UtilGeneral {
 	
 	
 	/**
@@ -70,6 +74,24 @@ public class UtilMath {
 		
 		
 		return retorno;
+	}
+	
+	/**
+	 * @param calendar
+	 * @param format
+	 * @return
+	 * Retorna el string de fecha dado un formato
+	 */
+	public static String printFormat(Calendar calendar, String format){
+		
+		String retornoFF = null;
+		
+		SimpleDateFormat format1 = new SimpleDateFormat(format); //"yyyy-MM-dd HH:mm:ss.SSS0"
+		retornoFF = format1.format(calendar.getTime());    
+		
+		
+		return retornoFF;
+		
 	}
 
 }

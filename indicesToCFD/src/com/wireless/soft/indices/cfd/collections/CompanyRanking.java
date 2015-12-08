@@ -1,6 +1,8 @@
 package com.wireless.soft.indices.cfd.collections;
 
-import com.wireless.soft.indices.cfd.util.UtilMath;
+import java.util.Calendar;
+
+import com.wireless.soft.indices.cfd.util.UtilGeneral;
 
 
 /**
@@ -29,6 +31,10 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	private double dayHigh;
 	
 	private double dayLow;
+	
+	private Calendar fechaIteracion1;
+	
+	private Calendar fechaIteracion2;
 	
 
 	/**
@@ -161,6 +167,34 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	}
 
 	/**
+	 * @return the fechaIteracion1
+	 */
+	public Calendar getFechaIteracion1() {
+		return fechaIteracion1;
+	}
+
+	/**
+	 * @param fechaIteracion1 the fechaIteracion1 to set
+	 */
+	public void setFechaIteracion1(Calendar fechaIteracion1) {
+		this.fechaIteracion1 = fechaIteracion1;
+	}
+
+	/**
+	 * @return the fechaIteracion2
+	 */
+	public Calendar getFechaIteracion2() {
+		return fechaIteracion2;
+	}
+
+	/**
+	 * @param fechaIteracion2 the fechaIteracion2 to set
+	 */
+	public void setFechaIteracion2(Calendar fechaIteracion2) {
+		this.fechaIteracion2 = fechaIteracion2;
+	}
+
+	/**
 	 * @param compareCR
 	 * @return
 	 * Compara Volumen
@@ -205,17 +239,19 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	s.append(" OBV [" + this.OBV + "]");
 	s.append(" pricePercentageincrement [" + this.pricePercentageincrement + "]");
 	s.append(" volumePercentageIncrement [" + this.volumePercentageIncrement + "]");
-	s.append(" notaPonderada [" + this.getNotaPonderada() + "]");
+	s.append("\n notaPonderada [" + this.getNotaPonderada() + "]");
 	s.append(" precioEvaluado [" + this.precioEvaluado + "]");
 	s.append(" dayHigh [" + this.dayHigh + "]");
 	s.append(" dayLow [" + this.dayLow + "]");
 	s.append(" isPriceBetweenHighLow [" + this.isPriceBetweenHighLow() + "]");
+	s.append("\n fechaIteracion1 [" +  UtilGeneral.printFormat(this.fechaIteracion1, "yyyy-MM-dd HH:mm:ss")  + "]"); 
+	s.append(" fechaIteracion2 [" + UtilGeneral.printFormat(this.fechaIteracion2, "yyyy-MM-dd HH:mm:ss")  + "]");
 
 	return s.toString();
     }
 	
 	private Boolean isPriceBetweenHighLow(){
-		return  UtilMath.isPriceBetweenHighLow(this.precioEvaluado, this.dayHigh, this.dayLow);
+		return  UtilGeneral.isPriceBetweenHighLow(this.precioEvaluado, this.dayHigh, this.dayLow);
 	}
 
 

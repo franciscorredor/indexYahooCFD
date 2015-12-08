@@ -21,7 +21,7 @@ import com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany;
 import com.wireless.soft.indices.cfd.collections.CompanyRanking;
 import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnIndexYahooFinanceObject;
 import com.wireless.soft.indices.cfd.exception.BusinessException;
-import com.wireless.soft.indices.cfd.util.UtilMath;
+import com.wireless.soft.indices.cfd.util.UtilGeneral;
 import com.wireless.soft.indices.cfd.util.UtilSession;
 
 /**
@@ -47,6 +47,15 @@ public class ObtenerMarketIndex {
 
 	
 	
+	/**
+	 * @param args
+	 * args[0]  --> Persistir o consultar (1/0)
+	 * args[1]  --> Numero de iteraciones anteriores a ver
+	 * args[2]  --> Porcentaje [1-100], indicador del TOP de las mejores compañias a imprimir, dependiendo del porcentaje
+	 * Samples:
+	 * 	java -jar indicesToCFD.jar 1 2 10
+	 *  java -jar indicesToCFD.jar 0
+	 */
 	public static void main(String[] args) {
 		
 		
@@ -54,6 +63,9 @@ public class ObtenerMarketIndex {
 			System.out.println("Debe especificar un argumento");
 			return;
 		}
+		
+		Integer numIteracionesAntes = null;
+		Integer cortePorcentajePonderado = null;
 		
 		System.out.print("obtener indices de compañias");
 		PropertyConfigurator.configure("log4j.properties");
@@ -78,6 +90,22 @@ public class ObtenerMarketIndex {
 		//http://finance.google.com/finance/infoquoteall?client=ig&q=AAPL
 		//http://www.google.com/finance/info?infotype=infoquoteall&q=NASDAQ:AAPL
 		
+		if (null != args && args.length >1 && null != args[1]){
+			try{
+			numIteracionesAntes = Integer.parseInt( args[1] );
+			}catch (Exception e){
+				numIteracionesAntes = null;
+			}
+		}
+		
+		if (null != args && args.length >2 && null != args[2]){
+			try{
+				cortePorcentajePonderado = Integer.parseInt( args[2] );
+			}catch (Exception e){
+				cortePorcentajePonderado = null;
+			}
+		}
+		
 		
 		
 		//execute(urlString, null);
@@ -91,10 +119,11 @@ public class ObtenerMarketIndex {
 			case "0":
 				System.out.println("\n Persiste info de las compañias, consultando de yahoo");
 				omi.printCompanies();
+				omi.printOBV(numIteracionesAntes, cortePorcentajePonderado);
 				break;
 			case "1":
 				System.out.println("\n Imprime el indicador OBV");
-				omi.printOBV();
+				omi.printOBV(numIteracionesAntes, cortePorcentajePonderado);
 				break;
 				
 			default:
@@ -190,7 +219,7 @@ public class ObtenerMarketIndex {
     /**
      * @throws Exception 
      */
-    private  void printOBV() {
+    private  void printOBV(Integer numIteracionAntes, Integer cortePorcentajePonderado) {
     	
     	System.out.println("--- Imprime OBV On-Balance Volume ---");
     	//Itera por cada una de las compañias
@@ -212,7 +241,7 @@ public class ObtenerMarketIndex {
 				
 				if (null != tmp && tmp.length > 1){
 				
-				QuoteHistoryCompany qhcBefore = (QuoteHistoryCompany) tmp[1];
+				QuoteHistoryCompany qhcBefore = (QuoteHistoryCompany) tmp[numIteracionAntes==null?1:numIteracionAntes];
 				QuoteHistoryCompany qhcNow = (QuoteHistoryCompany) tmp[0];
 				
 				
@@ -250,7 +279,11 @@ public class ObtenerMarketIndex {
 					addAR.setOBV((valueBeforeVolume+valueNowVolume));
 					addAR.setVolumePercentageIncrement(( ((valueNowVolume*100)/valueBeforeVolume)-100));
 					addAR.setPricePercentageincrement((((valueNowPrice*100)/valueBeforePrice)-100));
+					addAR.setDayLow(Double.valueOf(qhcNow.getDay_low()));
 					addAR.setPrecioEvaluado(valueNowPrice);
+					addAR.setDayHigh(Double.valueOf(qhcNow.getDay_high()));
+					addAR.setFechaIteracion1(qhcBefore.getFechaCreacion());
+					addAR.setFechaIteracion2(qhcNow.getFechaCreacion());
 					cr.add(addAR);
 					}
 					
@@ -283,10 +316,10 @@ public class ObtenerMarketIndex {
 			
 			//imprime Arreglo ordenado
 			//TODO persistir la informacion del resultado, con la fecha de la
-			//ejecuión del proceso
+			//ejecuión del proceso 
 			int i = 0;
 			for (CompanyRanking companyRanking : cr) {
-				if (null!=companyRanking && companyRanking.getNotaPonderada() > 2){
+				if (null!=companyRanking && companyRanking.getNotaPonderada() > (cortePorcentajePonderado==null?25:cortePorcentajePonderado)){
 				System.out.println((++i) + " " + companyRanking.toString() );
 				}
 			}
