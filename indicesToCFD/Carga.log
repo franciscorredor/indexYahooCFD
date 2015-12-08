@@ -1843,3 +1843,439 @@ org.hibernate.hql.internal.ast.QuerySyntaxException: unexpected token: 2 near li
 2015-12-07 17:21:11 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [133] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1d26be5
 2015-12-07 17:21:11 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [133] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@30096d7c
 2015-12-07 17:21:12 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [133] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@3a05c35f
+2015-12-07 21:50:36 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper [144] logExceptions - Access denied for user 'root'@'localhost' (using password: YES)
+2015-12-07 21:50:36 [main] ERROR com.wireless.soft.indices.cfd.util.UtilSession [113] getObjectsByNamedQuery - org.hibernate.exception.GenericJDBCException: Could not open connection
+javax.persistence.PersistenceException: org.hibernate.exception.GenericJDBCException: Could not open connection
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1361)
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1289)
+	at org.hibernate.ejb.QueryImpl.getResultList(QueryImpl.java:261)
+	at com.wireless.soft.indices.cfd.util.UtilSession.getObjectsByNamedQuery(UtilSession.java:111)
+	at com.wireless.soft.indices.cfd.business.adm.AdminEntity.getCompanies(AdminEntity.java:75)
+	at com.wireless.soft.indices.cfd.main.ObtenerMarketIndex.printOBV(ObtenerMarketIndex.java:200)
+	at com.wireless.soft.indices.cfd.main.ObtenerMarketIndex.main(ObtenerMarketIndex.java:96)
+Caused by: org.hibernate.exception.GenericJDBCException: Could not open connection
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:52)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:125)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:110)
+	at org.hibernate.engine.jdbc.internal.LogicalConnectionImpl.obtainConnection(LogicalConnectionImpl.java:304)
+	at org.hibernate.engine.jdbc.internal.LogicalConnectionImpl.getConnection(LogicalConnectionImpl.java:169)
+	at org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler.extractPhysicalConnection(ConnectionProxyHandler.java:82)
+	at org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler.continueInvocation(ConnectionProxyHandler.java:138)
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractProxyHandler.invoke(AbstractProxyHandler.java:81)
+	at com.sun.proxy.$Proxy13.prepareStatement(Unknown Source)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl$5.doPrepare(StatementPreparerImpl.java:147)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl$StatementPreparationTemplate.prepareStatement(StatementPreparerImpl.java:166)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl.prepareQueryStatement(StatementPreparerImpl.java:145)
+	at org.hibernate.loader.Loader.prepareQueryStatement(Loader.java:1739)
+	at org.hibernate.loader.Loader.doQuery(Loader.java:828)
+	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:289)
+	at org.hibernate.loader.Loader.doList(Loader.java:2463)
+	at org.hibernate.loader.Loader.doList(Loader.java:2449)
+	at org.hibernate.loader.Loader.listIgnoreQueryCache(Loader.java:2279)
+	at org.hibernate.loader.Loader.list(Loader.java:2274)
+	at org.hibernate.loader.custom.CustomLoader.list(CustomLoader.java:331)
+	at org.hibernate.internal.SessionImpl.listCustomQuery(SessionImpl.java:1585)
+	at org.hibernate.internal.AbstractSessionImpl.list(AbstractSessionImpl.java:224)
+	at org.hibernate.internal.SQLQueryImpl.list(SQLQueryImpl.java:156)
+	at org.hibernate.ejb.QueryImpl.getResultList(QueryImpl.java:252)
+	... 4 more
+Caused by: java.sql.SQLException: Access denied for user 'root'@'localhost' (using password: YES)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:959)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3870)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3806)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:871)
+	at com.mysql.jdbc.MysqlIO.proceedHandshakeWithPluggableAuthentication(MysqlIO.java:1686)
+	at com.mysql.jdbc.MysqlIO.doHandshake(MysqlIO.java:1207)
+	at com.mysql.jdbc.ConnectionImpl.coreConnect(ConnectionImpl.java:2254)
+	at com.mysql.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:2285)
+	at com.mysql.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:2084)
+	at com.mysql.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:795)
+	at com.mysql.jdbc.JDBC4Connection.<init>(JDBC4Connection.java:44)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.lang.reflect.Constructor.newInstance(Unknown Source)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:404)
+	at com.mysql.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:400)
+	at com.mysql.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:327)
+	at java.sql.DriverManager.getConnection(Unknown Source)
+	at java.sql.DriverManager.getConnection(Unknown Source)
+	at org.hibernate.service.jdbc.connections.internal.DriverManagerConnectionProviderImpl.getConnection(DriverManagerConnectionProviderImpl.java:173)
+	at org.hibernate.internal.AbstractSessionImpl$NonContextualJdbcConnectionAccess.obtainConnection(AbstractSessionImpl.java:276)
+	at org.hibernate.engine.jdbc.internal.LogicalConnectionImpl.obtainConnection(LogicalConnectionImpl.java:297)
+	... 24 more
+2015-12-07 21:50:36 [main] ERROR com.wireless.soft.indices.cfd.business.adm.AdminEntity [85] getCompanies - Error al consultar las compañias
+java.lang.Exception: javax.persistence.PersistenceException: org.hibernate.exception.GenericJDBCException: Could not open connection
+	at com.wireless.soft.indices.cfd.util.UtilSession.getObjectsByNamedQuery(UtilSession.java:114)
+	at com.wireless.soft.indices.cfd.business.adm.AdminEntity.getCompanies(AdminEntity.java:75)
+	at com.wireless.soft.indices.cfd.main.ObtenerMarketIndex.printOBV(ObtenerMarketIndex.java:200)
+	at com.wireless.soft.indices.cfd.main.ObtenerMarketIndex.main(ObtenerMarketIndex.java:96)
+Caused by: javax.persistence.PersistenceException: org.hibernate.exception.GenericJDBCException: Could not open connection
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1361)
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1289)
+	at org.hibernate.ejb.QueryImpl.getResultList(QueryImpl.java:261)
+	at com.wireless.soft.indices.cfd.util.UtilSession.getObjectsByNamedQuery(UtilSession.java:111)
+	... 3 more
+Caused by: org.hibernate.exception.GenericJDBCException: Could not open connection
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:52)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:125)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:110)
+	at org.hibernate.engine.jdbc.internal.LogicalConnectionImpl.obtainConnection(LogicalConnectionImpl.java:304)
+	at org.hibernate.engine.jdbc.internal.LogicalConnectionImpl.getConnection(LogicalConnectionImpl.java:169)
+	at org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler.extractPhysicalConnection(ConnectionProxyHandler.java:82)
+	at org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler.continueInvocation(ConnectionProxyHandler.java:138)
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractProxyHandler.invoke(AbstractProxyHandler.java:81)
+	at com.sun.proxy.$Proxy13.prepareStatement(Unknown Source)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl$5.doPrepare(StatementPreparerImpl.java:147)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl$StatementPreparationTemplate.prepareStatement(StatementPreparerImpl.java:166)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl.prepareQueryStatement(StatementPreparerImpl.java:145)
+	at org.hibernate.loader.Loader.prepareQueryStatement(Loader.java:1739)
+	at org.hibernate.loader.Loader.doQuery(Loader.java:828)
+	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:289)
+	at org.hibernate.loader.Loader.doList(Loader.java:2463)
+	at org.hibernate.loader.Loader.doList(Loader.java:2449)
+	at org.hibernate.loader.Loader.listIgnoreQueryCache(Loader.java:2279)
+	at org.hibernate.loader.Loader.list(Loader.java:2274)
+	at org.hibernate.loader.custom.CustomLoader.list(CustomLoader.java:331)
+	at org.hibernate.internal.SessionImpl.listCustomQuery(SessionImpl.java:1585)
+	at org.hibernate.internal.AbstractSessionImpl.list(AbstractSessionImpl.java:224)
+	at org.hibernate.internal.SQLQueryImpl.list(SQLQueryImpl.java:156)
+	at org.hibernate.ejb.QueryImpl.getResultList(QueryImpl.java:252)
+	... 4 more
+Caused by: java.sql.SQLException: Access denied for user 'root'@'localhost' (using password: YES)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:959)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3870)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3806)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:871)
+	at com.mysql.jdbc.MysqlIO.proceedHandshakeWithPluggableAuthentication(MysqlIO.java:1686)
+	at com.mysql.jdbc.MysqlIO.doHandshake(MysqlIO.java:1207)
+	at com.mysql.jdbc.ConnectionImpl.coreConnect(ConnectionImpl.java:2254)
+	at com.mysql.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:2285)
+	at com.mysql.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:2084)
+	at com.mysql.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:795)
+	at com.mysql.jdbc.JDBC4Connection.<init>(JDBC4Connection.java:44)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.lang.reflect.Constructor.newInstance(Unknown Source)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:404)
+	at com.mysql.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:400)
+	at com.mysql.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:327)
+	at java.sql.DriverManager.getConnection(Unknown Source)
+	at java.sql.DriverManager.getConnection(Unknown Source)
+	at org.hibernate.service.jdbc.connections.internal.DriverManagerConnectionProviderImpl.getConnection(DriverManagerConnectionProviderImpl.java:173)
+	at org.hibernate.internal.AbstractSessionImpl$NonContextualJdbcConnectionAccess.obtainConnection(AbstractSessionImpl.java:276)
+	at org.hibernate.engine.jdbc.internal.LogicalConnectionImpl.obtainConnection(LogicalConnectionImpl.java:297)
+	... 24 more
+2015-12-08 06:47:26 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@12742ffc
+2015-12-08 06:47:26 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@7cb082f3
+2015-12-08 06:47:26 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5c12d9c
+2015-12-08 06:47:27 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@6764ac25
+2015-12-08 06:47:27 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5139bf8d
+2015-12-08 06:47:27 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1d52b399
+2015-12-08 06:47:28 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@751b46f8
+2015-12-08 06:47:28 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1b32deb7
+2015-12-08 06:47:29 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4f4ffd2f
+2015-12-08 06:47:29 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@7c268509
+2015-12-08 06:47:29 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@c6ac24
+2015-12-08 06:47:30 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@55e6eedf
+2015-12-08 06:47:30 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4352d1fc
+2015-12-08 06:47:30 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@61ae508a
+2015-12-08 06:47:30 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5163cc8f
+2015-12-08 06:47:31 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1ed69c0c
+2015-12-08 06:47:31 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@24674be7
+2015-12-08 06:47:31 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@7ab88e22
+2015-12-08 06:47:32 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@30e2f010
+2015-12-08 06:47:32 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5ccd6f35
+2015-12-08 06:47:32 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2f6be385
+2015-12-08 06:47:33 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@578925c9
+2015-12-08 06:47:33 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1f335f58
+2015-12-08 06:47:33 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2385558
+2015-12-08 06:47:33 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@553c0dda
+2015-12-08 06:47:34 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@787c29d7
+2015-12-08 06:47:34 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@760d62e0
+2015-12-08 06:47:34 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@bc13f09
+2015-12-08 06:47:34 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@376fcff8
+2015-12-08 06:47:35 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2e26af3b
+2015-12-08 06:47:35 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@18ee131f
+2015-12-08 06:47:36 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@3242922c
+2015-12-08 06:47:36 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@3c84eb60
+2015-12-08 06:47:36 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@9c7f429
+2015-12-08 06:47:36 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@213bed88
+2015-12-08 06:47:37 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1d8a1b50
+2015-12-08 06:47:37 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@197f4170
+2015-12-08 06:47:37 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1759b35c
+2015-12-08 06:47:38 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@6a155739
+2015-12-08 06:47:38 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@6b8307ee
+2015-12-08 06:47:38 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@623d4993
+2015-12-08 06:47:38 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@537d53b9
+2015-12-08 06:47:39 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@37d2d56c
+2015-12-08 06:47:39 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@335d05c
+2015-12-08 06:47:39 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@48551176
+2015-12-08 06:47:40 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@53ee9ba0
+2015-12-08 06:47:40 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@7b1085af
+2015-12-08 06:47:40 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@17cbab15
+2015-12-08 06:47:40 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5a815e0c
+2015-12-08 06:47:41 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@41d00096
+2015-12-08 06:47:41 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4ed378e
+2015-12-08 06:47:41 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@310a7aa1
+2015-12-08 06:47:41 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5e5064ba
+2015-12-08 06:47:42 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@6d97b851
+2015-12-08 06:47:42 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@17620808
+2015-12-08 06:47:42 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@54bbc891
+2015-12-08 06:47:42 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@3d73c8c9
+2015-12-08 06:47:43 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@599aa56a
+2015-12-08 06:47:43 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@3dc81f66
+2015-12-08 06:47:43 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@21007989
+2015-12-08 06:47:43 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@c4d7c0c
+2015-12-08 06:47:44 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5324bd2b
+2015-12-08 06:47:44 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@7300e4ce
+2015-12-08 06:47:44 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@49ad9f73
+2015-12-08 06:47:45 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4a406ccb
+2015-12-08 06:47:45 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2ffdee53
+2015-12-08 06:47:45 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@6fc8fce8
+2015-12-08 06:47:46 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@624d190f
+2015-12-08 06:47:46 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@43727ad5
+2015-12-08 06:47:47 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@69cbffec
+2015-12-08 06:47:47 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@460132c0
+2015-12-08 06:47:47 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@75fb28cf
+2015-12-08 06:47:48 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@3fa76a13
+2015-12-08 06:47:48 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@698114b1
+2015-12-08 06:47:48 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@47b6c730
+2015-12-08 06:47:49 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@273e5037
+2015-12-08 06:47:49 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@26df3c83
+2015-12-08 06:47:49 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@3f83be7c
+2015-12-08 07:12:26 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@9fa52db
+2015-12-08 07:12:26 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@28655f79
+2015-12-08 07:12:27 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4d995fb7
+2015-12-08 07:12:27 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@261e62b
+2015-12-08 07:12:27 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@264eeba4
+2015-12-08 07:12:27 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@208d10d9
+2015-12-08 07:12:28 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@51d07fd8
+2015-12-08 07:12:28 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@28bbce54
+2015-12-08 07:12:29 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4f4ffd2f
+2015-12-08 07:12:29 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@7c268509
+2015-12-08 07:12:29 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@c6ac24
+2015-12-08 07:12:29 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2c4c9e88
+2015-12-08 07:12:30 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4352d1fc
+2015-12-08 07:12:30 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@61ae508a
+2015-12-08 07:12:30 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5163cc8f
+2015-12-08 07:12:30 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1ed69c0c
+2015-12-08 07:12:31 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@24674be7
+2015-12-08 07:12:31 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@7ab88e22
+2015-12-08 07:12:31 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@30e2f010
+2015-12-08 07:12:31 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5ccd6f35
+2015-12-08 07:12:32 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2f6be385
+2015-12-08 07:12:32 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@578925c9
+2015-12-08 07:12:32 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1f335f58
+2015-12-08 07:12:32 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2385558
+2015-12-08 07:12:33 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@553c0dda
+2015-12-08 07:12:33 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@787c29d7
+2015-12-08 07:12:33 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@760d62e0
+2015-12-08 07:12:33 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@bc13f09
+2015-12-08 07:12:34 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@376fcff8
+2015-12-08 07:12:34 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1267173d
+2015-12-08 07:12:34 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@65c9a306
+2015-12-08 07:12:34 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1276c02c
+2015-12-08 07:12:35 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@617e9189
+2015-12-08 07:12:35 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@6d5f4570
+2015-12-08 07:12:35 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@c225219
+2015-12-08 07:12:35 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5ff795d6
+2015-12-08 07:12:36 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4f0c9799
+2015-12-08 07:12:36 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@55d3b665
+2015-12-08 07:12:36 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@3be1696d
+2015-12-08 07:12:36 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2d8bb322
+2015-12-08 07:12:37 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@73e625
+2015-12-08 07:12:37 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@7d7eaf74
+2015-12-08 07:12:37 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@54944971
+2015-12-08 07:12:37 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@18e91dd
+2015-12-08 07:12:37 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@371d6be8
+2015-12-08 07:12:38 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@10614070
+2015-12-08 07:12:38 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@630fde26
+2015-12-08 07:12:38 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5a26b058
+2015-12-08 07:12:38 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@3631ff3a
+2015-12-08 07:12:39 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@49a0a01e
+2015-12-08 07:12:39 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@66a9b7d6
+2015-12-08 07:12:39 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@632e3a60
+2015-12-08 07:12:40 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4dcac775
+2015-12-08 07:12:40 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@7e0bfb81
+2015-12-08 07:12:40 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4a27b5cd
+2015-12-08 07:12:40 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@76d72fcb
+2015-12-08 07:12:40 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@397a443
+2015-12-08 07:12:41 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1eb4bf86
+2015-12-08 07:12:41 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@142aeb8a
+2015-12-08 07:12:41 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@29822ba9
+2015-12-08 07:12:41 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@51ecb8a1
+2015-12-08 07:12:42 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@17df834b
+2015-12-08 07:12:42 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@49689c98
+2015-12-08 07:12:42 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@36662d65
+2015-12-08 07:12:42 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2ac2bc9b
+2015-12-08 07:12:43 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@25be3a91
+2015-12-08 07:12:43 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@3e26dd85
+2015-12-08 07:12:43 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@71ba266a
+2015-12-08 07:12:43 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@75871653
+2015-12-08 07:12:43 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@e39f6f1
+2015-12-08 07:12:44 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@22559755
+2015-12-08 07:12:44 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@153f2c35
+2015-12-08 07:12:44 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@3ee4a05a
+2015-12-08 07:12:44 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@7b0b4b9a
+2015-12-08 07:12:45 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@77c143b0
+2015-12-08 07:12:45 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@12f9720e
+2015-12-08 07:12:45 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@6ee68413
+2015-12-08 07:12:45 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@3549ba18
+2015-12-08 07:13:11 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@fcf9ba1
+2015-12-08 07:13:11 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@638692ed
+2015-12-08 07:13:11 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4a419d65
+2015-12-08 07:13:11 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@694e1245
+2015-12-08 07:13:12 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@31d0f86e
+2015-12-08 07:13:12 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@444c2339
+2015-12-08 07:13:12 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2b924895
+2015-12-08 07:13:13 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@251feb9d
+2015-12-08 07:13:13 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@6962bd25
+2015-12-08 07:13:13 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@44e8518c
+2015-12-08 07:13:14 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@643a57eb
+2015-12-08 07:13:14 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5a3c0970
+2015-12-08 07:13:14 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@760dcdf2
+2015-12-08 07:13:14 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@738e5c64
+2015-12-08 07:13:15 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@358aaa85
+2015-12-08 07:13:15 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@78a38bac
+2015-12-08 07:13:15 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1454a16a
+2015-12-08 07:13:16 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5881f8d6
+2015-12-08 07:13:16 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2a089813
+2015-12-08 07:13:16 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@55dd1e5b
+2015-12-08 07:13:16 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1d882cdc
+2015-12-08 07:13:17 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2c35c28c
+2015-12-08 07:13:17 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@3aa15604
+2015-12-08 07:13:17 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1ca408c6
+2015-12-08 07:13:17 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@7288e13f
+2015-12-08 07:13:18 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4f4db2ac
+2015-12-08 07:13:18 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@303f4ca6
+2015-12-08 07:13:18 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@172dabe3
+2015-12-08 07:13:18 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@6072d2b3
+2015-12-08 07:13:19 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@3a71522b
+2015-12-08 07:13:19 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@564ebac5
+2015-12-08 07:13:19 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@45ef4c5d
+2015-12-08 07:13:20 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@6d5f4570
+2015-12-08 07:13:20 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@c225219
+2015-12-08 07:13:20 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5ff795d6
+2015-12-08 07:13:20 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4f0c9799
+2015-12-08 07:13:20 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@3e6bcce8
+2015-12-08 07:13:21 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4bd091d1
+2015-12-08 07:13:21 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2e9d948a
+2015-12-08 07:13:21 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@390a875e
+2015-12-08 07:13:21 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@831290a
+2015-12-08 07:13:22 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5361c518
+2015-12-08 07:13:22 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@370a44f7
+2015-12-08 07:13:22 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@6c97689c
+2015-12-08 07:13:22 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@60cd8176
+2015-12-08 07:13:23 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@26c1c399
+2015-12-08 07:13:23 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@22038fa5
+2015-12-08 07:13:23 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@c6b54a2
+2015-12-08 07:13:23 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@50703755
+2015-12-08 07:13:24 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@10647742
+2015-12-08 07:13:24 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@632e3a60
+2015-12-08 07:13:24 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4dcac775
+2015-12-08 07:13:24 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@44ad12cd
+2015-12-08 07:13:25 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@7510cbc3
+2015-12-08 07:13:25 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@76d72fcb
+2015-12-08 07:13:25 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@397a443
+2015-12-08 07:13:26 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1eb4bf86
+2015-12-08 07:13:26 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@142aeb8a
+2015-12-08 07:13:26 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@6fc1ffd1
+2015-12-08 07:13:26 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@76c6415a
+2015-12-08 07:13:27 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@18a76cea
+2015-12-08 07:13:27 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@6e4ca0
+2015-12-08 07:13:27 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@f4443ab
+2015-12-08 07:13:27 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@28e66cff
+2015-12-08 07:13:28 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@27c4e5c5
+2015-12-08 07:13:28 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@34d0775f
+2015-12-08 07:13:28 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@44e9660
+2015-12-08 07:13:29 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@50a4a6f0
+2015-12-08 07:13:29 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@72132192
+2015-12-08 07:13:29 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@43eed948
+2015-12-08 07:13:30 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@7e30f316
+2015-12-08 07:13:30 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@7b641c58
+2015-12-08 07:13:30 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@b6d968c
+2015-12-08 07:13:31 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@19996afa
+2015-12-08 07:13:31 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@46b65a9
+2015-12-08 07:13:31 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@476710db
+2015-12-08 07:13:31 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@63f2a147
+2015-12-08 07:13:32 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5470e2f4
+2015-12-08 07:13:58 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5435d9f6
+2015-12-08 07:13:59 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4a419d65
+2015-12-08 07:13:59 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@6764ac25
+2015-12-08 07:13:59 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@7506fa2
+2015-12-08 07:13:59 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1649e5ce
+2015-12-08 07:14:00 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@472250c4
+2015-12-08 07:14:00 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@29b80bde
+2015-12-08 07:14:01 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@6a3acff7
+2015-12-08 07:14:01 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@e175cca
+2015-12-08 07:14:01 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@65ca0b6c
+2015-12-08 07:14:01 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@3ab56f25
+2015-12-08 07:14:02 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@22e08791
+2015-12-08 07:14:02 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@55fb382a
+2015-12-08 07:14:02 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@382bd791
+2015-12-08 07:14:02 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2d847c80
+2015-12-08 07:14:02 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@49043ad5
+2015-12-08 07:14:03 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1a09f36b
+2015-12-08 07:14:03 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@3f44dbd0
+2015-12-08 07:14:03 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5b54df4
+2015-12-08 07:14:03 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5efea5ee
+2015-12-08 07:14:04 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@109f188a
+2015-12-08 07:14:04 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@7d536e59
+2015-12-08 07:14:04 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@62acf5ca
+2015-12-08 07:14:04 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@50c52858
+2015-12-08 07:14:05 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2221e8df
+2015-12-08 07:14:05 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@6b7f1316
+2015-12-08 07:14:05 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2395330e
+2015-12-08 07:14:05 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1c2859eb
+2015-12-08 07:14:06 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@31c4b348
+2015-12-08 07:14:06 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@ed11c1
+2015-12-08 07:14:06 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@210e215c
+2015-12-08 07:14:06 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@3ad74455
+2015-12-08 07:14:07 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@63f672fe
+2015-12-08 07:14:07 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@64d6601
+2015-12-08 07:14:07 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@56bbcf7e
+2015-12-08 07:14:07 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@695d20e0
+2015-12-08 07:14:08 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@7b1272a5
+2015-12-08 07:14:08 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@32dab335
+2015-12-08 07:14:08 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1d7b3c8
+2015-12-08 07:14:08 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@36b40cd6
+2015-12-08 07:14:09 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@509693ef
+2015-12-08 07:14:09 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5cdc59e1
+2015-12-08 07:14:09 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@7c4afe7d
+2015-12-08 07:14:09 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@35725349
+2015-12-08 07:14:09 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@17a719f6
+2015-12-08 07:14:10 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4f999620
+2015-12-08 07:14:10 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@10026518
+2015-12-08 07:14:10 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@e06cc57
+2015-12-08 07:14:10 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@106df6f6
+2015-12-08 07:14:11 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2f935b72
+2015-12-08 07:14:11 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@4e154d4a
+2015-12-08 07:14:11 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1d4a3d2e
+2015-12-08 07:14:11 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2bd9e344
+2015-12-08 07:14:12 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1af37801
+2015-12-08 07:14:12 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@54534e82
+2015-12-08 07:14:12 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@7372c6c5
+2015-12-08 07:14:12 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@3cd45618
+2015-12-08 07:14:13 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@9156782
+2015-12-08 07:14:13 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@79e6bcbb
+2015-12-08 07:14:13 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@340db08d
+2015-12-08 07:14:13 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@46af13de
+2015-12-08 07:14:13 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1e60a6ce
+2015-12-08 07:14:14 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@10881e1
+2015-12-08 07:14:14 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@34befc5b
+2015-12-08 07:14:14 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@60e07188
+2015-12-08 07:14:15 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@6e6ccb30
+2015-12-08 07:14:15 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@55353ca
+2015-12-08 07:14:15 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@2e59fd26
+2015-12-08 07:14:15 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@78ea4c81
+2015-12-08 07:14:16 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@7db1592b
+2015-12-08 07:14:16 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@1f03ce40
+2015-12-08 07:14:16 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@54e6204e
+2015-12-08 07:14:16 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@27b68be7
+2015-12-08 07:14:17 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@ddc1182
+2015-12-08 07:14:17 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@5eeb4365
+2015-12-08 07:14:17 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@345734ea
+2015-12-08 07:14:17 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@8227bf0
+2015-12-08 07:14:18 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [132] persistirCompaniesQuotes - PErsistio..com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany@61e32e21

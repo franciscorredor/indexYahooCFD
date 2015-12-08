@@ -1,0 +1,6 @@
+run me afeter ant build:
+    --Obtiene el resultado
+	java -jar indicesToCFD.jar 1
+	--Persiste la info
+	java -jar indicesToCFD.jar 0
+	

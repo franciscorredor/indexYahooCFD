@@ -54,7 +54,7 @@ public class AdminEntity {
     public AdminEntity() {
     	super();
 
-    	this.emf = Persistence.createEntityManagerFactory("entityManager");
+    this.emf = Persistence.createEntityManagerFactory("entityManager");
 	this.em = this.emf.createEntityManager();
 	this.tx = this.em.getTransaction();
     }
@@ -72,8 +72,7 @@ public class AdminEntity {
 
 		try {
 
-			List<Object> list = UtilSession.getObjectsByNamedQuery(this.em,
-					Company.FIND_COMPANIES, null);
+			List<Object> list = UtilSession.getObjectsByNamedQuery(this.em, Company.FIND_COMPANIES, null);
 
 			for (Object object : list) {
 				Company vnt = (Company) object;
@@ -130,7 +129,7 @@ public class AdminEntity {
 					qhc.setPrice(f.getPrice());
 					em.persist(qhc);
 					this.em.flush();
-					_logger.info("PErsistio.." + qhc.toString());
+					//_logger.info("PErsistio.." + qhc.toString());
 					}
 					catch(Exception e){
 						e.printStackTrace();

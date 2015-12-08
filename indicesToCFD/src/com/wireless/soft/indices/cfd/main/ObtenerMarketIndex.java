@@ -174,14 +174,13 @@ public class ObtenerMarketIndex {
     	
     	System.out.println("--- Lista Compañias en la BD ---");
     	for (Company cmp : admEnt.getCompanies()) {
-			System.out.println(cmp.getName());
 			
 			if (null != cmp && null != cmp.getUrlIndex() 
 					&& cmp.getUrlIndex().length() > 3){
 			
 			ReturnIndexYahooFinanceObject ri = this.executeYahooIndex(cmp.getUrlIndex());
 			this.persistirCompaniesQuotes(ri, cmp);
-			System.out.println("Persiste");
+			System.out.println("Persiste: " + cmp.getName());
 			}
 		}
     	
