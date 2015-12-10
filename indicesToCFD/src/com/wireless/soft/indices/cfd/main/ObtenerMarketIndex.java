@@ -55,6 +55,7 @@ public class ObtenerMarketIndex {
 	 * Samples:
 	 * 	java -jar indicesToCFD.jar 1 2 10
 	 *  java -jar indicesToCFD.jar 0
+	 *  java -jar indicesToCFD.jar 3 1  ===> imprime chart cada minuto de la compania 1
 	 */
 	public static void main(String[] args) {
 		
@@ -62,15 +63,17 @@ public class ObtenerMarketIndex {
 			System.out.println("Debe especificar un argumento");
 			return;
 		}
-		Integer numIteracionesAntes = null;
+		Integer argumento2 = null;
 		Integer cortePorcentajePonderado = null;
 		PropertyConfigurator.configure("log4j.properties");
-		//Valida si hay un 2do argumento (# Iteraciones antes)
+		//Valida si hay un 2do argumento 
+		//		i.  	# Iteraciones antes
+		//		ii.		Id compania	
 		if (null != args && args.length >1 && null != args[1]){
 			try{
-			numIteracionesAntes = Integer.parseInt( args[1] );
+				argumento2 = Integer.parseInt( args[1] );
 			}catch (Exception e){
-				numIteracionesAntes = null;
+				argumento2 = null;
 			}
 		}
 		//Valida si hay un 3er argumento (# Corte pocentaje ponderado)
@@ -90,15 +93,19 @@ public class ObtenerMarketIndex {
 			case "0":
 				System.out.println("\n Persiste info de las compañias, consultando de yahoo");
 				omi.printCompanies();
-				omi.printOBV(numIteracionesAntes, cortePorcentajePonderado);
+				omi.printOBV(argumento2, cortePorcentajePonderado);
 				break;
 			case "1":
 				System.out.println("\n Imprime el indicador OBV");
-				omi.printOBV(numIteracionesAntes, cortePorcentajePonderado);
+				omi.printOBV(argumento2, cortePorcentajePonderado);
 				break;
 			case "2":
 				System.out.println("\n Indica si el mecado esta en Bull o Bear");
 				omi.printIndicadorMercado();
+				break;
+			case "3":
+				System.out.println("\n Print Chart Company UP&Down Price");
+				omi.printChartCompany(argumento2);
 				break;
 				
 			default:
@@ -295,6 +302,82 @@ public class ObtenerMarketIndex {
 			e.printStackTrace();
 		}
 
+	}
+	
+	
+	/**
+	 * @param idCompany
+	 * imprime resultado cada instante de tiempo 1 minuto
+	 * [nombreCompania], [%inc], estaSubiendo[true/false(numeroVeces)*Volver a iteracion uno si cambia la bandera]
+	 */
+	private void printChartCompany(Integer idCompany) {
+		if (null != idCompany) {
+			try {
+				Company cmp = new Company();
+				cmp.setId(idCompany.longValue());
+				cmp = admEnt.getCompanyById(cmp);
+				// Raaliza iteracion infinita
+				int iteracionUpDown = 0;
+				boolean banderaUpDown = false;
+				CompanyRanking crIteracion1 = this.evaluaRanking(cmp);
+				if (null != crIteracion1) {
+					while (true) {
+						iteracionUpDown++;
+						// 1. Persiste info compania
+						ReturnIndexYahooFinanceObject ri = this
+								.executeYahooIndex(cmp.getUrlIndex());
+						this.persistirCompaniesQuotes(ri, cmp);
+						// 2. espera un instante de tiempo 1minuto
+						Thread.sleep(60000l);
+						// 3. Consulta si la compania subio o bajo
+						CompanyRanking cr = this.evaluaRanking(cmp);
+						if (null != cr) {
+							// 4. imprime
+							System.out.println("["+iteracionUpDown+"] "+cr.printToChart());
+						}
+						crIteracion1 = cr;
+					}
+
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+	
+	/**
+	 * @param cmp
+	 * Evalua el rankig para ser impreso en el chart
+	 * @throws Exception 
+	 */
+	private CompanyRanking evaluaRanking(Company cmp) throws Exception {
+
+		CompanyRanking addAR = null;
+		List<Object> listIdxCompany = admEnt.getCompIdxQuote(cmp);
+		Object tmp[] = listIdxCompany.toArray();
+		if (null != tmp && tmp.length > 1) {
+
+			QuoteHistoryCompany qhcBefore = (QuoteHistoryCompany) tmp[1];
+			QuoteHistoryCompany qhcNow = (QuoteHistoryCompany) tmp[0];
+			Double valueBeforePrice = Double.valueOf(qhcBefore.getPrice());
+			Double valueNowPrice = Double.valueOf(qhcNow.getPrice());
+
+			addAR = new CompanyRanking();
+			addAR.setCompanyName(cmp.getName());
+			addAR.setIdCompany(cmp.getId());
+
+			addAR.setPricePercentageincrement((((valueNowPrice * 100) / valueBeforePrice) - 100));
+			addAR.setDayLow(Double.valueOf(qhcNow.getDay_low()));
+			addAR.setPrecioEvaluado(valueNowPrice);
+			addAR.setDayHigh(Double.valueOf(qhcNow.getDay_high()));
+			addAR.setFechaIteracion1(qhcBefore.getFechaCreacion());
+			addAR.setFechaIteracion2(qhcNow.getFechaCreacion());
+
+		}
+
+		return addAR;
 	}
 
 }

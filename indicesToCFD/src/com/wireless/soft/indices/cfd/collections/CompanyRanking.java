@@ -197,40 +197,6 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	/**
 	 * @param compareCR
 	 * @return
-	 * Compara Volumen
-	 */
-//	@Override
-//	public int compareTo(CompanyRanking compareCR) {
-//		
-//		int compareQuantity = (int) ((CompanyRanking) compareCR).getVolumePercentageIncrement();
-////		
-////		//ascending order
-////		//return (int) this.volumePercentageIncrement - compareQuantity;
-////		
-//		//descending order
-//		return (int) ((int) compareQuantity - this.volumePercentageIncrement);
-		
-//	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 * Compara Ponderado
-	 */
-//	@Override
-//	public int compareTo(CompanyRanking compareCR) {
-//		
-//		int comparePonderado = (int) ((CompanyRanking) compareCR).getNotaPonderada();
-//		
-//		//ascending order
-//		//return (int) this.volumePercentageIncrement - compareQuantity;
-//		
-//		//descending order
-//		return (int) ((int) comparePonderado - this.getNotaPonderada());
-//		
-//	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 * Compara Ponderado y volumen
 	 */
 	@Override
@@ -276,6 +242,17 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 
 	return s.toString();
     }
+	
+	
+	public String printToChart() {
+		StringBuffer s = new StringBuffer();
+		s.append("\n companyName [" + this.companyName + "]");
+		s.append(" precioEvaluado [" + this.precioEvaluado + "]");
+		s.append(" pricePercentageincrement [" + UtilGeneral.printNumberFormat(this.pricePercentageincrement, "###.###") + "]");
+		s.append("\n notaPonderada [" + this.getNotaPonderada() + "]");
+
+		return s.toString();
+	    }
 	
 	private Boolean isPriceBetweenHighLow(){
 		return  UtilGeneral.isPriceBetweenHighLow(this.precioEvaluado, this.dayHigh, this.dayLow);

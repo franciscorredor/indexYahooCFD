@@ -15,7 +15,10 @@ import javax.persistence.NamedNativeQuery;
  * @version	1.0  
  */
 @Entity
-@NamedNativeQueries({ @NamedNativeQuery(name = "findCompanies", query = "SELECT	com.SCN_CODIGO as id, com.SCN_NAME as name, sci.SCI_URL_INDEX as urlIndex FROM		indexyahoocfd.iyc_stack_company_index sci  INNER JOIN  indexyahoocfd.iyc_stock_companies com   on com.SCN_CODIGO = sci.SCN_CODIGO ORDER by com.SCN_CODIGO", resultClass = Company.class) })
+@NamedNativeQueries({ 
+	@NamedNativeQuery(name = "findCompanies", query = "SELECT	com.SCN_CODIGO as id, com.SCN_NAME as name, sci.SCI_URL_INDEX as urlIndex FROM		indexyahoocfd.iyc_stack_company_index sci  INNER JOIN  indexyahoocfd.iyc_stock_companies com   on com.SCN_CODIGO = sci.SCN_CODIGO ORDER by com.SCN_CODIGO", resultClass = Company.class),
+	@NamedNativeQuery(name = "findCompanyById", query = "SELECT	com.SCN_CODIGO as id, com.SCN_NAME as name, sci.SCI_URL_INDEX as urlIndex FROM		indexyahoocfd.iyc_stack_company_index sci  INNER JOIN  indexyahoocfd.iyc_stock_companies com   on com.SCN_CODIGO = sci.SCN_CODIGO WHERE  com.SCN_CODIGO = :companyId  ", resultClass = Company.class)	
+})
 public class Company  implements Serializable {
 
 
@@ -29,6 +32,9 @@ public class Company  implements Serializable {
     // ////////////////////////////////////////////////////////////////////////
     /** */
     public static final String FIND_COMPANIES = "findCompanies";
+
+    /** */
+    public static final String FIND_COMPANY_BY_ID = "findCompanyById";
 
     // ////////////////////////////////////////////////////////////////////////
     // Campos del backing bean

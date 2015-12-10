@@ -195,4 +195,29 @@ public class AdminEntity {
 
 	}
 
+	/**
+	 * @param cmp
+	 * @return
+	 * @throws Exception 
+	 * Obtiene el primer record de una compañia
+	 */
+	public Company getCompanyById(Company cmp) throws Exception {
+
+		Company cReturn = null;
+
+		Hashtable<String, Object> param = new Hashtable<String, Object>();
+		param.put("companyId", cmp.getId());
+		List<Object> listIdxCompany = UtilSession.getObjectsByNamedQuery(em, Company.FIND_COMPANY_BY_ID, param);
+		if (null != listIdxCompany && listIdxCompany.size() > 0) {
+			for (Object object : listIdxCompany) {
+				cReturn = (Company) object;
+				break;
+			}
+		}
+
+		return cReturn;
+
+	}
+
+
 }
