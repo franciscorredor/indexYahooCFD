@@ -58,38 +58,14 @@ public class ObtenerMarketIndex {
 	 */
 	public static void main(String[] args) {
 		
-		
 		if (null == args || args.length < 1){
 			System.out.println("Debe especificar un argumento");
 			return;
 		}
-		
 		Integer numIteracionesAntes = null;
 		Integer cortePorcentajePonderado = null;
-		
-		System.out.print("obtener indices de compañias");
 		PropertyConfigurator.configure("log4j.properties");
-		
-		//http://finance.yahoo.com/webservice/v1/symbols/COALINDIA.NS/quote?format=json&view=detail
-		//TODO
-		//Obtener la siguiente consulta:
-		//	SELECT	com.SCN_NAME, sci.SCI_URL_INDEX
-		//	FROM		indexyahoocfd.iyc_stack_company_index sci  INNER JOIN  indexyahoocfd.iyc_stock_companies com   on com.SCN_CODIGO = sci.SCN_CODIGO
-
-		
-		//http://finance.yahoo.com/webservice/v1/symbols/COALINDIA.NS/quote?format=json&view=detail			
-		String urlString = "http://finance.yahoo.com/webservice/v1/symbols/AMZN/quote?format=json&view=detail";
-		//String urlString = "http://finance.yahoo.com/webservice/v1/symbols/NKE/quote?format=json";
-		//String urlString = "http://www.google.com/finance/info?q=NSE:AIAENG,ATULAUTO";
-		//String urlString = "http://www.google.com/finance/info?q=NSE:AIAENG,AMZN,NKE,YHOO";
-		//String urlString = "http://www.google.com/finance/info?q=NYSE:NKE";
-		//String urlString = "http://www.google.com/finance/info?infotype=infoquoteall&q=%s&q=NYSE:NKE";
-		//http://finance.google.com/finance/info?client=ig&q=EEM,SCHE,AAPL
-		//String urlString = "http://finance.google.com/finance/info?%20client=ig&q=NASDAQ:GOOG,NASDAQ:YHOO";
-		//http://finance.google.com/finance/info?client=ig&q=AAPL
-		//http://finance.google.com/finance/infoquoteall?client=ig&q=AAPL
-		//http://www.google.com/finance/info?infotype=infoquoteall&q=NASDAQ:AAPL
-		
+		//Valida si hay un 2do argumento (# Iteraciones antes)
 		if (null != args && args.length >1 && null != args[1]){
 			try{
 			numIteracionesAntes = Integer.parseInt( args[1] );
@@ -97,7 +73,7 @@ public class ObtenerMarketIndex {
 				numIteracionesAntes = null;
 			}
 		}
-		
+		//Valida si hay un 3er argumento (# Corte pocentaje ponderado)
 		if (null != args && args.length >2 && null != args[2]){
 			try{
 				cortePorcentajePonderado = Integer.parseInt( args[2] );
@@ -106,14 +82,9 @@ public class ObtenerMarketIndex {
 			}
 		}
 		
-		
-		
-		//execute(urlString, null);
+		//Inicializa la clase principal.
 		ObtenerMarketIndex omi = new ObtenerMarketIndex();
 		try {
-			//System.out.println(omi.execute(urlString, "{\"apikey\":\"1c0dd511df2319f26bccfaf5f679ed27-us7\"}"));
-			//ReturnIndexYahooFinanceObject ri = omi.executeYahooIndex(urlString);
-			//System.out.println(ri.toString());
 			String accion = args[0];
 			switch (accion){
 			case "0":
@@ -124,6 +95,10 @@ public class ObtenerMarketIndex {
 			case "1":
 				System.out.println("\n Imprime el indicador OBV");
 				omi.printOBV(numIteracionesAntes, cortePorcentajePonderado);
+				break;
+			case "2":
+				System.out.println("\n Indica si el mecado esta en Bull o Bear");
+				omi.printIndicadorMercado();
 				break;
 				
 			default:
@@ -201,8 +176,6 @@ public class ObtenerMarketIndex {
      * @throws IOException 
      */
     private  void printCompanies() throws BusinessException, IOException{
-    	
-    	System.out.println("--- Lista Compañias en la BD ---");
     	for (Company cmp : admEnt.getCompanies()) {
 			
 			if (null != cmp && null != cmp.getUrlIndex() 
@@ -219,118 +192,81 @@ public class ObtenerMarketIndex {
     /**
      * @throws Exception 
      */
-    private  void printOBV(Integer numIteracionAntes, Integer cortePorcentajePonderado) {
-    	
-    	System.out.println("--- Imprime OBV On-Balance Volume ---");
-    	//Itera por cada una de las compañias
-    	List<CompanyRanking> cr = new LinkedList<CompanyRanking>(); 
-    	
-    	try {
+	private void printOBV(Integer numIteracionAntes,
+			Integer cortePorcentajePonderado) {
+		List<CompanyRanking> cr = new LinkedList<CompanyRanking>();
+		try {
 			for (Company cmp : admEnt.getCompanies()) {
-				//System.out.println(cmp.getName());
-				//Obtener el valor de los ultimos dos regitros para saber el OBV
-				//Imprimir PRecio y Volume de los dos ultimps REgistros+ 
-				
-//				if ( null != cmp && cmp.getId() == 11 ){
-//					System.out.println("BReak:"+cmp.getName() );
-//				}
-				
 				List<Object> listIdxCompany = admEnt.getCompIdxQuote(cmp);
-				
 				Object tmp[] = listIdxCompany.toArray();
-				
-				if (null != tmp && tmp.length > 1){
-				
-				QuoteHistoryCompany qhcBefore = (QuoteHistoryCompany) tmp[numIteracionAntes==null?1:numIteracionAntes];
-				QuoteHistoryCompany qhcNow = (QuoteHistoryCompany) tmp[0];
-				
-				
-				Double valueBeforePrice = Double.valueOf( qhcBefore.getPrice() );
-				Double valueNowPrice =  Double.valueOf( qhcNow.getPrice() );
-				
-				Double valueBeforeVolume = Double.valueOf(qhcBefore.getVolume());
-				Double valueNowVolume = Double.valueOf(qhcNow.getVolume());
-				
-				/*
-				 * TODO Calcular cuanto porcentaje subio y dar un ponderado
-				 *  i. Si encuentra una noticia que contenga palabras positivas, dar una nota apreciativa al ponderad de 0,05%
-				 *      	//Guaardar la informacion que se itera en Collections y que realize ordenamiento, para que imprima en linea el resultado
-				 *      y no tener que almacenarlo en ls BD para despues leerlo o calcularlo. Realixar el calculo de las
-				 *      mejoras comañias depues de la iteración por cada uno de las compañias que estan cumplienod con el
-//				 *      calculo/estrategia definida en el algoritmo!
- * 							adicionar la variable /indice P/e usando http://jsoup.org/
-				*
-				*
-				 */
-				if (valueNowPrice > valueBeforePrice  
-						//&&  UtilMath.isPriceBetweenHighLow(qhcNow.getPrice(), qhcNow.getDay_high(), qhcNow.getDay_low())
-						){
-					if (   (((valueNowVolume*100)/valueBeforeVolume)-100) > 0){
-					//System.out.println( cmp.getName() + " " + "+ OBV =" + (valueBeforeVolume+valueNowVolume) + " -- Crecio un % en Volumen de: " + ( ((valueNowVolume*100)/valueBeforeVolume)-100) );
-					//System.out.println( "-------------------------- Crecio un % en Precio de: " + ( ((valueNowPrice*100)/valueBeforePrice)-100) );
-//					System.out.println("qhcNow.getPrice(): "+ qhcNow.getPrice());
-//					System.out.println("qhcNow.getDay_high(): "+ qhcNow.getDay_high());
-//					System.out.println("qhcNow.getDay_low(): "+ qhcNow.getDay_low());
-//					System.out.println("qhcNow.getName(): "+ qhcNow.getName());
-						
-					CompanyRanking addAR = new CompanyRanking();
-					addAR.setCompanyName(cmp.getName());
-					addAR.setIdCompany(cmp.getId());
-					addAR.setOBV((valueBeforeVolume+valueNowVolume));
-					addAR.setVolumePercentageIncrement(( ((valueNowVolume*100)/valueBeforeVolume)-100));
-					addAR.setPricePercentageincrement((((valueNowPrice*100)/valueBeforePrice)-100));
-					addAR.setDayLow(Double.valueOf(qhcNow.getDay_low()));
-					addAR.setPrecioEvaluado(valueNowPrice);
-					addAR.setDayHigh(Double.valueOf(qhcNow.getDay_high()));
-					addAR.setFechaIteracion1(qhcBefore.getFechaCreacion());
-					addAR.setFechaIteracion2(qhcNow.getFechaCreacion());
-					cr.add(addAR);
+				if (null != tmp && tmp.length > 1) {
+
+					QuoteHistoryCompany qhcBefore = (QuoteHistoryCompany) tmp[numIteracionAntes == null ? 1 : numIteracionAntes];
+					QuoteHistoryCompany qhcNow = (QuoteHistoryCompany) tmp[0];
+					Double valueBeforePrice = Double.valueOf(qhcBefore.getPrice());
+					Double valueNowPrice = Double.valueOf(qhcNow.getPrice());
+					Double valueBeforeVolume = Double.valueOf(qhcBefore.getVolume());
+					Double valueNowVolume = Double.valueOf(qhcNow.getVolume());
+
+					/*
+					 * TODO Calcular cuanto porcentaje subio y dar un ponderado
+					 * i. Si encuentra una noticia que contenga palabras
+					 * positivas, dar una nota apreciativa al ponderad de 0,05%
+					 * //Guaardar la informacion que se itera en Collections y
+					 * que realize ordenamiento, para que imprima en linea el
+					 * resultado y no tener que almacenarlo en ls BD para
+					 * despues leerlo o calcularlo. Realixar el calculo de las
+					 * mejoras comañias depues de la iteración por cada uno de
+					 * las compañias que estan cumplienod con el // *
+					 * calculo/estrategia definida en el algoritmo! adicionar la
+					 * variable /indice P/e usando http://jsoup.org/
+					 */
+					if (valueNowPrice > valueBeforePrice
+					// && UtilMath.isPriceBetweenHighLow(qhcNow.getPrice(), qhcNow.getDay_high(), qhcNow.getDay_low())
+					) {
+						if ((((valueNowVolume * 100) / valueBeforeVolume) - 100) > 0) {
+
+							CompanyRanking addAR = new CompanyRanking();
+							addAR.setCompanyName(cmp.getName());
+							addAR.setIdCompany(cmp.getId());
+							addAR.setOBV((valueBeforeVolume + valueNowVolume));
+							addAR.setVolumePercentageIncrement((((valueNowVolume * 100) / valueBeforeVolume) - 100));
+							addAR.setPricePercentageincrement((((valueNowPrice * 100) / valueBeforePrice) - 100));
+							addAR.setDayLow(Double.valueOf(qhcNow.getDay_low()));
+							addAR.setPrecioEvaluado(valueNowPrice);
+							addAR.setDayHigh(Double.valueOf(qhcNow.getDay_high()));
+							addAR.setFechaIteracion1(qhcBefore.getFechaCreacion());
+							addAR.setFechaIteracion2(qhcNow.getFechaCreacion());
+							cr.add(addAR);
+						}
+
 					}
-					
-					
-					
-				}
-//				else if (valueNowPrice < valueBeforePrice){
-//					System.out.println("- OBV =" + (valueBeforeVolume-valueNowVolume) );
-//				}else{
-//					System.out.println("No existio Variacion");
-//				}
-//			
-				
-//				for (Object object : listIdxCompany) {
-//					QuoteHistoryCompany qhc = ((QuoteHistoryCompany)object);
-//					String valueBefore = "";
-//					String valueAfter = "";
-//					
-//					System.out.println("id [" + qhc.getId() +"] Company Name ["+ qhc.getName() + "] Volume [" + qhc.getVolume() + "] price [" + qhc.getPrice() + "]"  );
-//				}
-				
-				//if (listIdxCompany != null && listaCandidatoObject.size() > 0) {
-				 //   for (Object o : listaCandidatoObject) {
-					//CandidatoConvocatoria candidatoConvocatoria = ((CandidatoConvocatoria) o);
+
 				}
 			}
-			
-			//Imprime Arreglo ordenado
+
+			// Imprime Arreglo ordenado
 			Collections.sort(cr);
-			
-			//imprime Arreglo ordenado
-			//TODO persistir la informacion del resultado, con la fecha de la
-			//ejecuión del proceso 
+			// TODO persistir la informacion del resultado, con la fecha de la
+			// ejecuión del proceso
 			int i = 0;
 			for (CompanyRanking companyRanking : cr) {
-				if (null!=companyRanking && companyRanking.getNotaPonderada() > (cortePorcentajePonderado==null?25:cortePorcentajePonderado)){
-				//TODO --> PErsisistir la información para saber cada cuanto aparece una compañia en la impresion del lsitado en un determinado tiempo.
-				System.out.println((++i) + " " + companyRanking.toString() );
+				if (null != companyRanking
+						&& companyRanking.getNotaPonderada() > (cortePorcentajePonderado == null ? 25
+								: cortePorcentajePonderado)) {
+					// TODO --> PErsisistir la información para saber cada
+					// cuanto aparece una compañia en la impresion del lsitado
+					// en un determinado tiempo.
+					System.out.println((++i) + " " + companyRanking.toString());
 				}
 			}
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	
-    }
+
+	}
     
     /**
      * @throws BusinessException
@@ -341,5 +277,24 @@ public class ObtenerMarketIndex {
     	admEnt.persistirCompaniesQuotes(ri, cmp);
     	
     }
+    
+    /**
+     * Imprime si el mercado esta en Bull o Bear
+     * @throws Exception 
+     * @throws BusinessException 
+     */
+	private void printIndicadorMercado() {
+		try {
+			Company cmp = new Company();
+			cmp.setId(43l);
+			QuoteHistoryCompany qFirstHC = admEnt.getFirstRecordDay(cmp);
+			if (null != qFirstHC) {
+				System.out.println(qFirstHC.toString());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 
 }

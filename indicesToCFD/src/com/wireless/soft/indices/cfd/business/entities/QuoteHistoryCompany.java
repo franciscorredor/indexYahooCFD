@@ -9,10 +9,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -25,6 +25,15 @@ import javax.persistence.Table;
 		@NamedQuery(name = "findAllQuoteHistory", query = "SELECT s FROM QuoteHistoryCompany s ORDER BY s.id"),
 		@NamedQuery(name = "findQuoteHistoryByCompany", query = "SELECT s FROM QuoteHistoryCompany s WHERE s.company = :company ORDER BY s.id desc ")
 					})
+@NamedNativeQueries({
+	//TODO --> encontrar la primera iteracion para saber si a superado el high del dia y del año, para dar un ponderado
+	@NamedNativeQuery(name = "findFirstIteracionHistoryByCompany", query = "SELECT	0 as id, qch_codigo, SCN_CODIGO as company, SCN_CODIGO, QHC_FECHA_CREACION as fechaCreacion, QHC_FECHA_CREACION, name, symbol, ts, type, utctime, volume, syntaxis_change, chg_percent, day_high, day_low, issuer_name, issuer_name_lang, year_high, year_low, price "+
+																			"	FROM		indexyahoocfd.iyc_quote_company_history quotehisto0_ "+
+																			"	WHERE	SCN_CODIGO = :company "+
+																			"	AND		QHC_FECHA_CREACION between  DATE_SUB(NOW(), INTERVAL 1 DAY)  AND NOW() "+  
+																			"	ORDER	by QHC_FECHA_CREACION desc "+
+																			"	LIMIT 1 ", resultClass = QuoteHistoryCompany.class)
+ })
 @Entity
 @Table(name = "indexyahoocfd.iyc_quote_company_history")
 public class QuoteHistoryCompany implements Serializable{
@@ -43,6 +52,8 @@ public class QuoteHistoryCompany implements Serializable{
     public static final String FIND_ALL_QUOTEHISTORY = "findAllQuoteHistory";
     /** */
     public static final String FIND_QUOTEHISTORY_BYCOMPANY = "findQuoteHistoryByCompany";
+    /** */
+    public static final String FIND_FIRSTITERACION_BYCOMPANY = "findFirstIteracionHistoryByCompany";
 
     
     // ////////////////////////////////////////////////////////////////////////
@@ -51,7 +62,7 @@ public class QuoteHistoryCompany implements Serializable{
 	/**Identificador del registro*/
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "QCH_CODIGO")
+    @Column(name = "qch_codigo")
     private Long id;
 
     /** Informacion de la Compania */
@@ -84,7 +95,7 @@ public class QuoteHistoryCompany implements Serializable{
     private String volume;
     
     @Column(name = "syntaxis_change", nullable = true)
-    private String change;
+    private String syntaxis_change;
     
     @Column(name = "chg_percent", nullable = true)
     private String chg_percent; 
@@ -242,15 +253,15 @@ public class QuoteHistoryCompany implements Serializable{
 	/**
 	 * @return the change
 	 */
-	public String getChange() {
-		return change;
+	public String getSyntaxis_change() {
+		return syntaxis_change;
 	}
 
 	/**
 	 * @param change the change to set
 	 */
-	public void setChange(String change) {
-		this.change = change;
+	public void setSyntaxis_change(String syntaxis_change) {
+		this.syntaxis_change = syntaxis_change;
 	}
 
 	/**
@@ -364,6 +375,20 @@ public class QuoteHistoryCompany implements Serializable{
 	public void setPrice(String price) {
 		this.price = price;
 	}
+	
+	
+	@Override
+    public String toString() {
+	StringBuffer s = new StringBuffer();
+	s.append("\n name [" + this.name + "]");
+	s.append(" price [" + this.price + "]");
+	s.append("\n day_high [" + this.day_high + "]");
+	s.append(" day_low [" + this.day_low + "]");
+	s.append(" year_high [" + this.year_high + "]");
+	s.append(" year_low [" + this.year_low + "]");
+
+	return s.toString();
+    }
 	
 
 }

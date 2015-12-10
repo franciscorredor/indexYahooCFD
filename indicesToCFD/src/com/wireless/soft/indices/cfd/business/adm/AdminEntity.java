@@ -118,7 +118,7 @@ public class AdminEntity {
 					qhc.setType(f.getType());
 					qhc.setUtctime(f.getUtctime());
 					qhc.setVolume(f.getVolume());
-					qhc.setChange(f.getChange());
+					qhc.setSyntaxis_change(f.getChange());
 					qhc.setChg_percent(f.getChg_percent());
 					qhc.setDay_high(f.getDay_high());
 					qhc.setDay_low(f.getDay_low());
@@ -163,6 +163,36 @@ public class AdminEntity {
 		
 		return listIdxCompany;
 		
+	}
+	
+	//TODO
+	//para saber si una compañia subio su maximo high del dia realizar la consulta del dia y si encontro unpunto donde 
+	//incremento el tope con repecto al minimo, realiar un break;
+	
+	
+	/**
+	 * @param cmp
+	 * @return
+	 * @throws Exception 
+	 * Obtiene el primer record de una compañia
+	 */
+	public QuoteHistoryCompany getFirstRecordDay(Company cmp) throws Exception {
+
+		QuoteHistoryCompany qhcReturn = null;
+
+		Hashtable<String, Object> param = new Hashtable<String, Object>();
+		param.put("company", cmp.getId());
+		List<Object> listIdxCompany = UtilSession.getObjectsByNamedQuery(em,
+				QuoteHistoryCompany.FIND_FIRSTITERACION_BYCOMPANY, param);
+		if (null != listIdxCompany && listIdxCompany.size() > 0) {
+			for (Object object : listIdxCompany) {
+				qhcReturn = (QuoteHistoryCompany) object;
+				break;
+			}
+		}
+
+		return qhcReturn;
+
 	}
 
 }
