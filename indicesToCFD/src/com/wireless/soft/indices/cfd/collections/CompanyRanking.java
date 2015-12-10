@@ -202,23 +202,69 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	@Override
 	public int compareTo(CompanyRanking compareCR) {
 		
+		if(this == compareCR){
+	        return 0;
+	    }
+
+		
 		int value1 = 0;
 		int value2 = 0;
 		try{
 		int comparePonderado = (int) ((CompanyRanking) compareCR).getNotaPonderada();
 		int compareQuantity = (int) ((CompanyRanking) compareCR).getVolumePercentageIncrement();
+		int evaluarNotaPonderada = (int) this.getNotaPonderada();
+		int _volumePercentageIncrement = (int)this.volumePercentageIncrement;
 		
-		value1 = (int) ((int) comparePonderado - this.getNotaPonderada());
-		value2 = (int) ((int) compareQuantity - this.volumePercentageIncrement);
+//		if (comparePonderado > 100 ){
+//			comparePonderado = 100;
+//			System.out.println(this.companyName + "1");
+//		}
+//		if (comparePonderado < -100 ){
+//			comparePonderado = -100;
+//			System.out.println(this.companyName + "2");
+//		}
+//		if (compareQuantity > 100){
+//			compareQuantity = 100;
+//			System.out.println(this.companyName + "3");
+//		}
+//		if (compareQuantity < -100){
+//			compareQuantity = -100;
+//			System.out.println(this.companyName + "4");
+//		}
+//		if (evaluarNotaPonderada > 100){
+//			evaluarNotaPonderada = 100;
+//			System.out.println(this.companyName + "5");
+//		}
+//		if (evaluarNotaPonderada < -100){
+//			evaluarNotaPonderada = -100;
+//			System.out.println(this.companyName + "6");
+//		}
+//		if (_volumePercentageIncrement > 100){
+//			_volumePercentageIncrement = 100;
+//			System.out.println(this.companyName + "7");
+//		}
+//		if (_volumePercentageIncrement < -100){
+//			_volumePercentageIncrement = -100;
+//			System.out.println(this.companyName + "8");
+//		}
+			
+		
+		
+		value1 = (int) ((int) comparePonderado - evaluarNotaPonderada);
+		value2 = (int) ((int) compareQuantity - _volumePercentageIncrement);
+		
+		//System.out.println(this.companyName+"|"+comparePonderado +"|"+ this.getNotaPonderada() +"|"+compareQuantity+"|"+this.volumePercentageIncrement);
 		
 		//ascending order
 		//return (int) this.volumePercentageIncrement - compareQuantity;
 		
 		//descending order
+		
+		return value1 + value2;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		return value1 + value2;
+		return -1;
 		
 	}
 
