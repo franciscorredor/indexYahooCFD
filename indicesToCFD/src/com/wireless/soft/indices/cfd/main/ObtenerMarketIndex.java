@@ -334,6 +334,12 @@ public class ObtenerMarketIndex {
 						if (null != cr) {
 							// 4. imprime
 							System.out.println("["+iteracionUpDown+"] "+cr.printToChart());
+							if (cr.pricePercentageincrement > 0 && crIteracion1.pricePercentageincrement > 0){
+								banderaUpDown = !banderaUpDown;	
+							}
+							if (banderaUpDown){
+								iteracionUpDown = 0;
+							}
 						}
 						crIteracion1 = cr;
 					}
