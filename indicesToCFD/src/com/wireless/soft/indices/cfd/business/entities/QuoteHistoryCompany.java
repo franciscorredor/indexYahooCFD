@@ -21,6 +21,22 @@ import javax.persistence.Table;
  * @version	1.0  
  * entity de la tabla indexyahoocfd.iyc_quote_company_history
  */
+
+/*
+ * Obtener top 7 de compañias con mejor rentabilidad en el mercado! 
+ SELECT	x.name, x.diferencia
+FROM		(
+		SELECT	comp.SCN_NAME as name, max(chMax.price) as max, min(chMin.price) as min, (max(chMax.price) - min(chMin.price)) as diferencia
+		FROM		indexyahoocfd.iyc_stock_companies  comp inner join   indexyahoocfd.iyc_quote_company_history chMax   on  chMax.SCN_CODIGO = comp.SCN_CODIGO
+												inner join   indexyahoocfd.iyc_quote_company_history chMin   on  chMin.SCN_CODIGO = comp.SCN_CODIGO
+		WHERE	chMax.QHC_FECHA_CREACION between  DATE_SUB(NOW(), INTERVAL 1 DAY)  AND NOW()
+		AND	     chMin.QHC_FECHA_CREACION between  DATE_SUB(NOW(), INTERVAL 1 DAY)  AND NOW()
+		GROUP by  comp.SCN_CODIGO
+		) x
+ORDER by diferencia desc
+limit 7
+
+ */
 @NamedQueries(value = {				
 		@NamedQuery(name = "findAllQuoteHistory", query = "SELECT s FROM QuoteHistoryCompany s ORDER BY s.id"),
 		@NamedQuery(name = "findQuoteHistoryByCompany", query = "SELECT s FROM QuoteHistoryCompany s WHERE s.company = :company ORDER BY s.id desc ")

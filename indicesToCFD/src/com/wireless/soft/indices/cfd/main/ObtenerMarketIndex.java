@@ -2,6 +2,7 @@ package com.wireless.soft.indices.cfd.main;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
@@ -107,6 +108,10 @@ public class ObtenerMarketIndex {
 				System.out.println("\n Print Chart Company UP&Down Price");
 				omi.printChartCompany(argumento2);
 				break;
+			case "4":
+				System.out.println("\n Persistir cada 10 minutos información de la compañias");
+				omi.persisteVariasIteraciones();
+				break;
 				
 			default:
 				System.out.println("\n No realiza acción");
@@ -190,9 +195,10 @@ public class ObtenerMarketIndex {
 			
 			ReturnIndexYahooFinanceObject ri = this.executeYahooIndex(cmp.getUrlIndex());
 			this.persistirCompaniesQuotes(ri, cmp);
-			System.out.println("Persiste: " + cmp.getName());
+			
 			}
 		}
+    	System.out.println("Persistio la base de companias del Sistema: " + new Date());
     	
     }
     
@@ -334,7 +340,7 @@ public class ObtenerMarketIndex {
 						if (null != cr) {
 							// 4. imprime
 							System.out.println("["+iteracionUpDown+"] "+cr.printToChart());
-							if (cr.pricePercentageincrement != 0 ){
+							if (cr.getPrecioEvaluado() >  crIteracion1.getPrecioEvaluado()){
 								banderaUpDown = !banderaUpDown;	
 							}
 							if (banderaUpDown){
@@ -384,6 +390,27 @@ public class ObtenerMarketIndex {
 		}
 
 		return addAR;
+	}
+	
+	/**
+	 * Persiste la información varias veces
+	 */
+	private void persisteVariasIteraciones(){
+		try {
+		while (true) {
+			// Persiste cada instante de tiempo 10 minuto
+			Thread.sleep(60000l * 9);
+			this.printCompanies();
+		}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (BusinessException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }
