@@ -213,7 +213,7 @@ public class ObtenerMarketIndex {
 				List<Object> listIdxCompany = admEnt.getCompIdxQuote(cmp);
 				Object tmp[] = listIdxCompany.toArray();
 				if (null != tmp && tmp.length > 1) {
-
+//TODO --> Realizar comparación con el primer regitro del dia
 					QuoteHistoryCompany qhcBefore = (QuoteHistoryCompany) tmp[numIteracionAntes == null ? 1 : numIteracionAntes];
 					QuoteHistoryCompany qhcNow = (QuoteHistoryCompany) tmp[0];
 					Double valueBeforePrice = Double.valueOf(qhcBefore.getPrice());
