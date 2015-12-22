@@ -21,6 +21,7 @@ import com.wireless.soft.indices.cfd.business.entities.Company;
 import com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany;
 import com.wireless.soft.indices.cfd.collections.CompanyRanking;
 import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnIndexYahooFinanceObject;
+import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnYahooFinanceQuoteObject;
 import com.wireless.soft.indices.cfd.exception.BusinessException;
 import com.wireless.soft.indices.cfd.util.UtilGeneral;
 import com.wireless.soft.indices.cfd.util.UtilSession;
@@ -112,6 +113,10 @@ public class ObtenerMarketIndex {
 				System.out.println("\n Persistir cada 10 minutos información de la compañias");
 				omi.persisteVariasIteraciones();
 				break;
+			case "5":
+				System.out.println("\n test Call PE Ratio");
+				omi.printPERatio();
+				break;				
 				
 			default:
 				System.out.println("\n No realiza acción");
@@ -131,6 +136,11 @@ public class ObtenerMarketIndex {
 	
 	
 	
+	/**
+	 * @param url
+	 * @return el indice de yahoo
+	 * @throws IOException
+	 */
 	private ReturnIndexYahooFinanceObject executeYahooIndex(String url) throws IOException {
 
 
@@ -148,6 +158,29 @@ public class ObtenerMarketIndex {
 
 		
 	   }
+	
+	/**
+	 * @param url
+	 * @return el Quote de yahooIndex
+	 * @throws IOException
+	 */
+	private ReturnYahooFinanceQuoteObject executeYahooIndexQuote(String url) throws IOException {
+
+
+	    JsonElement result = executeJ(url);
+	    if (result.isJsonObject()) {
+		JsonElement error = result.getAsJsonObject().get("error");
+		if (error != null) {
+		    JsonElement code = result.getAsJsonObject().get("code");
+		    System.out.println("[Error] code:" + code);
+		}
+	    }
+
+
+	    return gson.fromJson(result, ReturnYahooFinanceQuoteObject.class);
+
+	
+   }
 	
 	private JsonElement executeJ(String url) throws IOException {
 		return new JsonParser().parse(execute(url));
@@ -412,5 +445,18 @@ public class ObtenerMarketIndex {
 		}
 		
 	}
+	
+	
+	private  void printPERatio() throws BusinessException, IOException{
+    	
+			//ReturnYahooFinanceQuoteObject ri = this.executeYahooIndexQuote("http://query.yahooapis.com/v1/public/yql?q=select%20PERatio%20from%20yahoo.finance.quotes%20where%20symbol%20IN%20(%22LLOY.L%22)&format=json&env=http://datatables.org/alltables.env");
+			ReturnYahooFinanceQuoteObject ri = this.executeYahooIndexQuote("http://query.yahooapis.com/v1/public/yql?q=select%20PERatio%20from%20yahoo.finance.quotes%20where%20symbol%20IN%20(%22888.L%22)&format=json&env=http://datatables.org/alltables.env");
+			//ReturnYahooFinanceQuoteObject ri = this.executeYahooIndexQuote(cmp.getUrlIndex());
+			//this.persistirCompaniesQuotes(ri, cmp);
+			
+		
+    	System.out.println("ReturnYahooFinanceQuoteObject: " + ri.toString());
+    	
+    }
 
 }

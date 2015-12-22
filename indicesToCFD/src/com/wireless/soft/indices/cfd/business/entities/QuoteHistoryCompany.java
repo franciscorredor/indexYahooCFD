@@ -34,7 +34,7 @@ FROM		(
 		GROUP by  comp.SCN_CODIGO
 		) x
 ORDER by diferencia desc
-limit 7
+limit 7  --> Importante, validar que el precio este en subido, con esta consulta, puede ser que el precio halla caido!  
 
  */
 @NamedQueries(value = {				
