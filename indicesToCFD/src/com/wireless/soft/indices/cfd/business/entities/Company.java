@@ -16,8 +16,11 @@ import javax.persistence.NamedNativeQuery;
  */
 @Entity
 @NamedNativeQueries({ 
-	@NamedNativeQuery(name = "findCompanies", query = "SELECT	com.SCN_CODIGO as id, com.SCN_NAME as name, sci.SCI_URL_INDEX as urlIndex FROM		indexyahoocfd.iyc_stack_company_index sci  INNER JOIN  indexyahoocfd.iyc_stock_companies com   on com.SCN_CODIGO = sci.SCN_CODIGO ORDER by com.SCN_CODIGO", resultClass = Company.class),
-	@NamedNativeQuery(name = "findCompanyById", query = "SELECT	com.SCN_CODIGO as id, com.SCN_NAME as name, sci.SCI_URL_INDEX as urlIndex FROM		indexyahoocfd.iyc_stack_company_index sci  INNER JOIN  indexyahoocfd.iyc_stock_companies com   on com.SCN_CODIGO = sci.SCN_CODIGO WHERE  com.SCN_CODIGO = :companyId  ", resultClass = Company.class)	
+	@NamedNativeQuery(name = "findCompanies", query = " SELECT	com.SCN_CODIGO as id, com.SCN_NAME as name, sci.SCI_URL_INDEX as urlIndex, scq.SCQ_URL_QUOTE as urlQuote \n"+
+														" FROM		indexyahoocfd.iyc_stack_company_index sci  	INNER JOIN indexyahoocfd.iyc_stock_companies com   	on com.SCN_CODIGO = sci.SCN_CODIGO \n"+ 
+														" inner join indexyahoocfd.iyc_stack_company_quotes scq	on scq.scn_codigo = com.scn_codigo \n"+
+														" ORDER by com.SCN_CODIGO", resultClass = Company.class),
+	@NamedNativeQuery(name = "findCompanyById", query = "SELECT	com.SCN_CODIGO as id, com.SCN_NAME as name, sci.SCI_URL_INDEX as urlIndex, scq.SCQ_URL_QUOTE as urlQuote FROM		indexyahoocfd.iyc_stack_company_index sci  INNER JOIN  indexyahoocfd.iyc_stock_companies com   on com.SCN_CODIGO = sci.SCN_CODIGO inner join indexyahoocfd.iyc_stack_company_quotes scq	on scq.scn_codigo = com.scn_codigo WHERE  com.SCN_CODIGO = :companyId  ", resultClass = Company.class)	
 })
 public class Company  implements Serializable {
 
@@ -45,6 +48,8 @@ public class Company  implements Serializable {
     private String name;
     /** */
     private String urlIndex;
+    
+    private String urlQuote;
     
     
     // ////////////////////////////////////////////////////////////////////////
@@ -85,6 +90,13 @@ public class Company  implements Serializable {
 	 */
 	public void setUrlIndex(String urlIndex) {
 		this.urlIndex = urlIndex;
+	}
+	
+	public String getUrlQuote() {
+		return urlQuote;
+	}
+	public void setUrlQuote(String urlQuote) {
+		this.urlQuote = urlQuote;
 	}
 	
 

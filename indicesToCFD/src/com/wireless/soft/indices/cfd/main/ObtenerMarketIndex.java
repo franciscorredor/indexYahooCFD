@@ -450,12 +450,23 @@ public class ObtenerMarketIndex {
 	private  void printPERatio() throws BusinessException, IOException{
     	
 			//ReturnYahooFinanceQuoteObject ri = this.executeYahooIndexQuote("http://query.yahooapis.com/v1/public/yql?q=select%20PERatio%20from%20yahoo.finance.quotes%20where%20symbol%20IN%20(%22LLOY.L%22)&format=json&env=http://datatables.org/alltables.env");
-			ReturnYahooFinanceQuoteObject ri = this.executeYahooIndexQuote("http://query.yahooapis.com/v1/public/yql?q=select%20PERatio%20from%20yahoo.finance.quotes%20where%20symbol%20IN%20(%22888.L%22)&format=json&env=http://datatables.org/alltables.env");
-			//ReturnYahooFinanceQuoteObject ri = this.executeYahooIndexQuote(cmp.getUrlIndex());
-			//this.persistirCompaniesQuotes(ri, cmp);
+			//ReturnYahooFinanceQuoteObject ri = this.executeYahooIndexQuote("http://query.yahooapis.com/v1/public/yql?q=select%20PERatio%20from%20yahoo.finance.quotes%20where%20symbol%20IN%20(%22888.L%22)&format=json&env=http://datatables.org/alltables.env");			
+			for (Company cmp : admEnt.getCompanies()) {
+				
+				if (null != cmp && null != cmp.getUrlIndex() 
+						&& cmp.getUrlIndex().length() > 3){
+				
+				ReturnYahooFinanceQuoteObject ri = this.executeYahooIndexQuote(cmp.getUrlQuote());
+				//TODO	
+				//this.persistirCompaniesQuotes(ri, cmp);
+				System.out.println("ReturnYahooFinanceQuoteObject: " + ri.toString());
+				
+				}
+			}
+
 			
 		
-    	System.out.println("ReturnYahooFinanceQuoteObject: " + ri.toString());
+    	
     	
     }
 

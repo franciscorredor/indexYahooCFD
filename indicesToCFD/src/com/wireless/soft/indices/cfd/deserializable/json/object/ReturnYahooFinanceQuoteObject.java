@@ -117,6 +117,12 @@ public class ReturnYahooFinanceQuoteObject implements Serializable {
 			
 			public class Quote{
 				private String PERatio;
+				private String Bid;
+				private String EBITDA;
+				private String PriceSales;
+				private String PriceEPSEstimateCurrentYear;
+				private String PriceEPSEstimateNextYear;
+				private String Ask;
 
 				/**
 				 * @return the pERatio
@@ -132,6 +138,54 @@ public class ReturnYahooFinanceQuoteObject implements Serializable {
 					PERatio = pERatio;
 				}
 				
+				public String getBid() {
+					return Bid;
+				}
+
+				public void setBid(String bid) {
+					Bid = bid;
+				}
+
+				public String getEBITDA() {
+					return EBITDA;
+				}
+
+				public void setEBITDA(String eBITDA) {
+					EBITDA = eBITDA;
+				}
+
+				public String getPriceSales() {
+					return PriceSales;
+				}
+
+				public void setPriceSales(String priceSales) {
+					PriceSales = priceSales;
+				}
+
+				public String getPriceEPSEstimateCurrentYear() {
+					return PriceEPSEstimateCurrentYear;
+				}
+
+				public void setPriceEPSEstimateCurrentYear(String priceEPSEstimateCurrentYear) {
+					PriceEPSEstimateCurrentYear = priceEPSEstimateCurrentYear;
+				}
+
+				public String getPriceEPSEstimateNextYear() {
+					return PriceEPSEstimateNextYear;
+				}
+
+				public void setPriceEPSEstimateNextYear(String priceEPSEstimateNextYear) {
+					PriceEPSEstimateNextYear = priceEPSEstimateNextYear;
+				}
+
+				public String getAsk() {
+					return Ask;
+				}
+
+				public void setAsk(String ask) {
+					Ask = ask;
+				}
+
 				@Override
 			    public String toString() {
 				StringBuffer s = new StringBuffer(this.getClass().getCanonicalName());

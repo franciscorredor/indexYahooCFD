@@ -60,3 +60,35 @@ CREATE TABLE `indexyahoocfd`.`iyc_quote_company_history` (
 `year_low` VARCHAR(1000),
 `price` VARCHAR(1000),
 PRIMARY KEY (`QCH_CODIGO`));
+
+
+-- quotes yahoo de las compañias 
+CREATE TABLE `indexyahoocfd`.`iyc_stack_company_quotes` (
+--identificador unico de la tabla 
+`SCQ_CODIGO` INT NOT NULL AUTO_INCREMENT,
+--identificador que relaciona con el nombre de la compañia 
+`SCN_CODIGO` INT NOT NULL,
+ --Link del indicador
+`SCQ_URL_QUOTE` VARCHAR(5000) NOT NULL,
+-- Fecha creación del indice 
+`SCQ_FECHA_CREACION` DATE NULL,
+  PRIMARY KEY (`SCQ_CODIGO`));
+  
+  
+ --DROP TABLE  `indexyahoocfd`.`iyc_fundamental_company_history`  
+ -- almacena el historico de informacion fundamental de las diferentes compañias 
+CREATE TABLE `indexyahoocfd`.`iyc_fundamental_company_history` (
+--identificador unico de la tabla 
+`FCH_CODIGO` INT NOT NULL AUTO_INCREMENT,
+--identificador que relaciona con el nombre de la compañia 
+`SCN_CODIGO` INT NOT NULL, 
+-- Fecha creación del indice 
+`FCH_FECHA_CREACION` TIMESTAMP NOT NULL,
+`PERatio` VARCHAR(1000),
+`Bid` VARCHAR(1000),
+`Ask` VARCHAR(1000),
+`EBITDA` VARCHAR(1000),
+`PriceSales` VARCHAR(1000),
+`PriceEPSEstimateCurrentYear` VARCHAR(1000),
+`PriceEPSEstimateNextYear` VARCHAR(1000),
+PRIMARY KEY (`FCH_CODIGO`));
