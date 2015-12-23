@@ -1,8 +1,13 @@
 package com.wireless.soft.indices.cfd.business.entities;
 
+import java.io.Serializable;
+import java.util.Calendar;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.NamedNativeQueries;
-import javax.persistence.NamedNativeQuery;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -17,21 +22,227 @@ import javax.persistence.Table;
  */
 
 @NamedQueries(value = {				
-		@NamedQuery(name = "findAllQuoteHistory", query = "SELECT s FROM QuoteHistoryCompany s ORDER BY s.id"),
-		@NamedQuery(name = "findQuoteHistoryByCompany", query = "SELECT s FROM QuoteHistoryCompany s WHERE s.company = :company ORDER BY s.id desc ")
+		@NamedQuery(name = "findAllFundamentalHistory", query = "SELECT s FROM FundamentalHistoryCompany s ORDER BY s.id"),
+		@NamedQuery(name = "findFundamentalHistoryByCompany", query = "SELECT s FROM QuoteHistoryCompany s WHERE s.company = :company ORDER BY s.id desc ")
 					})
-@NamedNativeQueries({
-	//TODO --> encontrar la primera iteracion para saber si a superado el high del dia y del año, para dar un ponderado
-	@NamedNativeQuery(name = "findFirstIteracionHistoryByCompany", query = "SELECT	0 as id, qch_codigo, SCN_CODIGO as company, SCN_CODIGO, QHC_FECHA_CREACION as fechaCreacion, QHC_FECHA_CREACION, name, symbol, ts, type, utctime, volume, syntaxis_change, chg_percent, day_high, day_low, issuer_name, issuer_name_lang, year_high, year_low, price "+
-																			"	FROM		indexyahoocfd.iyc_quote_company_history quotehisto0_ "+
-																			"	WHERE	SCN_CODIGO = :company "+
-																			"	AND		QHC_FECHA_CREACION between  DATE_SUB(NOW(), INTERVAL 1 DAY)  AND NOW() "+  
-																			"	ORDER	by QHC_FECHA_CREACION desc "+
-																			"	LIMIT 1 ", resultClass = QuoteHistoryCompany.class)
- })
 @Entity
 @Table(name = "indexyahoocfd.iyc_fundamental_company_history")
-public class FundamentalHistoryCompany {
+public class FundamentalHistoryCompany implements Serializable{
 
-	Terminar de realizar el entity.
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7256036862497192370L;
+	
+	// ////////////////////////////////////////////////////////////////////////
+    // Constantes de la clase
+    // ////////////////////////////////////////////////////////////////////////
+
+    /** */
+    public static final String FIND_ALL_FUNDAMENTAL_HISTORY = "findAllFundamentalHistory";
+    /** */
+    public static final String FIND_FUNDAMENTAL_HISTORY_BYCOMPANY = "findFundamentalHistoryByCompany";
+
+
+	
+	
+	
+	 // ////////////////////////////////////////////////////////////////////////
+    // Atributos de la clase
+    // ////////////////////////////////////////////////////////////////////////
+	/**Identificador del registro*/
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "FCH_CODIGO")
+    private Long id;
+
+    /** Informacion de la Compania */
+    @Column(name = "SCN_CODIGO", nullable = false)
+    private Long company;
+    
+    @Column(name = "FCH_FECHA_CREACION", nullable = false)
+    /** Fecha Creacion */
+    private Calendar fechaCreacion;
+    
+    @Column(name = "PERatio", nullable = true)
+    private String pERatio;
+    
+    @Column(name = "Bid", nullable = true)
+    private String bid;
+    
+    @Column(name = "Ask", nullable = true)
+    private String ask;
+    
+    @Column(name = "EBITDA", nullable = true)
+    private String ebitda;
+    
+    @Column(name = "PriceSales", nullable = true)
+    private String priceSales;
+    
+    @Column(name = "PriceEPSEstimateCurrentYear", nullable = true)
+    private String priceEPSEstimateCurrentYear;
+    
+    @Column(name = "PriceEPSEstimateNextYear", nullable = true)
+    private String priceEPSEstimateNextYear;
+
+    
+    // ////////////////////////////////////////////////////////////////////////
+    // Getter/Setter de la clase
+    // ////////////////////////////////////////////////////////////////////////
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the company
+	 */
+	public Long getCompany() {
+		return company;
+	}
+
+	/**
+	 * @param company the company to set
+	 */
+	public void setCompany(Long company) {
+		this.company = company;
+	}
+
+	/**
+	 * @return the fechaCreacion
+	 */
+	public Calendar getFechaCreacion() {
+		return fechaCreacion;
+	}
+
+	/**
+	 * @param fechaCreacion the fechaCreacion to set
+	 */
+	public void setFechaCreacion(Calendar fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
+	}
+
+	/**
+	 * @return the pERatio
+	 */
+	public String getpERatio() {
+		return pERatio;
+	}
+
+	/**
+	 * @param pERatio the pERatio to set
+	 */
+	public void setpERatio(String pERatio) {
+		this.pERatio = pERatio;
+	}
+
+	/**
+	 * @return the bid
+	 */
+	public String getBid() {
+		return bid;
+	}
+
+	/**
+	 * @param bid the bid to set
+	 */
+	public void setBid(String bid) {
+		this.bid = bid;
+	}
+
+	/**
+	 * @return the ask
+	 */
+	public String getAsk() {
+		return ask;
+	}
+
+	/**
+	 * @param ask the ask to set
+	 */
+	public void setAsk(String ask) {
+		this.ask = ask;
+	}
+
+	/**
+	 * @return the ebitda
+	 */
+	public String getEbitda() {
+		return ebitda;
+	}
+
+	/**
+	 * @param ebitda the ebitda to set
+	 */
+	public void setEbitda(String ebitda) {
+		this.ebitda = ebitda;
+	}
+
+	/**
+	 * @return the priceSales
+	 */
+	public String getPriceSales() {
+		return priceSales;
+	}
+
+	/**
+	 * @param priceSales the priceSales to set
+	 */
+	public void setPriceSales(String priceSales) {
+		this.priceSales = priceSales;
+	}
+
+	/**
+	 * @return the priceEPSEstimateCurrentYear
+	 */
+	public String getPriceEPSEstimateCurrentYear() {
+		return priceEPSEstimateCurrentYear;
+	}
+
+	/**
+	 * @param priceEPSEstimateCurrentYear the priceEPSEstimateCurrentYear to set
+	 */
+	public void setPriceEPSEstimateCurrentYear(String priceEPSEstimateCurrentYear) {
+		this.priceEPSEstimateCurrentYear = priceEPSEstimateCurrentYear;
+	}
+
+	/**
+	 * @return the priceEPSEstimateNextYear
+	 */
+	public String getPriceEPSEstimateNextYear() {
+		return priceEPSEstimateNextYear;
+	}
+
+	/**
+	 * @param priceEPSEstimateNextYear the priceEPSEstimateNextYear to set
+	 */
+	public void setPriceEPSEstimateNextYear(String priceEPSEstimateNextYear) {
+		this.priceEPSEstimateNextYear = priceEPSEstimateNextYear;
+	}
+    
+	@Override
+    public String toString() {
+	StringBuffer s = new StringBuffer();
+	s.append("\n id [" + this.id + "]");
+	s.append(" company [" + this.company + "]");
+	s.append(" pERatio [" + this.pERatio + "]");
+	s.append(" ask [" + this.ask + "]");
+	s.append(" bid [" + this.bid + "]");
+	s.append(" ebitda [" + this.ebitda + "]");
+	s.append(" priceSales [" + this.priceSales + "]");
+	s.append(" priceEPSEstimateCurrentYear [" + this.priceEPSEstimateCurrentYear + "]");
+	s.append(" priceEPSEstimateNextYear [" + this.priceEPSEstimateNextYear + "]");
+
+	return s.toString();
+    }
+
 }
