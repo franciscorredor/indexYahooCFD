@@ -2573,3 +2573,243 @@ Caused by: java.sql.SQLException: Column 'QHC_FECHA_CREACION' not found.
 	at java.lang.reflect.Method.invoke(Unknown Source)
 	at org.hibernate.engine.jdbc.internal.proxy.AbstractResultSetProxyHandler.continueInvocation(AbstractResultSetProxyHandler.java:104)
 	... 28 more
+2015-12-23 18:43:41 [main] ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper [144] logExceptions - Access denied for user 'root'@'localhost' (using password: NO)
+2015-12-23 18:43:41 [main] ERROR com.wireless.soft.indices.cfd.util.UtilSession [113] getObjectsByNamedQuery - org.hibernate.exception.GenericJDBCException: Could not open connection
+javax.persistence.PersistenceException: org.hibernate.exception.GenericJDBCException: Could not open connection
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1361)
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1289)
+	at org.hibernate.ejb.QueryImpl.getResultList(QueryImpl.java:261)
+	at com.wireless.soft.indices.cfd.util.UtilSession.getObjectsByNamedQuery(UtilSession.java:111)
+	at com.wireless.soft.indices.cfd.business.adm.AdminEntity.getCompanies(AdminEntity.java:78)
+	at com.wireless.soft.indices.cfd.main.ObtenerMarketIndex.printPERatio(ObtenerMarketIndex.java:464)
+	at com.wireless.soft.indices.cfd.main.ObtenerMarketIndex.main(ObtenerMarketIndex.java:118)
+Caused by: org.hibernate.exception.GenericJDBCException: Could not open connection
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:52)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:125)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:110)
+	at org.hibernate.engine.jdbc.internal.LogicalConnectionImpl.obtainConnection(LogicalConnectionImpl.java:304)
+	at org.hibernate.engine.jdbc.internal.LogicalConnectionImpl.getConnection(LogicalConnectionImpl.java:169)
+	at org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler.extractPhysicalConnection(ConnectionProxyHandler.java:82)
+	at org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler.continueInvocation(ConnectionProxyHandler.java:138)
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractProxyHandler.invoke(AbstractProxyHandler.java:81)
+	at com.sun.proxy.$Proxy13.prepareStatement(Unknown Source)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl$5.doPrepare(StatementPreparerImpl.java:147)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl$StatementPreparationTemplate.prepareStatement(StatementPreparerImpl.java:166)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl.prepareQueryStatement(StatementPreparerImpl.java:145)
+	at org.hibernate.loader.Loader.prepareQueryStatement(Loader.java:1739)
+	at org.hibernate.loader.Loader.doQuery(Loader.java:828)
+	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:289)
+	at org.hibernate.loader.Loader.doList(Loader.java:2463)
+	at org.hibernate.loader.Loader.doList(Loader.java:2449)
+	at org.hibernate.loader.Loader.listIgnoreQueryCache(Loader.java:2279)
+	at org.hibernate.loader.Loader.list(Loader.java:2274)
+	at org.hibernate.loader.custom.CustomLoader.list(CustomLoader.java:331)
+	at org.hibernate.internal.SessionImpl.listCustomQuery(SessionImpl.java:1585)
+	at org.hibernate.internal.AbstractSessionImpl.list(AbstractSessionImpl.java:224)
+	at org.hibernate.internal.SQLQueryImpl.list(SQLQueryImpl.java:156)
+	at org.hibernate.ejb.QueryImpl.getResultList(QueryImpl.java:252)
+	... 4 more
+Caused by: java.sql.SQLException: Access denied for user 'root'@'localhost' (using password: NO)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:946)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:2985)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:885)
+	at com.mysql.jdbc.MysqlIO.secureAuth411(MysqlIO.java:3421)
+	at com.mysql.jdbc.MysqlIO.doHandshake(MysqlIO.java:1247)
+	at com.mysql.jdbc.Connection.createNewIO(Connection.java:2775)
+	at com.mysql.jdbc.Connection.<init>(Connection.java:1555)
+	at com.mysql.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:285)
+	at java.sql.DriverManager.getConnection(Unknown Source)
+	at java.sql.DriverManager.getConnection(Unknown Source)
+	at org.hibernate.service.jdbc.connections.internal.DriverManagerConnectionProviderImpl.getConnection(DriverManagerConnectionProviderImpl.java:173)
+	at org.hibernate.internal.AbstractSessionImpl$NonContextualJdbcConnectionAccess.obtainConnection(AbstractSessionImpl.java:276)
+	at org.hibernate.engine.jdbc.internal.LogicalConnectionImpl.obtainConnection(LogicalConnectionImpl.java:297)
+	... 24 more
+2015-12-23 18:43:41 [main] ERROR com.wireless.soft.indices.cfd.business.adm.AdminEntity [87] getCompanies - Error al consultar las compañias
+java.lang.Exception: javax.persistence.PersistenceException: org.hibernate.exception.GenericJDBCException: Could not open connection
+	at com.wireless.soft.indices.cfd.util.UtilSession.getObjectsByNamedQuery(UtilSession.java:114)
+	at com.wireless.soft.indices.cfd.business.adm.AdminEntity.getCompanies(AdminEntity.java:78)
+	at com.wireless.soft.indices.cfd.main.ObtenerMarketIndex.printPERatio(ObtenerMarketIndex.java:464)
+	at com.wireless.soft.indices.cfd.main.ObtenerMarketIndex.main(ObtenerMarketIndex.java:118)
+Caused by: javax.persistence.PersistenceException: org.hibernate.exception.GenericJDBCException: Could not open connection
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1361)
+	at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1289)
+	at org.hibernate.ejb.QueryImpl.getResultList(QueryImpl.java:261)
+	at com.wireless.soft.indices.cfd.util.UtilSession.getObjectsByNamedQuery(UtilSession.java:111)
+	... 3 more
+Caused by: org.hibernate.exception.GenericJDBCException: Could not open connection
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:52)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:125)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:110)
+	at org.hibernate.engine.jdbc.internal.LogicalConnectionImpl.obtainConnection(LogicalConnectionImpl.java:304)
+	at org.hibernate.engine.jdbc.internal.LogicalConnectionImpl.getConnection(LogicalConnectionImpl.java:169)
+	at org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler.extractPhysicalConnection(ConnectionProxyHandler.java:82)
+	at org.hibernate.engine.jdbc.internal.proxy.ConnectionProxyHandler.continueInvocation(ConnectionProxyHandler.java:138)
+	at org.hibernate.engine.jdbc.internal.proxy.AbstractProxyHandler.invoke(AbstractProxyHandler.java:81)
+	at com.sun.proxy.$Proxy13.prepareStatement(Unknown Source)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl$5.doPrepare(StatementPreparerImpl.java:147)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl$StatementPreparationTemplate.prepareStatement(StatementPreparerImpl.java:166)
+	at org.hibernate.engine.jdbc.internal.StatementPreparerImpl.prepareQueryStatement(StatementPreparerImpl.java:145)
+	at org.hibernate.loader.Loader.prepareQueryStatement(Loader.java:1739)
+	at org.hibernate.loader.Loader.doQuery(Loader.java:828)
+	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:289)
+	at org.hibernate.loader.Loader.doList(Loader.java:2463)
+	at org.hibernate.loader.Loader.doList(Loader.java:2449)
+	at org.hibernate.loader.Loader.listIgnoreQueryCache(Loader.java:2279)
+	at org.hibernate.loader.Loader.list(Loader.java:2274)
+	at org.hibernate.loader.custom.CustomLoader.list(CustomLoader.java:331)
+	at org.hibernate.internal.SessionImpl.listCustomQuery(SessionImpl.java:1585)
+	at org.hibernate.internal.AbstractSessionImpl.list(AbstractSessionImpl.java:224)
+	at org.hibernate.internal.SQLQueryImpl.list(SQLQueryImpl.java:156)
+	at org.hibernate.ejb.QueryImpl.getResultList(QueryImpl.java:252)
+	... 4 more
+Caused by: java.sql.SQLException: Access denied for user 'root'@'localhost' (using password: NO)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:946)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:2985)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:885)
+	at com.mysql.jdbc.MysqlIO.secureAuth411(MysqlIO.java:3421)
+	at com.mysql.jdbc.MysqlIO.doHandshake(MysqlIO.java:1247)
+	at com.mysql.jdbc.Connection.createNewIO(Connection.java:2775)
+	at com.mysql.jdbc.Connection.<init>(Connection.java:1555)
+	at com.mysql.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:285)
+	at java.sql.DriverManager.getConnection(Unknown Source)
+	at java.sql.DriverManager.getConnection(Unknown Source)
+	at org.hibernate.service.jdbc.connections.internal.DriverManagerConnectionProviderImpl.getConnection(DriverManagerConnectionProviderImpl.java:173)
+	at org.hibernate.internal.AbstractSessionImpl$NonContextualJdbcConnectionAccess.obtainConnection(AbstractSessionImpl.java:276)
+	at org.hibernate.engine.jdbc.internal.LogicalConnectionImpl.obtainConnection(LogicalConnectionImpl.java:297)
+	... 24 more
+2015-12-23 18:45:48 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [1] company [119] pERatio [null] ask [61.41] bid [61.10] ebitda [14.05B] priceSales [1.27] priceEPSEstimateCurrentYear [14.25] priceEPSEstimateNextYear [11.92]
+2015-12-23 18:45:48 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [2] company [120] pERatio [null] ask [85.00] bid [84.86] ebitda [4.41B] priceSales [15.73] priceEPSEstimateCurrentYear [4.98] priceEPSEstimateNextYear [3.78]
+2015-12-23 18:45:48 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [3] company [121] pERatio [null] ask [34.77] bid [34.71] ebitda [33.94B] priceSales [1.52] priceEPSEstimateCurrentYear [12.88] priceEPSEstimateNextYear [12.29]
+2015-12-23 18:45:49 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [4] company [122] pERatio [null] ask [94.72] bid [94.00] ebitda [1.24B] priceSales [9.75] priceEPSEstimateCurrentYear [34.19] priceEPSEstimateNextYear [25.53]
+2015-12-23 18:45:49 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [5] company [123] pERatio [null] ask [110.080] bid [110.070] ebitda [5.22B] priceSales [0.633] priceEPSEstimateCurrentYear [14.599] priceEPSEstimateNextYear [13.606]
+2015-12-23 18:45:49 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [6] company [124] pERatio [null] ask [41.74] bid [41.63] ebitda [775.00M] priceSales [3.39] priceEPSEstimateCurrentYear [22.10] priceEPSEstimateNextYear [19.07]
+2015-12-23 18:46:13 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [7] company [125] pERatio [null] ask [58.47] bid [58.29] ebitda [8.74B] priceSales [6.04] priceEPSEstimateCurrentYear [20.79] priceEPSEstimateNextYear [19.09]
+2015-12-23 18:46:15 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [8] company [126] pERatio [null] ask [162.90] bid [162.01] ebitda [10.36B] priceSales [5.71] priceEPSEstimateCurrentYear [16.17] priceEPSEstimateNextYear [15.28]
+2015-12-23 18:46:16 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [9] company [127] pERatio [null] ask [59.80] bid [55.00] ebitda [1.29B] priceSales [5.09] priceEPSEstimateCurrentYear [17.06] priceEPSEstimateNextYear [15.52]
+2015-12-23 18:46:16 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [10] company [128] pERatio [null] ask [196.53] bid [195.62] ebitda [2.48B] priceSales [7.15] priceEPSEstimateCurrentYear [6.08] priceEPSEstimateNextYear [4.70]
+2015-12-23 18:46:16 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [11] company [129] pERatio [null] ask [144.02] bid [143.60] ebitda [9.91B] priceSales [0.98] priceEPSEstimateCurrentYear [17.46] priceEPSEstimateNextYear [15.28]
+2015-12-23 18:46:17 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [12] company [130] pERatio [null] ask [69.01] bid [68.80] ebitda [4.46B] priceSales [6.89] priceEPSEstimateCurrentYear [36.31] priceEPSEstimateNextYear [30.13]
+2015-12-23 18:46:17 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [13] company [131] pERatio [null] ask [58.00] bid [57.45] ebitda [1.99B] priceSales [4.12] priceEPSEstimateCurrentYear [20.46] priceEPSEstimateNextYear [19.49]
+2015-12-23 18:46:26 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [14] company [132] pERatio [null] ask [27.37] bid [27.30] ebitda [13.67B] priceSales [2.75] priceEPSEstimateCurrentYear [12.07] priceEPSEstimateNextYear [11.42]
+2015-12-23 18:46:36 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [15] company [133] pERatio [null] ask [69.80] bid [69.77] ebitda [7.84B] priceSales [0.79] priceEPSEstimateCurrentYear [15.23] priceEPSEstimateNextYear [19.47]
+2015-12-23 18:46:36 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [16] company [134] pERatio [null] ask [52.63] bid [52.60] ebitda [0.00] priceSales [2.25] priceEPSEstimateCurrentYear [9.55] priceEPSEstimateNextYear [9.15]
+2015-12-23 18:46:39 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [17] company [135] pERatio [null] ask [43.67] bid [43.35] ebitda [12.37B] priceSales [4.17] priceEPSEstimateCurrentYear [21.94] priceEPSEstimateNextYear [21.10]
+2015-12-23 18:46:39 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [18] company [136] pERatio [null] ask [57.50] bid [56.88] ebitda [24.54B] priceSales [1.92] priceEPSEstimateCurrentYear [17.43] priceEPSEstimateNextYear [15.62]
+2015-12-23 18:46:40 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [19] company [137] pERatio [null] ask [49.02] bid [48.82] ebitda [8.80B] priceSales [1.60] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null]
+2015-12-23 18:46:40 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [20] company [138] pERatio [null] ask [161.71] bid [161.20] ebitda [4.77B] priceSales [0.61] priceEPSEstimateCurrentYear [29.30] priceEPSEstimateNextYear [26.00]
+2015-12-23 18:46:40 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [21] company [139] pERatio [null] ask [null] bid [null] ebitda [0.00] priceSales [null] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null]
+2015-12-23 18:46:40 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [22] company [140] pERatio [null] ask [104.99] bid [104.85] ebitda [15.64B] priceSales [3.36] priceEPSEstimateCurrentYear [18.65] priceEPSEstimateNextYear [16.97]
+2015-12-23 18:46:41 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [23] company [141] pERatio [null] ask [66.04] bid [66.03] ebitda [5.53B] priceSales [1.76] priceEPSEstimateCurrentYear [23.84] priceEPSEstimateNextYear [20.51]
+2015-12-23 18:46:41 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [24] company [142] pERatio [null] ask [27.78] bid [27.42] ebitda [4.89B] priceSales [1.89] priceEPSEstimateCurrentYear [15.18] priceEPSEstimateNextYear [14.10]
+2015-12-23 18:46:41 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [25] company [143] pERatio [null] ask [80.12] bid [80.03] ebitda [37.45B] priceSales [1.23] priceEPSEstimateCurrentYear [20.46] priceEPSEstimateNextYear [21.73]
+2015-12-23 18:46:42 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [26] company [144] pERatio [null] ask [104.50] bid [104.35] ebitda [6.66B] priceSales [18.72] priceEPSEstimateCurrentYear [48.22] priceEPSEstimateNextYear [36.58]
+2015-12-23 18:46:42 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [27] company [145] pERatio [null] ask [66.50] bid [65.75] ebitda [842.35M] priceSales [1.80] priceEPSEstimateCurrentYear [14.90] priceEPSEstimateNextYear [15.87]
+2015-12-23 18:46:42 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [28] company [146] pERatio [null] ask [30.94] bid [30.90] ebitda [28.42B] priceSales [2.10] priceEPSEstimateCurrentYear [23.99] priceEPSEstimateNextYear [20.50]
+2015-12-23 18:46:54 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [29] company [148] pERatio [null] ask [182.94] bid [181.88] ebitda [0.00] priceSales [2.35] priceEPSEstimateCurrentYear [11.93] priceEPSEstimateNextYear [9.67]
+2015-12-23 18:47:24 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [30] company [149] pERatio [null] ask [35.50] bid [35.30] ebitda [4.88B] priceSales [1.07] priceEPSEstimateCurrentYear [23.79] priceEPSEstimateNextYear [31.94]
+2015-12-23 18:47:25 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [31] company [150] pERatio [null] ask [133.00] bid [132.89] ebitda [13.14B] priceSales [1.93] priceEPSEstimateCurrentYear [24.93] priceEPSEstimateNextYear [21.54]
+2015-12-23 18:47:25 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [32] company [151] pERatio [null] ask [104.96] bid [104.50] ebitda [7.22B] priceSales [2.07] priceEPSEstimateCurrentYear [17.21] priceEPSEstimateNextYear [15.98]
+2015-12-23 18:47:26 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [33] company [152] pERatio [null] ask [138.49] bid [138.01] ebitda [21.41B] priceSales [1.60] priceEPSEstimateCurrentYear [9.28] priceEPSEstimateNextYear [9.18]
+2015-12-23 18:47:26 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [34] company [153] pERatio [null] ask [35.00] bid [34.90] ebitda [23.32B] priceSales [2.97] priceEPSEstimateCurrentYear [15.70] priceEPSEstimateNextYear [14.77]
+2015-12-23 18:47:27 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [35] company [154] pERatio [null] ask [66.74] bid [66.57] ebitda [0.00] priceSales [2.71] priceEPSEstimateCurrentYear [11.25] priceEPSEstimateNextYear [10.73]
+2015-12-23 18:47:27 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [36] company [155] pERatio [null] ask [103.48] bid [103.01] ebitda [22.55B] priceSales [4.03] priceEPSEstimateCurrentYear [16.75] priceEPSEstimateNextYear [16.15]
+2015-12-23 18:47:27 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [37] company [156] pERatio [null] ask [54.28] bid [54.11] ebitda [2.50B] priceSales [2.32] priceEPSEstimateCurrentYear [66.21] priceEPSEstimateNextYear [23.92]
+2015-12-23 18:47:28 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [38] company [157] pERatio [null] ask [228.97] bid [228.01] ebitda [229.52M] priceSales [10.80] priceEPSEstimateCurrentYear [85.12] priceEPSEstimateNextYear [61.39]
+2015-12-23 18:47:28 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [39] company [158] pERatio [null] ask [76.16] bid [75.50] ebitda [6.95B] priceSales [1.18] priceEPSEstimateCurrentYear [22.94] priceEPSEstimateNextYear [19.18]
+2015-12-23 18:47:28 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [40] company [159] pERatio [null] ask [55.78] bid [55.73] ebitda [32.44B] priceSales [4.87] priceEPSEstimateCurrentYear [20.30] priceEPSEstimateNextYear [17.89]
+2015-12-23 18:47:28 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [41] company [160] pERatio [null] ask [118.80] bid [118.37] ebitda [8.91B] priceSales [4.22] priceEPSEstimateCurrentYear [24.34] priceEPSEstimateNextYear [22.25]
+2015-12-23 18:47:29 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [42] company [161] pERatio [null] ask [52.98] bid [52.81] ebitda [14.57B] priceSales [3.66] priceEPSEstimateCurrentYear [14.84] priceEPSEstimateNextYear [14.13]
+2015-12-23 18:47:29 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [43] company [162] pERatio [null] ask [14.28] bid [14.25] ebitda [5.65B] priceSales [0.94] priceEPSEstimateCurrentYear [11.44] priceEPSEstimateNextYear [6.47]
+2015-12-23 18:47:29 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [44] company [163] pERatio [null] ask [32.57] bid [32.49] ebitda [0.00] priceSales [1.76] priceEPSEstimateCurrentYear [13.36] priceEPSEstimateNextYear [10.35]
+2015-12-23 18:47:30 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [45] company [164] pERatio [null] ask [69.37] bid [68.25] ebitda [1.26B] priceSales [2.08] priceEPSEstimateCurrentYear [20.91] priceEPSEstimateNextYear [17.61]
+2015-12-23 18:47:30 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [46] company [165] pERatio [null] ask [62.62] bid [52.77] ebitda [219.37M] priceSales [3.24] priceEPSEstimateCurrentYear [18.54] priceEPSEstimateNextYear [16.91]
+2015-12-23 18:47:30 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [47] company [166] pERatio [null] ask [36.94] bid [36.93] ebitda [15.21B] priceSales [4.10] priceEPSEstimateCurrentYear [14.20] priceEPSEstimateNextYear [13.10]
+2015-12-23 18:47:31 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [48] company [167] pERatio [null] ask [32.62] bid [32.52] ebitda [19.48B] priceSales [4.19] priceEPSEstimateCurrentYear [14.94] priceEPSEstimateNextYear [13.80]
+2015-12-23 18:47:31 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [49] company [168] pERatio [null] ask [38.71] bid [38.10] ebitda [3.78B] priceSales [0.68] priceEPSEstimateCurrentYear [10.53] priceEPSEstimateNextYear [9.85]
+2015-12-23 18:47:31 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [50] company [169] pERatio [null] ask [100.64] bid [100.01] ebitda [12.10B] priceSales [2.26] priceEPSEstimateCurrentYear [22.07] priceEPSEstimateNextYear [20.75]
+2015-12-23 18:47:32 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [51] company [170] pERatio [null] ask [49.04] bid [48.52] ebitda [8.67B] priceSales [2.92] priceEPSEstimateCurrentYear [11.76] priceEPSEstimateNextYear [9.97]
+2015-12-23 18:47:33 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [52] company [171] pERatio [null] ask [24.63] bid [24.13] ebitda [6.84B] priceSales [0.45] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null]
+2015-12-23 18:47:33 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [53] company [172] pERatio [null] ask [75.99] bid [74.70] ebitda [1.48B] priceSales [2.60] priceEPSEstimateCurrentYear [23.16] priceEPSEstimateNextYear [20.23]
+2015-12-23 18:47:34 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [54] company [173] pERatio [null] ask [60.34] bid [60.13] ebitda [4.30B] priceSales [4.65] priceEPSEstimateCurrentYear [31.93] priceEPSEstimateNextYear [27.68]
+2015-12-23 18:47:35 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [55] company [174] pERatio [null] ask [229.98] bid [229.11] ebitda [-184.29M] priceSales [7.95] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [126.91]
+2015-12-23 18:47:35 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [56] company [175] pERatio [null] ask [67.00] bid [65.13] ebitda [6.55B] priceSales [2.81] priceEPSEstimateCurrentYear [12.18] priceEPSEstimateNextYear [11.32]
+2015-12-23 18:47:36 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [57] company [176] pERatio [null] ask [73.65] bid [73.43] ebitda [7.41B] priceSales [0.61] priceEPSEstimateCurrentYear [15.47] priceEPSEstimateNextYear [14.16]
+2015-12-23 18:47:36 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [58] company [177] pERatio [null] ask [15.21] bid [11.81] ebitda [984.95M] priceSales [0.30] priceEPSEstimateCurrentYear [17.77] priceEPSEstimateNextYear [6.76]
+2015-12-23 18:47:36 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [59] company [178] pERatio [null] ask [19.67] bid [19.60] ebitda [0.00] priceSales [2.36] priceEPSEstimateCurrentYear [12.94] priceEPSEstimateNextYear [12.53]
+2015-12-23 18:47:37 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [60] company [179] pERatio [null] ask [96.30] bid [95.71] ebitda [11.57B] priceSales [1.32] priceEPSEstimateCurrentYear [15.36] priceEPSEstimateNextYear [14.66]
+2015-12-23 18:47:37 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [61] company [180] pERatio [null] ask [71.81] bid [71.31] ebitda [9.28B] priceSales [0.36] priceEPSEstimateCurrentYear [8.27] priceEPSEstimateNextYear [9.53]
+2015-12-23 18:47:37 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [62] company [181] pERatio [null] ask [78.56] bid [78.02] ebitda [9.32B] priceSales [13.55] priceEPSEstimateCurrentYear [27.28] priceEPSEstimateNextYear [23.45]
+2015-12-23 18:47:37 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [63] company [182] pERatio [null] ask [61.09] bid [60.75] ebitda [34.73B] priceSales [0.40] priceEPSEstimateCurrentYear [13.40] priceEPSEstimateNextYear [14.65]
+2015-12-23 18:47:38 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [64] company [183] pERatio [null] ask [55.03] bid [54.88] ebitda [0.00] priceSales [3.31] priceEPSEstimateCurrentYear [13.26] priceEPSEstimateNextYear [12.45]
+2015-12-23 18:47:38 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [65] company [184] pERatio [null] ask [8.79] bid [8.66] ebitda [679.00M] priceSales [0.10] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null]
+2015-12-23 18:47:38 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [66] company [185] pERatio [null] ask [34.80] bid [34.44] ebitda [477.08M] priceSales [6.53] priceEPSEstimateCurrentYear [58.39] priceEPSEstimateNextYear [60.44]
+2015-12-23 18:47:39 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [67] company [186] pERatio [null] ask [750.31] bid [746.25] ebitda [23.30B] priceSales [7.19] priceEPSEstimateCurrentYear [25.88] priceEPSEstimateNextYear [21.99]
+2015-12-23 18:47:39 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
+ id [68] company [187] pERatio [null] ask [1.21] bid [1.20] ebitda [-17.44M] priceSales [1.38] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null]

@@ -13,11 +13,14 @@ import javax.persistence.Persistence;
 import org.apache.log4j.Logger;
 
 import com.wireless.soft.indices.cfd.business.entities.Company;
+import com.wireless.soft.indices.cfd.business.entities.FundamentalHistoryCompany;
 import com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany;
 import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnIndexYahooFinanceObject;
 import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnIndexYahooFinanceObject.List.Resources;
 import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnIndexYahooFinanceObject.List.Resources.Resource;
 import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnIndexYahooFinanceObject.List.Resources.Resource.Fields;
+import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnYahooFinanceQuoteObject;
+import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnYahooFinanceQuoteObject.Query.Results.Quote;
 import com.wireless.soft.indices.cfd.exception.BusinessException;
 import com.wireless.soft.indices.cfd.util.UtilSession;
 
@@ -217,6 +220,56 @@ public class AdminEntity {
 
 		return cReturn;
 
+	}
+	
+	
+	/**
+	 * @param rf
+	 * @param cmp
+	 */
+	public void persistirCompaniesFundamental(ReturnYahooFinanceQuoteObject rf, Company cmp){
+		
+		this.tx.begin();
+		
+		if (null != rf && null != rf.getQuery()
+			&& null != rf.getQuery().getResults()
+			&& null != rf.getQuery().getResults().getQuote()){
+			
+
+			Quote q = rf.getQuery().getResults().getQuote();
+				if (null != q ){
+				try {
+
+					FundamentalHistoryCompany fhc = new FundamentalHistoryCompany();
+					fhc.setCompany(cmp.getId());
+					fhc.setFechaCreacion(Calendar.getInstance());
+					fhc.setpERatio(q.getPERatio());
+					fhc.setAsk(q.getAsk());
+					fhc.setBid(q.getBid());
+					fhc.setEbitda(q.getEBITDA());
+					fhc.setPriceEPSEstimateCurrentYear(q.getPriceEPSEstimateCurrentYear());
+					fhc.setPriceEPSEstimateNextYear(q.getPriceEPSEstimateNextYear());
+					fhc.setPriceSales(q.getPriceSales());
+					
+					fhc.setPEGRatio(q.getPEGRatio());
+					
+					em.persist(fhc);
+					this.em.flush();
+					_logger.info("Persistio.." + fhc.toString());
+				}
+					catch(Exception e){
+						e.printStackTrace();
+					}
+					
+				}
+
+			
+			
+		}
+		
+		
+		
+	    this.tx.commit();	
 	}
 
 

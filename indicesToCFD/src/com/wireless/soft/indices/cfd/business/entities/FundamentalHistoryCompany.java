@@ -84,6 +84,8 @@ public class FundamentalHistoryCompany implements Serializable{
     
     @Column(name = "PriceEPSEstimateNextYear", nullable = true)
     private String priceEPSEstimateNextYear;
+    
+    PEGRatio
 
     
     // ////////////////////////////////////////////////////////////////////////

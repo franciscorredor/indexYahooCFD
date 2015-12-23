@@ -113,6 +113,20 @@ public class ReturnYahooFinanceQuoteObject implements Serializable {
 
 		public class Results{
 			
+			/**
+			 * @return the quote
+			 */
+			public Quote getQuote() {
+				return quote;
+			}
+
+			/**
+			 * @param quote the quote to set
+			 */
+			public void setQuote(Quote quote) {
+				this.quote = quote;
+			}
+
 			private Quote quote;
 			
 			public class Quote{
@@ -123,6 +137,8 @@ public class ReturnYahooFinanceQuoteObject implements Serializable {
 				private String PriceEPSEstimateCurrentYear;
 				private String PriceEPSEstimateNextYear;
 				private String Ask;
+				
+				PEGRatio
 
 				/**
 				 * @return the pERatio

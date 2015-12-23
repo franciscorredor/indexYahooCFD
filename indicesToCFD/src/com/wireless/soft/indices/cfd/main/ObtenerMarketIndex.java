@@ -325,6 +325,16 @@ public class ObtenerMarketIndex {
     }
     
     /**
+     * @throws BusinessException
+     * @throws IOException 
+     */
+    private  void persistirCompaniesFundamental(ReturnYahooFinanceQuoteObject rf, Company cmp) throws BusinessException, IOException{
+    	
+    	admEnt.persistirCompaniesFundamental(rf, cmp);
+    	
+    }
+    
+    /**
      * Imprime si el mercado esta en Bull o Bear
      * @throws Exception 
      * @throws BusinessException 
@@ -457,15 +467,14 @@ public class ObtenerMarketIndex {
 						&& cmp.getUrlIndex().length() > 3){
 				
 				ReturnYahooFinanceQuoteObject ri = this.executeYahooIndexQuote(cmp.getUrlQuote());
-				//TODO	
-				//this.persistirCompaniesQuotes(ri, cmp);
+				//Persiste en loa BD	
+				this.persistirCompaniesFundamental(ri, cmp);
 				System.out.println("ReturnYahooFinanceQuoteObject: " + ri.toString());
 				
 				}
 			}
 
 			
-		
     	
     	
     }
