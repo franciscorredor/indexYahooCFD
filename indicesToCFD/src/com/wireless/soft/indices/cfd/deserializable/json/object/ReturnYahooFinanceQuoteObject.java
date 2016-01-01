@@ -137,8 +137,9 @@ public class ReturnYahooFinanceQuoteObject implements Serializable {
 				private String PriceEPSEstimateCurrentYear;
 				private String PriceEPSEstimateNextYear;
 				private String Ask;
-				
-				PEGRatio
+				private String PEGRatio;
+				private String MarketCapitalization;
+				private String MarketCapRealtime;
 
 				/**
 				 * @return the pERatio
@@ -200,6 +201,48 @@ public class ReturnYahooFinanceQuoteObject implements Serializable {
 
 				public void setAsk(String ask) {
 					Ask = ask;
+				}
+
+				/**
+				 * @return the pEGRatio
+				 */
+				public String getPEGRatio() {
+					return PEGRatio;
+				}
+
+				/**
+				 * @param pEGRatio the pEGRatio to set
+				 */
+				public void setPEGRatio(String pEGRatio) {
+					PEGRatio = pEGRatio;
+				}
+
+				/**
+				 * @return the marketCapitalization
+				 */
+				public String getMarketCapitalization() {
+					return MarketCapitalization;
+				}
+
+				/**
+				 * @param marketCapitalization the marketCapitalization to set
+				 */
+				public void setMarketCapitalization(String marketCapitalization) {
+					MarketCapitalization = marketCapitalization;
+				}
+
+				/**
+				 * @return the marketCapRealtime
+				 */
+				public String getMarketCapRealtime() {
+					return MarketCapRealtime;
+				}
+
+				/**
+				 * @param marketCapRealtime the marketCapRealtime to set
+				 */
+				public void setMarketCapRealtime(String marketCapRealtime) {
+					MarketCapRealtime = marketCapRealtime;
 				}
 
 				@Override

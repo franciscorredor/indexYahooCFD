@@ -91,4 +91,11 @@ CREATE TABLE `indexyahoocfd`.`iyc_fundamental_company_history` (
 `PriceSales` VARCHAR(1000),
 `PriceEPSEstimateCurrentYear` VARCHAR(1000),
 `PriceEPSEstimateNextYear` VARCHAR(1000),
+`PEGRatio` VARCHAR(1000),
+`MarketCapitalization` VARCHAR(1000),
+`MarketCapRealtime` VARCHAR(1000),
 PRIMARY KEY (`FCH_CODIGO`));
+
+--Alter Table sample
+--alter table `indexyahoocfd`.`iyc_fundamental_company_history`
+--ADD Column `MarketCapRealtime` VARCHAR(1000)

@@ -36,6 +36,13 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	
 	private Calendar fechaIteracion2;
 	
+	/**
+	 * 
+	 */
+	private double peRatio;
+	
+	private String Capitalization;
+	
 
 	/**
 	 * @return the idCompany
@@ -121,12 +128,15 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	 */
 	public double getNotaPonderada() {
 		
-		float calificacionVariable1 = (float)  0.61; 
-		float calificacionVariable2 = (float)  0.39;
-		//55%  precio
-		//45% volumen
+		float calificacionVariable1 = (float)  0.40; 
+		float calificacionVariable2 = (float)  0.10;
+		float calificacionVariable3 = (float)  0.50;
+		//40%  precio
+		//10% volumen
+		//50% PERatio
 		this.notaPonderada =  this.pricePercentageincrement  * calificacionVariable1
-							+ this.volumePercentageIncrement  * calificacionVariable2; 
+							+ this.volumePercentageIncrement  * calificacionVariable2
+							+ this.peRatio  * calificacionVariable3; 
 		
 		return notaPonderada;
 	}
@@ -195,6 +205,34 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	}
 
 	/**
+	 * @return the peRatio
+	 */
+	public double getPeRatio() {
+		return peRatio;
+	}
+
+	/**
+	 * @param peRatio the peRatio to set
+	 */
+	public void setPeRatio(double peRatio) {
+		this.peRatio = peRatio;
+	}
+
+	/**
+	 * @return the capitalization
+	 */
+	public String getCapitalization() {
+		return Capitalization;
+	}
+
+	/**
+	 * @param capitalization the capitalization to set
+	 */
+	public void setCapitalization(String capitalization) {
+		Capitalization = capitalization;
+	}
+
+	/**
 	 * @param compareCR
 	 * @return
 	 * Compara Ponderado y volumen
@@ -208,59 +246,15 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 
 		
 		int value1 = 0;
-		int value2 = 0;
 		try{
 		int comparePonderado = (int) ((CompanyRanking) compareCR).getNotaPonderada();
-		int compareQuantity = (int) ((CompanyRanking) compareCR).getVolumePercentageIncrement();
 		int evaluarNotaPonderada = (int) this.getNotaPonderada();
-		int _volumePercentageIncrement = (int)this.volumePercentageIncrement;
 		
-//		if (comparePonderado > 100 ){
-//			comparePonderado = 100;
-//			System.out.println(this.companyName + "1");
-//		}
-//		if (comparePonderado < -100 ){
-//			comparePonderado = -100;
-//			System.out.println(this.companyName + "2");
-//		}
-//		if (compareQuantity > 100){
-//			compareQuantity = 100;
-//			System.out.println(this.companyName + "3");
-//		}
-//		if (compareQuantity < -100){
-//			compareQuantity = -100;
-//			System.out.println(this.companyName + "4");
-//		}
-//		if (evaluarNotaPonderada > 100){
-//			evaluarNotaPonderada = 100;
-//			System.out.println(this.companyName + "5");
-//		}
-//		if (evaluarNotaPonderada < -100){
-//			evaluarNotaPonderada = -100;
-//			System.out.println(this.companyName + "6");
-//		}
-//		if (_volumePercentageIncrement > 100){
-//			_volumePercentageIncrement = 100;
-//			System.out.println(this.companyName + "7");
-//		}
-//		if (_volumePercentageIncrement < -100){
-//			_volumePercentageIncrement = -100;
-//			System.out.println(this.companyName + "8");
-//		}
-			
 		
 		
 		value1 = (int) ((int) comparePonderado - evaluarNotaPonderada);
-		value2 = (int) ((int) compareQuantity - _volumePercentageIncrement);
 		
-		//System.out.println(this.companyName+"|"+comparePonderado +"|"+ this.getNotaPonderada() +"|"+compareQuantity+"|"+this.volumePercentageIncrement);
-		
-		//ascending order
-		//return (int) this.volumePercentageIncrement - compareQuantity;
-		
-		//descending order
-		
-		return value1 + value2;
+		return value1;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -285,7 +279,8 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	s.append(" isPriceBetweenHighLow [" + this.isPriceBetweenHighLow() + "]");
 	s.append("\n fechaIteracion1 [" +  UtilGeneral.printFormat(this.fechaIteracion1, "yyyy-MM-dd HH:mm:ss")  + "]"); 
 	s.append(" fechaIteracion2 [" + UtilGeneral.printFormat(this.fechaIteracion2, "yyyy-MM-dd HH:mm:ss")  + "]");
-
+	s.append(" Capitalization [" + this.Capitalization + "]");
+	s.append(" peRatio [" + this.peRatio + "]");
 	return s.toString();
     }
 	

@@ -5,6 +5,7 @@
 	<persistence-unit name="entityManager">
 		<class>com.wireless.soft.indices.cfd.business.entities.Company</class>
 		<class>com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany</class>
+		<class>com.wireless.soft.indices.cfd.business.entities.FundamentalHistoryCompany</class>
 
 
 		<properties>

@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -25,6 +27,14 @@ import javax.persistence.Table;
 		@NamedQuery(name = "findAllFundamentalHistory", query = "SELECT s FROM FundamentalHistoryCompany s ORDER BY s.id"),
 		@NamedQuery(name = "findFundamentalHistoryByCompany", query = "SELECT s FROM QuoteHistoryCompany s WHERE s.company = :company ORDER BY s.id desc ")
 					})
+@NamedNativeQueries({
+	@NamedNativeQuery(name = "findLastIteracionFundamentalHistoryByCompany", query = "SELECT	0 as id, FCH_CODIGO, SCN_CODIGO as company, SCN_CODIGO, FCH_FECHA_CREACION as fechaCreacion, FCH_FECHA_CREACION, PERatio, Bid, Ask, EBITDA, PriceSales, PriceEPSEstimateCurrentYear, PriceEPSEstimateNextYear, PEGRatio, MarketCapitalization, MarketCapRealtime "+
+																			"	FROM		indexyahoocfd.iyc_fundamental_company_history fundamentalhisto0_ "+
+																			"	WHERE	SCN_CODIGO = :company "+
+																			"	AND		FCH_FECHA_CREACION between  DATE_SUB(NOW(), INTERVAL 1 DAY)  AND NOW() "+  
+																			"	ORDER	by FCH_FECHA_CREACION desc "+
+																			"	LIMIT 1 ", resultClass = FundamentalHistoryCompany.class)
+ })
 @Entity
 @Table(name = "indexyahoocfd.iyc_fundamental_company_history")
 public class FundamentalHistoryCompany implements Serializable{
@@ -42,6 +52,8 @@ public class FundamentalHistoryCompany implements Serializable{
     public static final String FIND_ALL_FUNDAMENTAL_HISTORY = "findAllFundamentalHistory";
     /** */
     public static final String FIND_FUNDAMENTAL_HISTORY_BYCOMPANY = "findFundamentalHistoryByCompany";
+    
+    public static final String FIND_LAST_FUNDAMENTAL_ITERACION_BYCOMPANY = "findLastIteracionFundamentalHistoryByCompany";
 
 
 	
@@ -85,7 +97,15 @@ public class FundamentalHistoryCompany implements Serializable{
     @Column(name = "PriceEPSEstimateNextYear", nullable = true)
     private String priceEPSEstimateNextYear;
     
-    PEGRatio
+    @Column(name = "PEGRatio", nullable = true)
+    private String PEGRatio;
+    
+    @Column(name = "MarketCapitalization", nullable = true)
+    private String MarketCapitalization;
+    
+    @Column(name = "MarketCapRealtime", nullable = true)
+	private String MarketCapRealtime;
+    
 
     
     // ////////////////////////////////////////////////////////////////////////
@@ -231,6 +251,48 @@ public class FundamentalHistoryCompany implements Serializable{
 		this.priceEPSEstimateNextYear = priceEPSEstimateNextYear;
 	}
     
+	/**
+	 * @return the pEGRatio
+	 */
+	public String getPEGRatio() {
+		return PEGRatio;
+	}
+
+	/**
+	 * @param pEGRatio the pEGRatio to set
+	 */
+	public void setPEGRatio(String pEGRatio) {
+		PEGRatio = pEGRatio;
+	}
+
+	/**
+	 * @return the marketCapitalization
+	 */
+	public String getMarketCapitalization() {
+		return MarketCapitalization;
+	}
+
+	/**
+	 * @param marketCapitalization the marketCapitalization to set
+	 */
+	public void setMarketCapitalization(String marketCapitalization) {
+		MarketCapitalization = marketCapitalization;
+	}
+
+	/**
+	 * @return the marketCapRealtime
+	 */
+	public String getMarketCapRealtime() {
+		return MarketCapRealtime;
+	}
+
+	/**
+	 * @param marketCapRealtime the marketCapRealtime to set
+	 */
+	public void setMarketCapRealtime(String marketCapRealtime) {
+		MarketCapRealtime = marketCapRealtime;
+	}
+
 	@Override
     public String toString() {
 	StringBuffer s = new StringBuffer();
@@ -243,6 +305,9 @@ public class FundamentalHistoryCompany implements Serializable{
 	s.append(" priceSales [" + this.priceSales + "]");
 	s.append(" priceEPSEstimateCurrentYear [" + this.priceEPSEstimateCurrentYear + "]");
 	s.append(" priceEPSEstimateNextYear [" + this.priceEPSEstimateNextYear + "]");
+	s.append(" PEGRatio [" + this.PEGRatio + "]");
+	s.append(" MarketCapitalization [" + this.MarketCapitalization + "]");
+	s.append(" MarketCapRealtime [" + this.MarketCapRealtime + "]");
 
 	return s.toString();
     }

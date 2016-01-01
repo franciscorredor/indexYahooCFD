@@ -18,6 +18,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.wireless.soft.indices.cfd.business.adm.AdminEntity;
 import com.wireless.soft.indices.cfd.business.entities.Company;
+import com.wireless.soft.indices.cfd.business.entities.FundamentalHistoryCompany;
 import com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany;
 import com.wireless.soft.indices.cfd.collections.CompanyRanking;
 import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnIndexYahooFinanceObject;
@@ -94,6 +95,7 @@ public class ObtenerMarketIndex {
 			switch (accion){
 			case "0":
 				System.out.println("\n Persiste info de las compañias, consultando de yahoo");
+				omi.printPERatio();
 				omi.printCompanies();
 				omi.printOBV(argumento2, cortePorcentajePonderado);
 				break;
@@ -246,13 +248,18 @@ public class ObtenerMarketIndex {
 				List<Object> listIdxCompany = admEnt.getCompIdxQuote(cmp);
 				Object tmp[] = listIdxCompany.toArray();
 				if (null != tmp && tmp.length > 1) {
-//TODO --> Realizar comparación con el primer regitro del dia
+					//TODO --> Realizar comparación con el primer regitro del dia
 					QuoteHistoryCompany qhcBefore = (QuoteHistoryCompany) tmp[numIteracionAntes == null ? 1 : numIteracionAntes];
 					QuoteHistoryCompany qhcNow = (QuoteHistoryCompany) tmp[0];
 					Double valueBeforePrice = Double.valueOf(qhcBefore.getPrice());
 					Double valueNowPrice = Double.valueOf(qhcNow.getPrice());
 					Double valueBeforeVolume = Double.valueOf(qhcBefore.getVolume());
 					Double valueNowVolume = Double.valueOf(qhcNow.getVolume());
+					
+					//Obtencion de PE ratio by company
+					FundamentalHistoryCompany fc = admEnt.getLastFundamentalRecord(cmp);
+					Double PERatio = Double.valueOf(fc.getpERatio()!=null?fc.getpERatio():"-1" );
+					//System.out.println("Company{"+cmp.getName()+"} PERatio{"+PERatio+"}");
 
 					/*
 					 * TODO Calcular cuanto porcentaje subio y dar un ponderado
@@ -266,10 +273,17 @@ public class ObtenerMarketIndex {
 					 * las compañias que estan cumplienod con el // *
 					 * calculo/estrategia definida en el algoritmo! adicionar la
 					 * variable /indice P/e usando http://jsoup.org/
+					 * 2015Dec24--> Tener en cuenta el laboratorio de analisis fundamental realizado {https://drive.google.com/drive/u/0/folders/0BwJXnohKnxjbfmNJV2NsYm4zT1Zqb0VlUC1zaUlfcjRaM2VIX1E2WmZ6cU1MN1J2WWJhTGs}
 					 */
 					if (valueNowPrice > valueBeforePrice
 					// && UtilMath.isPriceBetweenHighLow(qhcNow.getPrice(), qhcNow.getDay_high(), qhcNow.getDay_low())
+						&& (PERatio > 0 && PERatio <= 17 )	
 					) {
+						//Obtine las compañias q tienen un volumen superior!
+						//TODO obtner la media y dar mas calificación a los valores que esten 
+						//    dentro mas cerca a la media
+						//Realizar pruebas con la información que tiene en la BD
+						//Idea01: 27Dec2015 --> De la BD sacar la media
 						if ((((valueNowVolume * 100) / valueBeforeVolume) - 100) > 0) {
 
 							CompanyRanking addAR = new CompanyRanking();
@@ -283,6 +297,8 @@ public class ObtenerMarketIndex {
 							addAR.setDayHigh(Double.valueOf(qhcNow.getDay_high()));
 							addAR.setFechaIteracion1(qhcBefore.getFechaCreacion());
 							addAR.setFechaIteracion2(qhcNow.getFechaCreacion());
+							addAR.setPeRatio(PERatio);
+							addAR.setCapitalization(fc.getMarketCapitalization());
 							cr.add(addAR);
 						}
 
@@ -469,14 +485,24 @@ public class ObtenerMarketIndex {
 				ReturnYahooFinanceQuoteObject ri = this.executeYahooIndexQuote(cmp.getUrlQuote());
 				//Persiste en loa BD	
 				this.persistirCompaniesFundamental(ri, cmp);
-				System.out.println("ReturnYahooFinanceQuoteObject: " + ri.toString());
+				//System.out.println("ReturnYahooFinanceQuoteObject: " + ri.toString());
 				
 				}
 			}
-
+			System.out.println("Persistio el analisis fundamental");
 			
     	
     	
     }
+	
+	TODO: --> REalizar algoritmo cuando el precio este bajando , recuerde el laboratiorio q realizo con internet y q tiene q 
+	comprar barato para vender caro. En el ponderado evaluar cuanto a disminuido el precio.
+	
+	/*
+	 * Obtine el indicador, para saber que tan costosa o overbuy esta la accion
+	 */
+	private void relativeStrengthIndex(){
+		obtener el historico de 14 dias o iteraciones!
+	}
 
 }

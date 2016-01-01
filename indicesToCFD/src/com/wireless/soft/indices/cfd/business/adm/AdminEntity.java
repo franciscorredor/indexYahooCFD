@@ -250,12 +250,13 @@ public class AdminEntity {
 					fhc.setPriceEPSEstimateCurrentYear(q.getPriceEPSEstimateCurrentYear());
 					fhc.setPriceEPSEstimateNextYear(q.getPriceEPSEstimateNextYear());
 					fhc.setPriceSales(q.getPriceSales());
-					
+					fhc.setMarketCapitalization(q.getMarketCapitalization());
+					fhc.setMarketCapRealtime(q.getMarketCapRealtime());
 					fhc.setPEGRatio(q.getPEGRatio());
 					
 					em.persist(fhc);
 					this.em.flush();
-					_logger.info("Persistio.." + fhc.toString());
+					//_logger.info("Persistio.." + fhc.toString());
 				}
 					catch(Exception e){
 						e.printStackTrace();
@@ -270,6 +271,32 @@ public class AdminEntity {
 		
 		
 	    this.tx.commit();	
+	}
+	
+	
+	/**
+	 * Retorna el ultimo registro del analisis fundamental
+	 * @param cmp
+	 * @return
+	 * @throws Exception
+	 */
+	public FundamentalHistoryCompany getLastFundamentalRecord(Company cmp) throws Exception {
+
+		FundamentalHistoryCompany fhcReturn = null;
+
+		Hashtable<String, Object> param = new Hashtable<String, Object>();
+		param.put("company", cmp.getId());
+		List<Object> listFtlCompany = UtilSession.getObjectsByNamedQuery(em,
+				FundamentalHistoryCompany.FIND_LAST_FUNDAMENTAL_ITERACION_BYCOMPANY, param);
+		if (null != listFtlCompany && listFtlCompany.size() > 0) {
+			for (Object object : listFtlCompany) {
+				fhcReturn = (FundamentalHistoryCompany) object;
+				break;
+			}
+		}
+
+		return fhcReturn;
+
 	}
 
 

@@ -2813,3 +2813,183 @@ Caused by: java.sql.SQLException: Access denied for user 'root'@'localhost' (usi
  id [67] company [186] pERatio [null] ask [750.31] bid [746.25] ebitda [23.30B] priceSales [7.19] priceEPSEstimateCurrentYear [25.88] priceEPSEstimateNextYear [21.99]
 2015-12-23 18:47:39 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [256] persistirCompaniesFundamental - Persistio..
  id [68] company [187] pERatio [null] ask [1.21] bid [1.20] ebitda [-17.44M] priceSales [1.38] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null]
+2015-12-24 02:37:44 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [1] company [119] pERatio [null] ask [1094.00] bid [1092.00] ebitda [44.83M] priceSales [472.31] priceEPSEstimateCurrentYear [25.50] priceEPSEstimateNextYear [22.81] PEGRatio [1.48]
+2015-12-24 02:37:45 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [2] company [120] pERatio [null] ask [3677.00] bid [3510.00] ebitda [112.40M] priceSales [2157.90] priceEPSEstimateCurrentYear [55.31] priceEPSEstimateNextYear [49.04] PEGRatio [4.01]
+2015-12-24 02:37:45 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [3] company [121] pERatio [null] ask [278.50] bid [278.00] ebitda [45.70M] priceSales [197.39] priceEPSEstimateCurrentYear [18.53] priceEPSEstimateNextYear [17.60] PEGRatio [2.34]
+2015-12-24 02:37:46 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [4] company [122] pERatio [null] ask [3.90] bid [3.90] ebitda [0.00] priceSales [null] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null] PEGRatio [0.00]
+2015-12-24 02:37:47 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [5] company [123] pERatio [null] ask [null] bid [null] ebitda [null] priceSales [null] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null] PEGRatio [null]
+2015-12-24 02:37:48 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [6] company [124] pERatio [null] ask [2525.00] bid [2350.00] ebitda [110.30M] priceSales [422.52] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null] PEGRatio [0.00]
+2015-12-24 02:37:48 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [7] company [125] pERatio [null] ask [425.50] bid [395.00] ebitda [762.10M] priceSales [173.02] priceEPSEstimateCurrentYear [12.69] priceEPSEstimateNextYear [14.64] PEGRatio [1.31]
+2015-12-24 02:37:49 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [8] company [126] pERatio [null] ask [500.00] bid [497.60] ebitda [0.00] priceSales [null] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null] PEGRatio [0.00]
+2015-12-24 02:37:50 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [9] company [127] pERatio [null] ask [null] bid [null] ebitda [null] priceSales [null] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null] PEGRatio [null]
+2015-12-24 02:37:50 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [10] company [128] pERatio [null] ask [null] bid [null] ebitda [0.00] priceSales [null] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null] PEGRatio [0.00]
+2015-12-24 02:37:51 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [11] company [129] pERatio [null] ask [null] bid [null] ebitda [null] priceSales [null] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null] PEGRatio [null]
+2015-12-24 02:37:51 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [12] company [130] pERatio [null] ask [803.0000] bid [798.5000] ebitda [0.00] priceSales [null] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null] PEGRatio [0.0000]
+2015-12-24 02:37:52 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [13] company [131] pERatio [null] ask [325.00] bid [250.70] ebitda [245.90M] priceSales [33.25] priceEPSEstimateCurrentYear [20.54] priceEPSEstimateNextYear [50.16] PEGRatio [-0.47]
+2015-12-24 02:37:53 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [14] company [132] pERatio [null] ask [225.25] bid [224.75] ebitda [0.00] priceSales [null] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null] PEGRatio [0.00]
+2015-12-24 02:37:53 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [15] company [133] pERatio [null] ask [204.25] bid [203.75] ebitda [0.00] priceSales [null] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null] PEGRatio [0.00]
+2015-12-24 02:37:54 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [16] company [134] pERatio [null] ask [946.50] bid [899.50] ebitda [142.90M] priceSales [229.17] priceEPSEstimateCurrentYear [18.95] priceEPSEstimateNextYear [17.37] PEGRatio [2.20]
+2015-12-24 02:37:54 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [17] company [135] pERatio [null] ask [71.25] bid [70.75] ebitda [465999.00] priceSales [393.28] priceEPSEstimateCurrentYear [182.05] priceEPSEstimateNextYear [144.90] PEGRatio [0.00]
+2015-12-24 02:37:55 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [18] company [136] pERatio [null] ask [null] bid [null] ebitda [null] priceSales [null] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null] PEGRatio [null]
+2015-12-24 02:37:56 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [19] company [137] pERatio [null] ask [null] bid [null] ebitda [null] priceSales [null] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null] PEGRatio [null]
+2015-12-24 02:37:56 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [20] company [138] pERatio [null] ask [208.60] bid [208.40] ebitda [138.70M] priceSales [391.92] priceEPSEstimateCurrentYear [7.48] priceEPSEstimateNextYear [6.12] PEGRatio [1.06]
+2015-12-24 02:37:57 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [21] company [139] pERatio [null] ask [218.00] bid [211.75] ebitda [14.96M] priceSales [1196.48] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null] PEGRatio [0.00]
+2015-12-24 02:37:57 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [22] company [140] pERatio [null] ask [null] bid [null] ebitda [null] priceSales [null] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null] PEGRatio [null]
+2015-12-24 02:42:43 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [23] company [119] pERatio [17.94] ask [61.41] bid [61.10] ebitda [14.05B] priceSales [1.27] priceEPSEstimateCurrentYear [14.25] priceEPSEstimateNextYear [11.92] PEGRatio [1.41]
+2015-12-24 02:42:44 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [24] company [120] pERatio [22.74] ask [84.95] bid [84.90] ebitda [4.41B] priceSales [15.73] priceEPSEstimateCurrentYear [4.98] priceEPSEstimateNextYear [3.78] PEGRatio [1.31]
+2015-12-24 02:42:44 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [25] company [121] pERatio [36.57] ask [34.84] bid [34.73] ebitda [33.94B] priceSales [1.52] priceEPSEstimateCurrentYear [12.88] priceEPSEstimateNextYear [12.29] PEGRatio [2.18]
+2015-12-24 02:42:45 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [26] company [122] pERatio [76.37] ask [94.75] bid [90.45] ebitda [1.24B] priceSales [9.75] priceEPSEstimateCurrentYear [34.19] priceEPSEstimateNextYear [25.53] PEGRatio [1.03]
+2015-12-24 02:42:45 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [27] company [123] pERatio [16.880] ask [110.160] bid [101.400] ebitda [5.22B] priceSales [0.633] priceEPSEstimateCurrentYear [14.599] priceEPSEstimateNextYear [13.606] PEGRatio [1.460]
+2015-12-24 02:42:46 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [28] company [124] pERatio [35.10] ask [41.74] bid [41.63] ebitda [775.00M] priceSales [3.39] priceEPSEstimateCurrentYear [22.10] priceEPSEstimateNextYear [19.07] PEGRatio [2.00]
+2015-12-24 02:42:46 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [29] company [125] pERatio [21.98] ask [58.40] bid [58.04] ebitda [8.74B] priceSales [6.04] priceEPSEstimateCurrentYear [20.79] priceEPSEstimateNextYear [19.09] PEGRatio [2.40]
+2015-12-24 02:42:47 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [30] company [126] pERatio [19.42] ask [162.90] bid [157.51] ebitda [10.36B] priceSales [5.71] priceEPSEstimateCurrentYear [16.17] priceEPSEstimateNextYear [15.28] PEGRatio [1.60]
+2015-12-24 02:42:48 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [31] company [127] pERatio [25.67] ask [61.00] bid [55.00] ebitda [1.29B] priceSales [5.09] priceEPSEstimateCurrentYear [17.06] priceEPSEstimateNextYear [15.52] PEGRatio [1.69]
+2015-12-24 02:42:48 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [32] company [128] pERatio [37.61] ask [197.19] bid [195.62] ebitda [2.48B] priceSales [7.15] priceEPSEstimateCurrentYear [6.08] priceEPSEstimateNextYear [4.70] PEGRatio [2.55]
+2015-12-24 02:42:49 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [33] company [129] pERatio [18.13] ask [144.02] bid [143.60] ebitda [9.91B] priceSales [0.98] priceEPSEstimateCurrentYear [17.46] priceEPSEstimateNextYear [15.28] PEGRatio [1.69]
+2015-12-24 02:42:50 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [34] company [130] pERatio [64.96] ask [69.01] bid [68.80] ebitda [4.46B] priceSales [6.89] priceEPSEstimateCurrentYear [36.31] priceEPSEstimateNextYear [30.13] PEGRatio [1.87]
+2015-12-24 02:42:50 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [35] company [131] pERatio [25.26] ask [58.00] bid [57.45] ebitda [1.99B] priceSales [4.12] priceEPSEstimateCurrentYear [20.46] priceEPSEstimateNextYear [19.49] PEGRatio [2.96]
+2015-12-24 02:42:51 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [36] company [132] pERatio [14.57] ask [27.42] bid [27.20] ebitda [13.67B] priceSales [2.75] priceEPSEstimateCurrentYear [12.07] priceEPSEstimateNextYear [11.42] PEGRatio [1.25]
+2015-12-24 02:42:52 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [37] company [133] pERatio [14.40] ask [69.80] bid [69.77] ebitda [7.84B] priceSales [0.79] priceEPSEstimateCurrentYear [15.23] priceEPSEstimateNextYear [19.47] PEGRatio [11.12]
+2015-12-24 02:42:52 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [38] company [134] pERatio [11.88] ask [52.63] bid [52.60] ebitda [0.00] priceSales [2.25] priceEPSEstimateCurrentYear [9.55] priceEPSEstimateNextYear [9.15] PEGRatio [0.28]
+2015-12-24 02:42:53 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [39] company [135] pERatio [27.85] ask [43.67] bid [43.36] ebitda [12.37B] priceSales [4.17] priceEPSEstimateCurrentYear [21.94] priceEPSEstimateNextYear [21.10] PEGRatio [7.63]
+2015-12-24 02:42:53 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [40] company [136] pERatio [17.93] ask [57.57] bid [56.65] ebitda [24.54B] priceSales [1.92] priceEPSEstimateCurrentYear [17.43] priceEPSEstimateNextYear [15.62] PEGRatio [1.33]
+2015-12-24 02:42:54 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [41] company [137] pERatio [null] ask [49.02] bid [48.82] ebitda [8.80B] priceSales [1.60] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null] PEGRatio [2.99]
+2015-12-24 02:42:55 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [42] company [138] pERatio [30.28] ask [162.50] bid [161.20] ebitda [4.77B] priceSales [0.61] priceEPSEstimateCurrentYear [29.30] priceEPSEstimateNextYear [26.00] PEGRatio [3.53]
+2015-12-24 02:42:55 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [43] company [139] pERatio [null] ask [null] bid [null] ebitda [0.00] priceSales [null] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null] PEGRatio [0.00]
+2015-12-24 02:42:56 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [44] company [140] pERatio [21.54] ask [105.25] bid [104.92] ebitda [15.64B] priceSales [3.36] priceEPSEstimateCurrentYear [18.65] priceEPSEstimateNextYear [16.97] PEGRatio [1.49]
+2015-12-24 02:42:57 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [45] company [141] pERatio [20.86] ask [66.04] bid [66.03] ebitda [5.53B] priceSales [1.76] priceEPSEstimateCurrentYear [23.84] priceEPSEstimateNextYear [20.51] PEGRatio [11.13]
+2015-12-24 02:42:57 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [46] company [142] pERatio [15.11] ask [28.35] bid [27.68] ebitda [4.89B] priceSales [1.89] priceEPSEstimateCurrentYear [15.18] priceEPSEstimateNextYear [14.10] PEGRatio [1.97]
+2015-12-24 02:42:58 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [47] company [143] pERatio [16.94] ask [80.12] bid [80.04] ebitda [37.45B] priceSales [1.23] priceEPSEstimateCurrentYear [20.46] priceEPSEstimateNextYear [21.73] PEGRatio [-2.09]
+2015-12-24 02:42:58 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [48] company [144] pERatio [105.05] ask [104.50] bid [104.26] ebitda [6.66B] priceSales [18.72] priceEPSEstimateCurrentYear [48.22] priceEPSEstimateNextYear [36.58] PEGRatio [1.64]
+2015-12-24 02:42:59 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [49] company [145] pERatio [11.67] ask [66.50] bid [65.75] ebitda [842.35M] priceSales [1.80] priceEPSEstimateCurrentYear [14.90] priceEPSEstimateNextYear [15.87] PEGRatio [-2.46]
+2015-12-24 02:43:00 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [50] company [146] pERatio [null] ask [30.95] bid [30.90] ebitda [28.42B] priceSales [2.10] priceEPSEstimateCurrentYear [23.99] priceEPSEstimateNextYear [20.50] PEGRatio [3.15]
+2015-12-24 02:43:00 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [51] company [148] pERatio [12.02] ask [182.93] bid [182.41] ebitda [0.00] priceSales [2.35] priceEPSEstimateCurrentYear [11.93] priceEPSEstimateNextYear [9.67] PEGRatio [1.81]
+2015-12-24 02:43:01 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [52] company [149] pERatio [117.38] ask [35.70] bid [35.21] ebitda [4.88B] priceSales [1.07] priceEPSEstimateCurrentYear [23.79] priceEPSEstimateNextYear [31.94] PEGRatio [-3.38]
+2015-12-24 02:43:02 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [53] company [150] pERatio [24.97] ask [133.00] bid [132.89] ebitda [13.14B] priceSales [1.93] priceEPSEstimateCurrentYear [24.93] priceEPSEstimateNextYear [21.54] PEGRatio [1.72]
+2015-12-24 02:43:02 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [54] company [151] pERatio [18.39] ask [104.96] bid [104.50] ebitda [7.22B] priceSales [2.07] priceEPSEstimateCurrentYear [17.21] priceEPSEstimateNextYear [15.98] PEGRatio [1.80]
+2015-12-24 02:43:03 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [55] company [152] pERatio [9.64] ask [139.31] bid [138.17] ebitda [21.41B] priceSales [1.60] priceEPSEstimateCurrentYear [9.28] priceEPSEstimateNextYear [9.18] PEGRatio [1.25]
+2015-12-24 02:43:04 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [56] company [153] pERatio [15.05] ask [35.00] bid [34.86] ebitda [23.32B] priceSales [2.97] priceEPSEstimateCurrentYear [15.70] priceEPSEstimateNextYear [14.77] PEGRatio [1.89]
+2015-12-24 02:43:04 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [57] company [154] pERatio [11.35] ask [66.73] bid [66.64] ebitda [0.00] priceSales [2.71] priceEPSEstimateCurrentYear [11.25] priceEPSEstimateNextYear [10.73] PEGRatio [1.35]
+2015-12-24 02:43:05 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [58] company [155] pERatio [19.86] ask [103.48] bid [103.01] ebitda [22.55B] priceSales [4.03] priceEPSEstimateCurrentYear [16.75] priceEPSEstimateNextYear [16.15] PEGRatio [3.10]
+2015-12-24 02:43:05 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [59] company [156] pERatio [107.08] ask [54.28] bid [54.11] ebitda [2.50B] priceSales [2.32] priceEPSEstimateCurrentYear [66.21] priceEPSEstimateNextYear [23.92] PEGRatio [1.34]
+2015-12-24 02:43:06 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [60] company [157] pERatio [null] ask [230.80] bid [225.00] ebitda [229.52M] priceSales [10.80] priceEPSEstimateCurrentYear [85.12] priceEPSEstimateNextYear [61.39] PEGRatio [2.18]
+2015-12-24 02:43:07 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [61] company [158] pERatio [24.16] ask [76.99] bid [75.54] ebitda [6.95B] priceSales [1.18] priceEPSEstimateCurrentYear [22.94] priceEPSEstimateNextYear [19.18] PEGRatio [1.33]
+2015-12-24 02:43:07 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [62] company [159] pERatio [37.11] ask [55.85] bid [55.73] ebitda [32.44B] priceSales [4.87] priceEPSEstimateCurrentYear [20.30] priceEPSEstimateNextYear [17.89] PEGRatio [2.20]
+2015-12-24 02:43:08 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [63] company [160] pERatio [25.73] ask [118.80] bid [118.37] ebitda [8.91B] priceSales [4.22] priceEPSEstimateCurrentYear [24.34] priceEPSEstimateNextYear [22.25] PEGRatio [2.93]
+2015-12-24 02:43:09 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [64] company [161] pERatio [14.06] ask [53.00] bid [52.80] ebitda [14.57B] priceSales [3.66] priceEPSEstimateCurrentYear [14.84] priceEPSEstimateNextYear [14.13] PEGRatio [3.82]
+2015-12-24 02:43:09 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [65] company [162] pERatio [5.78] ask [14.35] bid [14.25] ebitda [5.65B] priceSales [0.94] priceEPSEstimateCurrentYear [11.44] priceEPSEstimateNextYear [6.47] PEGRatio [11.69]
+2015-12-24 02:43:10 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [66] company [163] pERatio [20.09] ask [32.57] bid [32.49] ebitda [0.00] priceSales [1.76] priceEPSEstimateCurrentYear [13.36] priceEPSEstimateNextYear [10.35] PEGRatio [0.82]
+2015-12-24 02:43:10 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [67] company [164] pERatio [27.67] ask [69.37] bid [68.25] ebitda [1.26B] priceSales [2.08] priceEPSEstimateCurrentYear [20.91] priceEPSEstimateNextYear [17.61] PEGRatio [2.04]
+2015-12-24 02:43:11 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [68] company [165] pERatio [14.05] ask [66.30] bid [52.09] ebitda [219.37M] priceSales [3.24] priceEPSEstimateCurrentYear [18.54] priceEPSEstimateNextYear [16.91] PEGRatio [1.81]
+2015-12-24 02:43:12 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [69] company [166] pERatio [17.81] ask [37.00] bid [36.90] ebitda [15.21B] priceSales [4.10] priceEPSEstimateCurrentYear [14.20] priceEPSEstimateNextYear [13.10] PEGRatio [1.77]
+2015-12-24 02:43:12 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [70] company [167] pERatio [24.44] ask [32.65] bid [32.55] ebitda [19.48B] priceSales [4.19] priceEPSEstimateCurrentYear [14.94] priceEPSEstimateNextYear [13.80] PEGRatio [3.39]
+2015-12-24 02:43:13 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [71] company [168] pERatio [18.20] ask [38.71] bid [38.10] ebitda [3.78B] priceSales [0.68] priceEPSEstimateCurrentYear [10.53] priceEPSEstimateNextYear [9.85] PEGRatio [0.78]
+2015-12-24 02:43:14 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [72] company [169] pERatio [29.86] ask [100.64] bid [100.01] ebitda [12.10B] priceSales [2.26] priceEPSEstimateCurrentYear [22.07] priceEPSEstimateNextYear [20.75] PEGRatio [3.54]
+2015-12-24 02:43:14 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [73] company [170] pERatio [15.23] ask [49.85] bid [48.57] ebitda [8.67B] priceSales [2.92] priceEPSEstimateCurrentYear [11.76] priceEPSEstimateNextYear [9.97] PEGRatio [1.02]
+2015-12-24 02:43:15 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [74] company [171] pERatio [35.99] ask [24.63] bid [24.13] ebitda [6.84B] priceSales [0.45] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null] PEGRatio [0.00]
+2015-12-24 02:43:16 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [75] company [172] pERatio [36.38] ask [77.80] bid [74.70] ebitda [1.48B] priceSales [2.60] priceEPSEstimateCurrentYear [23.16] priceEPSEstimateNextYear [20.23] PEGRatio [-11.08]
+2015-12-24 02:43:16 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [76] company [173] pERatio [33.15] ask [60.38] bid [60.13] ebitda [4.30B] priceSales [4.65] priceEPSEstimateCurrentYear [31.93] priceEPSEstimateNextYear [27.68] PEGRatio [1.77]
+2015-12-24 02:43:17 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [77] company [174] pERatio [null] ask [230.50] bid [229.11] ebitda [-184.29M] priceSales [7.95] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [126.91] PEGRatio [-1.80]
+2015-12-24 02:43:17 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [78] company [175] pERatio [32.09] ask [67.00] bid [65.13] ebitda [6.55B] priceSales [2.81] priceEPSEstimateCurrentYear [12.18] priceEPSEstimateNextYear [11.32] PEGRatio [1.86]
+2015-12-24 02:43:18 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [79] company [176] pERatio [null] ask [74.00] bid [73.31] ebitda [7.41B] priceSales [0.61] priceEPSEstimateCurrentYear [15.47] priceEPSEstimateNextYear [14.16] PEGRatio [1.46]
+2015-12-24 02:43:19 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [80] company [177] pERatio [13.60] ask [15.21] bid [11.81] ebitda [984.95M] priceSales [0.30] priceEPSEstimateCurrentYear [17.77] priceEPSEstimateNextYear [6.76] PEGRatio [9.12]
+2015-12-24 02:43:19 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [81] company [178] pERatio [11.94] ask [19.67] bid [19.60] ebitda [0.00] priceSales [2.36] priceEPSEstimateCurrentYear [12.94] priceEPSEstimateNextYear [12.53] PEGRatio [0.81]
+2015-12-24 02:43:20 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [82] company [179] pERatio [14.88] ask [96.30] bid [95.70] ebitda [11.57B] priceSales [1.32] priceEPSEstimateCurrentYear [15.36] priceEPSEstimateNextYear [14.66] PEGRatio [1.44]
+2015-12-24 02:43:20 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [83] company [180] pERatio [7.55] ask [71.82] bid [71.50] ebitda [9.28B] priceSales [0.36] priceEPSEstimateCurrentYear [8.27] priceEPSEstimateNextYear [9.53] PEGRatio [0.71]
+2015-12-24 02:43:21 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [84] company [181] pERatio [30.29] ask [78.56] bid [78.02] ebitda [9.32B] priceSales [13.55] priceEPSEstimateCurrentYear [27.28] priceEPSEstimateNextYear [23.45] PEGRatio [1.68]
+2015-12-24 02:43:22 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [85] company [182] pERatio [13.08] ask [61.15] bid [61.10] ebitda [34.73B] priceSales [0.40] priceEPSEstimateCurrentYear [13.40] priceEPSEstimateNextYear [14.65] PEGRatio [11.07]
+2015-12-24 02:43:22 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [86] company [183] pERatio [13.29] ask [55.03] bid [54.88] ebitda [0.00] priceSales [3.31] priceEPSEstimateCurrentYear [13.26] priceEPSEstimateNextYear [12.45] PEGRatio [1.51]
+2015-12-24 02:43:23 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [87] company [184] pERatio [null] ask [8.70] bid [8.66] ebitda [679.00M] priceSales [0.10] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null] PEGRatio [0.16]
+2015-12-24 02:43:23 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [88] company [185] pERatio [137.80] ask [34.53] bid [33.00] ebitda [477.08M] priceSales [6.53] priceEPSEstimateCurrentYear [58.39] priceEPSEstimateNextYear [60.44] PEGRatio [-1.83]
+2015-12-24 02:43:24 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [89] company [186] pERatio [31.63] ask [750.31] bid [748.00] ebitda [23.30B] priceSales [7.19] priceEPSEstimateCurrentYear [25.88] priceEPSEstimateNextYear [21.99] PEGRatio [1.51]
+2015-12-24 02:43:25 [main] INFO  com.wireless.soft.indices.cfd.business.adm.AdminEntity [257] persistirCompaniesFundamental - Persistio..
+ id [90] company [187] pERatio [null] ask [1.66] bid [1.17] ebitda [-17.44M] priceSales [1.38] priceEPSEstimateCurrentYear [null] priceEPSEstimateNextYear [null] PEGRatio [-0.33]
