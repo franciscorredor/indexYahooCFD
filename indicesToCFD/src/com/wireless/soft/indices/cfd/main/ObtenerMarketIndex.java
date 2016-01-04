@@ -1,6 +1,8 @@
 package com.wireless.soft.indices.cfd.main;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Hashtable;
@@ -34,6 +36,9 @@ import com.wireless.soft.indices.cfd.util.UtilSession;
  * TODO
  * Conseguir BD en la nube y realizar lógica de negocio en CLOUD
  */
+
+enum Evalua {ZERO, ONE, TWO, THREE}
+
 public class ObtenerMarketIndex {
 	
 	// ////////////////////////////////////////////////////////////////////////
@@ -43,6 +48,8 @@ public class ObtenerMarketIndex {
     private final Gson gson = this.createGson();
     
     private AdminEntity admEnt = null;
+    
+    
     
     public ObtenerMarketIndex(){
     	admEnt = new AdminEntity();
@@ -97,11 +104,25 @@ public class ObtenerMarketIndex {
 				System.out.println("\n Persiste info de las compañias, consultando de yahoo");
 				omi.printPERatio();
 				omi.printCompanies();
-				omi.printOBV(argumento2, cortePorcentajePonderado);
+				System.out.println("Precio accion menor = & % volumen menor = a cero!");
+				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.ZERO);
+				System.out.println("Precio accion menor = & % volumen mayor a cero!");
+				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.ONE);
+				System.out.println("Precio accion mayor & % volumen <= a cero!");
+				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.TWO);
+				System.out.println("Precio accion mayor & % volumen mayor a cero!");
+				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.THREE);
 				break;
 			case "1":
 				System.out.println("\n Imprime el indicador OBV");
-				omi.printOBV(argumento2, cortePorcentajePonderado);
+				System.out.println("Precio accion menor = & % volumen menor = a cero!");
+				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.ZERO);
+				System.out.println("Precio accion menor = & % volumen mayor a cero!");
+				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.ONE);
+				System.out.println("Precio accion mayor & % volumen <= a cero!");
+				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.TWO);
+				System.out.println("Precio accion mayor & % volumen mayor a cero!");
+				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.THREE);
 				break;
 			case "2":
 				System.out.println("\n Indica si el mecado esta en Bull o Bear");
@@ -241,9 +262,16 @@ public class ObtenerMarketIndex {
      * @throws Exception 
      */
 	private void printOBV(Integer numIteracionAntes,
-			Integer cortePorcentajePonderado) {
+			Integer cortePorcentajePonderado, Evalua ev) {
 		List<CompanyRanking> cr = new LinkedList<CompanyRanking>();
+		List<Double> lstMediaSearch = new ArrayList<Double>();
 		try {
+				/*
+				 * 0 --> Accion disminuye, volumen disminuye
+				 * 1 --> Accion disminuye, volumen aumenta
+				 * 2 --> Accion aumenta, volumen disminuye
+				 * 3 --> Accion aumenta, volumen aumenta
+				 */
 			for (Company cmp : admEnt.getCompanies()) {
 				List<Object> listIdxCompany = admEnt.getCompIdxQuote(cmp);
 				Object tmp[] = listIdxCompany.toArray();
@@ -251,10 +279,9 @@ public class ObtenerMarketIndex {
 					//TODO --> Realizar comparación con el primer regitro del dia
 					QuoteHistoryCompany qhcBefore = (QuoteHistoryCompany) tmp[numIteracionAntes == null ? 1 : numIteracionAntes];
 					QuoteHistoryCompany qhcNow = (QuoteHistoryCompany) tmp[0];
-					Double valueBeforePrice = Double.valueOf(qhcBefore.getPrice());
-					Double valueNowPrice = Double.valueOf(qhcNow.getPrice());
-					Double valueBeforeVolume = Double.valueOf(qhcBefore.getVolume());
+					
 					Double valueNowVolume = Double.valueOf(qhcNow.getVolume());
+					lstMediaSearch.add(valueNowVolume);
 					
 					//Obtencion de PE ratio by company
 					FundamentalHistoryCompany fc = admEnt.getLastFundamentalRecord(cmp);
@@ -275,37 +302,57 @@ public class ObtenerMarketIndex {
 					 * variable /indice P/e usando http://jsoup.org/
 					 * 2015Dec24--> Tener en cuenta el laboratorio de analisis fundamental realizado {https://drive.google.com/drive/u/0/folders/0BwJXnohKnxjbfmNJV2NsYm4zT1Zqb0VlUC1zaUlfcjRaM2VIX1E2WmZ6cU1MN1J2WWJhTGs}
 					 */
-					if (valueNowPrice > valueBeforePrice
-					// && UtilMath.isPriceBetweenHighLow(qhcNow.getPrice(), qhcNow.getDay_high(), qhcNow.getDay_low())
-						&& (PERatio > 0 && PERatio <= 17 )	
-					) {
-						//Obtine las compañias q tienen un volumen superior!
-						//TODO obtner la media y dar mas calificación a los valores que esten 
-						//    dentro mas cerca a la media
-						//Realizar pruebas con la información que tiene en la BD
-						//Idea01: 27Dec2015 --> De la BD sacar la media
-						if ((((valueNowVolume * 100) / valueBeforeVolume) - 100) > 0) {
+					if ((PERatio > 0 && PERatio <= 17)) {
+						
+						CompanyRanking addAR = null;
 
-							CompanyRanking addAR = new CompanyRanking();
-							addAR.setCompanyName(cmp.getName());
-							addAR.setIdCompany(cmp.getId());
-							addAR.setOBV((valueBeforeVolume + valueNowVolume));
-							addAR.setVolumePercentageIncrement((((valueNowVolume * 100) / valueBeforeVolume) - 100));
-							addAR.setPricePercentageincrement((((valueNowPrice * 100) / valueBeforePrice) - 100));
-							addAR.setDayLow(Double.valueOf(qhcNow.getDay_low()));
-							addAR.setPrecioEvaluado(valueNowPrice);
-							addAR.setDayHigh(Double.valueOf(qhcNow.getDay_high()));
-							addAR.setFechaIteracion1(qhcBefore.getFechaCreacion());
-							addAR.setFechaIteracion2(qhcNow.getFechaCreacion());
+						/*
+						 * Variable valor --> A Variable volumen --> B 
+						 * A B 
+						 * 0 0	==0 Evalua.ZERO 
+						 * 0 1 	==1 Evalua.ONE 
+						 * 1 0 	==2 Evalua.TWO
+						 * 1 1 	==3 Evalua.THREE
+						 */
+						//Evalua ev = Evalua.THREE;
+						switch (ev) {
+						case THREE:
+							addAR = evalua03(qhcBefore, qhcNow, cmp);
+							break;
+						case TWO:
+							addAR = evalua02(qhcBefore, qhcNow, cmp);
+							break;
+						case ONE:
+							addAR = evalua01(qhcBefore, qhcNow, cmp);
+							break;
+						case ZERO:
+							addAR = evalua00(qhcBefore, qhcNow, cmp);
+							break;
+						default:
+							break;
+
+						}
+						
+						if (null != addAR){
 							addAR.setPeRatio(PERatio);
 							addAR.setCapitalization(fc.getMarketCapitalization());
 							cr.add(addAR);
 						}
+						
+						
 
-					}
+					}//END --> PERatio validation
+										
+				
+
 
 				}
-			}
+				
+				
+			}//END --> for companies
+			
+			//Imprime la media
+			UtilGeneral.imprimirMedia(lstMediaSearch);
 
 			// Imprime Arreglo ordenado
 			Collections.sort(cr);
@@ -442,6 +489,7 @@ public class ObtenerMarketIndex {
 			addAR.setPricePercentageincrement((((valueNowPrice * 100) / valueBeforePrice) - 100));
 			addAR.setDayLow(Double.valueOf(qhcNow.getDay_low()));
 			addAR.setPrecioEvaluado(valueNowPrice);
+			addAR.setVolumenEvaluado(valueNowPrice);
 			addAR.setDayHigh(Double.valueOf(qhcNow.getDay_high()));
 			addAR.setFechaIteracion1(qhcBefore.getFechaCreacion());
 			addAR.setFechaIteracion2(qhcNow.getFechaCreacion());
@@ -495,14 +543,209 @@ public class ObtenerMarketIndex {
     	
     }
 	
-	TODO: --> REalizar algoritmo cuando el precio este bajando , recuerde el laboratiorio q realizo con internet y q tiene q 
-	comprar barato para vender caro. En el ponderado evaluar cuanto a disminuido el precio.
+	//TODO: --> REalizar algoritmo cuando el precio este bajando , recuerde el laboratiorio q realizo con internet y q tiene q 
+	//comprar barato para vender caro. En el ponderado evaluar cuanto a disminuido el precio.
+	
+	/**
+	 * @param qhcBefore
+	 * @param qhcNow
+	 * @param cmp
+	 * @return
+	 * Evalua e = Evalua.ZERO;
+	 * System.out.println("Precio accion menor = & % volumen menor = a cero!");
+	 */
+	private CompanyRanking evalua00(QuoteHistoryCompany qhcBefore, QuoteHistoryCompany qhcNow, Company cmp){
+		
+		
+		CompanyRanking addAR = null;
+		
+		Double valueBeforePrice = Double.valueOf(qhcBefore.getPrice());
+		Double valueNowPrice = Double.valueOf(qhcNow.getPrice());
+		Double valueBeforeVolume = Double.valueOf(qhcBefore.getVolume());
+		Double valueNowVolume = Double.valueOf(qhcNow.getVolume());
+		
+		
+		if (valueNowPrice <= valueBeforePrice){
+			//Obtine las compañias q tienen un volumen superior!
+			//TODO obtner la media y dar mas calificación a los valores que esten 
+			//    dentro mas cerca a la media
+			//Realizar pruebas con la información que tiene en la BD
+			//Idea01: 27Dec2015 --> De la BD sacar la media
+			if ((((valueNowVolume * 100) / valueBeforeVolume) - 100) <= 0) {
+
+				addAR = new CompanyRanking();
+				addAR.setCompanyName(cmp.getName());
+				addAR.setIdCompany(cmp.getId());
+				addAR.setOBV((valueBeforeVolume + valueNowVolume));
+				addAR.setVolumePercentageIncrement((((valueNowVolume * 100) / valueBeforeVolume) - 100));
+				addAR.setPricePercentageincrement((((valueNowPrice * 100) / valueBeforePrice) - 100));
+				addAR.setDayLow(Double.valueOf(qhcNow.getDay_low()));
+				addAR.setPrecioEvaluado(valueNowPrice);
+				addAR.setVolumenEvaluado(valueNowVolume);
+				addAR.setDayHigh(Double.valueOf(qhcNow.getDay_high()));
+				addAR.setFechaIteracion1(qhcBefore.getFechaCreacion());
+				addAR.setFechaIteracion2(qhcNow.getFechaCreacion());
+			}
+
+		}
+		
+		return addAR;
+		
+	}
+	
+	/**
+	 * @param qhcBefore
+	 * @param qhcNow
+	 * @param cmp
+	 * @return
+	 * Evalua e = Evalua.ONE;
+	 * System.out.println("Precio accion menor = & % volumen mayor a cero!");
+	 */
+	private CompanyRanking evalua01(QuoteHistoryCompany qhcBefore, QuoteHistoryCompany qhcNow, Company cmp){
+		
+		
+		CompanyRanking addAR = null;
+		
+		Double valueBeforePrice = Double.valueOf(qhcBefore.getPrice());
+		Double valueNowPrice = Double.valueOf(qhcNow.getPrice());
+		Double valueBeforeVolume = Double.valueOf(qhcBefore.getVolume());
+		Double valueNowVolume = Double.valueOf(qhcNow.getVolume());
+		
+		
+		if (valueNowPrice <= valueBeforePrice){
+			//Obtine las compañias q tienen un volumen superior!
+			//TODO obtner la media y dar mas calificación a los valores que esten 
+			//    dentro mas cerca a la media
+			//Realizar pruebas con la información que tiene en la BD
+			//Idea01: 27Dec2015 --> De la BD sacar la media
+			if ((((valueNowVolume * 100) / valueBeforeVolume) - 100) > 0) {
+
+				addAR = new CompanyRanking();
+				addAR.setCompanyName(cmp.getName());
+				addAR.setIdCompany(cmp.getId());
+				addAR.setOBV((valueBeforeVolume + valueNowVolume));
+				addAR.setVolumePercentageIncrement((((valueNowVolume * 100) / valueBeforeVolume) - 100));
+				addAR.setPricePercentageincrement((((valueNowPrice * 100) / valueBeforePrice) - 100));
+				addAR.setDayLow(Double.valueOf(qhcNow.getDay_low()));
+				addAR.setPrecioEvaluado(valueNowPrice);
+				addAR.setVolumenEvaluado(valueNowVolume);
+				addAR.setDayHigh(Double.valueOf(qhcNow.getDay_high()));
+				addAR.setFechaIteracion1(qhcBefore.getFechaCreacion());
+				addAR.setFechaIteracion2(qhcNow.getFechaCreacion());
+			}
+
+		}
+		
+		return addAR;
+		
+	}
+	
+	/**
+	 * @param qhcBefore
+	 * @param qhcNow
+	 * @param cmp
+	 * @return
+	 * Evalua e = Evalua.TWO;
+	 * System.out.println("Precio accion mayor & % volumen <= a cero!");
+	 */
+	private CompanyRanking evalua02(QuoteHistoryCompany qhcBefore, QuoteHistoryCompany qhcNow, Company cmp){
+		
+		
+		CompanyRanking addAR = null;
+		
+		Double valueBeforePrice = Double.valueOf(qhcBefore.getPrice());
+		Double valueNowPrice = Double.valueOf(qhcNow.getPrice());
+		Double valueBeforeVolume = Double.valueOf(qhcBefore.getVolume());
+		Double valueNowVolume = Double.valueOf(qhcNow.getVolume());
+		
+		
+		if (valueNowPrice > valueBeforePrice){
+			//Obtine las compañias q tienen un volumen superior!
+			//TODO obtner la media y dar mas calificación a los valores que esten 
+			//    dentro mas cerca a la media
+			//Realizar pruebas con la información que tiene en la BD
+			//Idea01: 27Dec2015 --> De la BD sacar la media
+			if ((((valueNowVolume * 100) / valueBeforeVolume) - 100) <= 0) {
+
+				addAR = new CompanyRanking();
+				addAR.setCompanyName(cmp.getName());
+				addAR.setIdCompany(cmp.getId());
+				addAR.setOBV((valueBeforeVolume + valueNowVolume));
+				addAR.setVolumePercentageIncrement((((valueNowVolume * 100) / valueBeforeVolume) - 100));
+				addAR.setPricePercentageincrement((((valueNowPrice * 100) / valueBeforePrice) - 100));
+				addAR.setDayLow(Double.valueOf(qhcNow.getDay_low()));
+				addAR.setPrecioEvaluado(valueNowPrice);
+				addAR.setVolumenEvaluado(valueNowVolume);
+				addAR.setDayHigh(Double.valueOf(qhcNow.getDay_high()));
+				addAR.setFechaIteracion1(qhcBefore.getFechaCreacion());
+				addAR.setFechaIteracion2(qhcNow.getFechaCreacion());
+			}
+
+		}
+		
+		return addAR;
+		
+	}
+	
+	/**
+	 * @param qhcBefore
+	 * @param qhcNow
+	 * @param cmp
+	 * @return
+	 * Evalua e = Evalua.THREE;
+	 * System.out.println("Precio accion mayor & % volumen mayor a cero!");
+	 */
+	private CompanyRanking evalua03(QuoteHistoryCompany qhcBefore, QuoteHistoryCompany qhcNow, Company cmp){
+		
+		
+		CompanyRanking addAR = null;
+		
+		Double valueBeforePrice = Double.valueOf(qhcBefore.getPrice());
+		Double valueNowPrice = Double.valueOf(qhcNow.getPrice());
+		Double valueBeforeVolume = Double.valueOf(qhcBefore.getVolume());
+		Double valueNowVolume = Double.valueOf(qhcNow.getVolume());
+		
+		
+		if (valueNowPrice > valueBeforePrice){
+			//Obtine las compañias q tienen un volumen superior!
+			//TODO obtner la media y dar mas calificación a los valores que esten 
+			//    dentro mas cerca a la media
+			//Realizar pruebas con la información que tiene en la BD
+			//Idea01: 27Dec2015 --> De la BD sacar la media
+			if ((((valueNowVolume * 100) / valueBeforeVolume) - 100) > 0) {
+
+				addAR = new CompanyRanking();
+				addAR.setCompanyName(cmp.getName());
+				addAR.setIdCompany(cmp.getId());
+				addAR.setOBV((valueBeforeVolume + valueNowVolume));
+				addAR.setVolumePercentageIncrement((((valueNowVolume * 100) / valueBeforeVolume) - 100));
+				addAR.setPricePercentageincrement((((valueNowPrice * 100) / valueBeforePrice) - 100));
+				addAR.setDayLow(Double.valueOf(qhcNow.getDay_low()));
+				addAR.setPrecioEvaluado(valueNowPrice);
+				addAR.setVolumenEvaluado(valueNowVolume);
+				addAR.setDayHigh(Double.valueOf(qhcNow.getDay_high()));
+				addAR.setFechaIteracion1(qhcBefore.getFechaCreacion());
+				addAR.setFechaIteracion2(qhcNow.getFechaCreacion());
+			}
+
+		}
+		
+		return addAR;
+		
+	}
+
+
+
 	
 	/*
+	 * TODO
 	 * Obtine el indicador, para saber que tan costosa o overbuy esta la accion
 	 */
 	private void relativeStrengthIndex(){
-		obtener el historico de 14 dias o iteraciones!
+		//obtener el historico de 14 dias o iteraciones!
+		System.out.println("obtener el historico de 14 dias o iteraciones!");
 	}
+	
+
 
 }

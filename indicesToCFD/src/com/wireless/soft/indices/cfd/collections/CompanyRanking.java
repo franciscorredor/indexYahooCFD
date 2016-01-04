@@ -27,6 +27,7 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	private double notaPonderada;
 	
 	private double precioEvaluado;
+	private double volumenEvaluado;
 	
 	private double dayHigh;
 	
@@ -42,6 +43,8 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	private double peRatio;
 	
 	private String Capitalization;
+	
+	
 	
 
 	/**
@@ -114,6 +117,20 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	
 	public double getPrecioEvaluado() {
 		return this.precioEvaluado;
+	}
+
+	/**
+	 * @return the volumenEvaluado
+	 */
+	public double getVolumenEvaluado() {
+		return volumenEvaluado;
+	}
+
+	/**
+	 * @param volumenEvaluado the volumenEvaluado to set
+	 */
+	public void setVolumenEvaluado(double volumenEvaluado) {
+		this.volumenEvaluado = volumenEvaluado;
 	}
 
 	/**
@@ -274,6 +291,7 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	s.append(" volumePercentageIncrement [" + UtilGeneral.printNumberFormat(this.volumePercentageIncrement, "###.###") + "]");
 	s.append("\n notaPonderada [" + this.getNotaPonderada() + "]");
 	s.append(" precioEvaluado [" + this.precioEvaluado + "]");
+	s.append(" volumenEvaluado [" + this.volumenEvaluado + "]");
 	s.append(" dayHigh [" + this.dayHigh + "]");
 	s.append(" dayLow [" + this.dayLow + "]");
 	s.append(" isPriceBetweenHighLow [" + this.isPriceBetweenHighLow() + "]");

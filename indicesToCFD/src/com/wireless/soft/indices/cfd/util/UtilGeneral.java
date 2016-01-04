@@ -2,7 +2,9 @@ package com.wireless.soft.indices.cfd.util;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * @author Francisco
@@ -106,6 +108,29 @@ public class UtilGeneral {
 		retNF = myFormatter.format(valNum);
 				
 		return retNF;
+	}
+	
+	/**
+	 * Calcula la media
+	 * @param lstMediaSearch
+	 */
+	public static double imprimirMedia(List<Double> lstMediaSearch){
+		Double med[] = new Double[lstMediaSearch.size()];
+		med = lstMediaSearch.toArray(med);
+		Arrays.sort(med);
+	    int middle = med.length / 2;
+	    if (med.length % 2 == 0)
+	    {
+	      double left = med[middle - 1];
+	      double right = med[middle];
+	      System.out.println("middle [LR]:" + ((left + right) / 2) );
+	      return ((left + right) / 2);
+	    }
+	    else
+	    {
+	      System.out.println("middle:" + (med[middle]) );
+	      return (med[middle]);
+	    }
 	}
 
 }
