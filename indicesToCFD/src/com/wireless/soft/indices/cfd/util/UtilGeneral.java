@@ -1,10 +1,19 @@
 package com.wireless.soft.indices.cfd.util;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+
+import com.wireless.soft.indices.cfd.collections.RelativeStrengthIndexData;
 
 /**
  * @author Francisco
@@ -131,6 +140,47 @@ public class UtilGeneral {
 	      System.out.println("middle:" + (med[middle]) );
 	      return (med[middle]);
 	    }
+	}
+	
+	
+	public static List<RelativeStrengthIndexData> getListaRSI(){
+		List<RelativeStrengthIndexData> lstRSI = null;
+		lstRSI = new ArrayList<RelativeStrengthIndexData>();
+		try(BufferedReader br = new BufferedReader(new FileReader("/temp/relativeStrengthIndex/table_888.L.csv"))) {
+		    StringBuilder sb = new StringBuilder();
+		    String line = br.readLine();
+
+		    int ctd = 0;
+		    while (line != null) {
+		    	
+		        sb.append(line);
+		        sb.append(System.lineSeparator());
+		        line = br.readLine();
+		        if (null != line){
+		        	//System.out.println(line);
+		        	RelativeStrengthIndexData rsid = new RelativeStrengthIndexData();
+		        	String[] torsid = line.split(",");
+			        rsid.setId(++ctd);
+			        DateFormat formatter1;
+			        formatter1 = new SimpleDateFormat("yyyy-mm-DD");
+			        rsid.setFecha(  formatter1.parse(torsid[0]) ) ;
+			        rsid.setClose(Double.parseDouble(torsid[6]));
+			        lstRSI.add(rsid);
+		        }
+		        
+		    }
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return lstRSI;
 	}
 
 }

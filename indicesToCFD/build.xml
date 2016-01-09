@@ -5,7 +5,7 @@
 	<property name="src.dir" value="." />
 	<property name="dest.dir" value="c:\tmp" />
 	
-	<target name="GenerateJAR" depends="MkDIR, CopyLIB">
+	<target name="GenerateJAR" depends="MkDIR, CopyLIB, CopyTest">
 		<jar jarfile="${dest.dir}/indicesToCFD.jar" index="no" compress="yes" >
 			<manifest>
 				<attribute name="Main-Class" value="com.wireless.soft.indices.cfd.main.ObtenerMarketIndex" />
@@ -24,6 +24,7 @@
 		<mkdir dir="${dest.dir}" />
 		<mkdir dir="${dest.dir}/META-INF" />
 		<mkdir dir="${dest.dir}/lib" />
+		<mkdir dir="${dest.dir}/relativeStrengthIndex" />
 	</target>
 	
 	<target name="CopyLIB">
@@ -48,9 +49,9 @@
 		<copy file="${basedir}/lib/httpclient-4.2.5.jar" todir="${dest.dir}/lib" />
 		<copy file="${basedir}/lib/httpcore-4.2.4.jar" todir="${dest.dir}/lib" />
 		<copy file="${basedir}/lib/mysql-connector-java-5.0.8-bin.jar" todir="${dest.dir}/lib" />
-		
-		
-		
-		
 	</target>
+	
+	<target name="CopyTest">
+			<copy file="${basedir}/test/relativeStrengthIndex/table_888.L.csv" todir="${dest.dir}/relativeStrengthIndex" />
+		</target>
 </project>

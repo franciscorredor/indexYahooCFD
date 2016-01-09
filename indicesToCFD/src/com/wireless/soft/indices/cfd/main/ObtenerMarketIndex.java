@@ -1,6 +1,9 @@
 package com.wireless.soft.indices.cfd.main;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,6 +26,7 @@ import com.wireless.soft.indices.cfd.business.entities.Company;
 import com.wireless.soft.indices.cfd.business.entities.FundamentalHistoryCompany;
 import com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany;
 import com.wireless.soft.indices.cfd.collections.CompanyRanking;
+import com.wireless.soft.indices.cfd.collections.RelativeStrengthIndexData;
 import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnIndexYahooFinanceObject;
 import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnYahooFinanceQuoteObject;
 import com.wireless.soft.indices.cfd.exception.BusinessException;
@@ -139,7 +143,11 @@ public class ObtenerMarketIndex {
 			case "5":
 				System.out.println("\n test Call PE Ratio");
 				omi.printPERatio();
-				break;				
+				break;	
+			case "6":
+				System.out.println("\n Call relativeStrengthIndex");
+				omi.relativeStrengthIndex();
+				break;	
 				
 			default:
 				System.out.println("\n No realiza acción");
@@ -744,7 +752,39 @@ public class ObtenerMarketIndex {
 	private void relativeStrengthIndex(){
 		//obtener el historico de 14 dias o iteraciones!
 		System.out.println("obtener el historico de 14 dias o iteraciones!");
+		
+		List<RelativeStrengthIndexData> lstRSI = null;
+		lstRSI = UtilGeneral.getListaRSI();
+		
+		//Iteracion 1 base
+		/*for (RelativeStrengthIndexData relativeStrengthIndexData : lstRSI) {			
+			System.out.println(relativeStrengthIndexData.toString());
+		}*/
+
+		//Iteracion 2 change
+		for (int i = 0; i < lstRSI.size(); i++) {
+			  
+			if ( i > 0){
+				RelativeStrengthIndexData relativeStrengthIndexDataA = lstRSI.get(i-1);
+				RelativeStrengthIndexData relativeStrengthIndexDataB = lstRSI.get(i);
+				System.out.println(relativeStrengthIndexDataA.getClose());
+				System.out.println(relativeStrengthIndexDataB.getClose());
+				relativeStrengthIndexDataB.setChange(relativeStrengthIndexDataA.getClose()-relativeStrengthIndexDataB.getClose());
+				System.out.println(relativeStrengthIndexDataB.toString());
+				lstRSI.set(i, relativeStrengthIndexDataB);
+			}
+			
+		}
+		
+		//Iteracion 2 change print
+				/*for (RelativeStrengthIndexData relativeStrengthIndexData : lstRSI) {			
+					System.out.println(relativeStrengthIndexData.toString());
+				}*/
+		
 	}
+	
+	
+	
 	
 
 
