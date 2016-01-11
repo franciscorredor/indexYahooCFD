@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -756,30 +757,50 @@ public class ObtenerMarketIndex {
 		List<RelativeStrengthIndexData> lstRSI = null;
 		lstRSI = UtilGeneral.getListaRSI();
 		
-		//Iteracion 1 base
-		/*for (RelativeStrengthIndexData relativeStrengthIndexData : lstRSI) {			
-			System.out.println(relativeStrengthIndexData.toString());
-		}*/
+		//ordena descendente ID, porque el formamo de la data esta de mayor a menor
+		//y las fechas deben ordenarse de menor a Mayor
+		Collections.sort(lstRSI);
 
-		//Iteracion 2 change
+		//Iteracion 2 change = close today - close yesterday
 		for (int i = 0; i < lstRSI.size(); i++) {
 			  
 			if ( i > 0){
 				RelativeStrengthIndexData relativeStrengthIndexDataA = lstRSI.get(i-1);
 				RelativeStrengthIndexData relativeStrengthIndexDataB = lstRSI.get(i);
-				System.out.println(relativeStrengthIndexDataA.getClose());
-				System.out.println(relativeStrengthIndexDataB.getClose());
-				relativeStrengthIndexDataB.setChange(relativeStrengthIndexDataA.getClose()-relativeStrengthIndexDataB.getClose());
-				System.out.println(relativeStrengthIndexDataB.toString());
+				//System.out.println(relativeStrengthIndexDataA.getClose());
+				//System.out.println(relativeStrengthIndexDataB.getClose());
+				relativeStrengthIndexDataB.setChange(-relativeStrengthIndexDataA.getClose()+relativeStrengthIndexDataB.getClose());
+				//System.out.println(relativeStrengthIndexDataB.toString());
 				lstRSI.set(i, relativeStrengthIndexDataB);
 			}
 			
 		}
 		
-		//Iteracion 2 change print
-				/*for (RelativeStrengthIndexData relativeStrengthIndexData : lstRSI) {			
-					System.out.println(relativeStrengthIndexData.toString());
-				}*/
+		//Iteracion 3 suma gain and lost
+		BigDecimal gain = new BigDecimal(0);
+		gain.setScale(10, BigDecimal.ROUND_UNNECESSARY);
+		BigDecimal lost = new BigDecimal(0);
+		lost.setScale(10, BigDecimal.ROUND_UNNECESSARY);
+		for (int i = 0; i < 14; i++) {
+			double change = lstRSI.get(i).getChange();
+			if (change > 0){
+				//System.out.println("change (+) >" + change);
+				gain = gain.add(new BigDecimal (change));
+				//System.out.println("gain >" + gain);
+			}else if (change <0){
+				//System.out.println("change (-) >" + change);
+				lost = lost.add(new BigDecimal( Math.abs(change)));
+				//System.out.println("lost >" + lost);
+			}
+		}
+		System.out.println(gain + "<-- g");
+		System.out.println(lost + "<-- l");
+		// print Resultado
+//		for (RelativeStrengthIndexData relativeStrengthIndexData : lstRSI) {			
+//					System.out.println(relativeStrengthIndexData.toString());
+//		}
+		
+		
 		
 	}
 	

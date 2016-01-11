@@ -146,7 +146,7 @@ public class UtilGeneral {
 	public static List<RelativeStrengthIndexData> getListaRSI(){
 		List<RelativeStrengthIndexData> lstRSI = null;
 		lstRSI = new ArrayList<RelativeStrengthIndexData>();
-		try(BufferedReader br = new BufferedReader(new FileReader("/temp/relativeStrengthIndex/table_888.L.csv"))) {
+		try(BufferedReader br = new BufferedReader(new FileReader("/tmp/relativeStrengthIndex/table_888.L.csv"))) {
 		    StringBuilder sb = new StringBuilder();
 		    String line = br.readLine();
 

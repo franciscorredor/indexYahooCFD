@@ -9,7 +9,7 @@ import com.wireless.soft.indices.cfd.util.UtilGeneral;
  * @author Francisco
  *
  */
-public class RelativeStrengthIndexData {
+public class RelativeStrengthIndexData   implements Comparable<RelativeStrengthIndexData> {
 	
 	private long id;
 	
@@ -137,6 +137,30 @@ public class RelativeStrengthIndexData {
 	return s.toString();
     }
 	
-	
+
+	@Override
+	public int compareTo(RelativeStrengthIndexData compareSID) {
+		
+		if(this == compareSID){
+	        return 0;
+	    }
+
+		
+		int value1 = 0;
+		try{
+		int compareOrden = (int) ((RelativeStrengthIndexData) compareSID).getId();
+		int evaluarOrden = (int) this.getId();
+		
+		
+		
+		value1 = (int) ((int)compareOrden - evaluarOrden);
+		
+		return value1;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return -1;
+		
+	}
 
 }
