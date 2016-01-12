@@ -776,6 +776,12 @@ public class ObtenerMarketIndex {
 			
 		}
 		
+		// print Resultado
+//		for (RelativeStrengthIndexData relativeStrengthIndexData : lstRSI) {			
+//					System.out.println(relativeStrengthIndexData.toString());
+//		}
+
+		
 		//Iteracion 3 suma gain and lost
 		BigDecimal gain = new BigDecimal(0);
 		gain.setScale(10, BigDecimal.ROUND_UNNECESSARY);
@@ -793,12 +799,13 @@ public class ObtenerMarketIndex {
 				//System.out.println("lost >" + lost);
 			}
 		}
-		System.out.println(gain + "<-- g");
-		System.out.println(lost + "<-- l");
-		// print Resultado
-//		for (RelativeStrengthIndexData relativeStrengthIndexData : lstRSI) {			
-//					System.out.println(relativeStrengthIndexData.toString());
-//		}
+		//System.out.println(gain + "<-- g");
+		//System.out.println(lost + "<-- l");
+		
+		double rs =  (gain.doubleValue()/14)/(lost.doubleValue()/14);
+		double rsi = 100 - (100/(1+rs));
+		
+		System.out.println("RSI14:" + rsi);
 		
 		
 		

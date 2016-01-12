@@ -8,6 +8,8 @@ import com.wireless.soft.indices.cfd.util.UtilGeneral;
 /**
  * @author Francisco
  *
+ *REf BASE:
+ *	http://real-chart.finance.yahoo.com/table.csv?s=M&888.L&d=0&e=10&f=2016&g=d&a=11&b=18&c=2015&ignore=.csv
  */
 public class RelativeStrengthIndexData   implements Comparable<RelativeStrengthIndexData> {
 	
