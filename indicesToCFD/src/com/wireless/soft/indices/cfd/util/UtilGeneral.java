@@ -165,6 +165,8 @@ public class UtilGeneral {
 			        formatter1 = new SimpleDateFormat("yyyy-mm-DD");
 			        rsid.setFecha(  formatter1.parse(torsid[0]) ) ;
 			        rsid.setClose(Double.parseDouble(torsid[6]));
+			        rsid.setHigh(Double.parseDouble(torsid[2]));
+			        rsid.setLow(Double.parseDouble(torsid[3]));
 			        lstRSI.add(rsid);
 		        }
 		        

@@ -777,8 +777,13 @@ public class ObtenerMarketIndex {
 		//y las fechas deben ordenarse de menor a Mayor
 		Collections.sort(lstRSI);
 
+		//Obtener el valor maximo y minimo en el cierre de la accion al dia
 		double max = 0;
 		double min = 0;
+		
+		//obtener el promedio de H&L
+		double avgHigh = 0;
+		double avgLow  = 0;
 		//Iteracion 2 change = close today - close yesterday
 		for (int i = 0; i < lstRSI.size(); i++) {
 			if (i == 0){
@@ -786,6 +791,8 @@ public class ObtenerMarketIndex {
 				if (null != relativeStrengthIndexMM){
 					max = relativeStrengthIndexMM.getClose();
 					min = relativeStrengthIndexMM.getClose();
+					avgHigh += relativeStrengthIndexMM.getHigh();
+					avgLow += relativeStrengthIndexMM.getLow();
 				}
 			  
 			}
@@ -805,9 +812,18 @@ public class ObtenerMarketIndex {
 				if  (relativeStrengthIndexDataB.getClose() < min){
 					min = relativeStrengthIndexDataB.getClose(); 
 				}
+				
+				//sumar el average
+				avgHigh += relativeStrengthIndexDataB.getHigh();
+				avgLow += relativeStrengthIndexDataB.getLow();
+				
 			}
 			
 		}
+		
+		avgHigh = avgHigh/lstRSI.size();
+		avgLow = avgLow/lstRSI.size();
+		
 		
 		// print Resultado
 //		for (RelativeStrengthIndexData relativeStrengthIndexData : lstRSI) {			
@@ -842,7 +858,7 @@ public class ObtenerMarketIndex {
 		System.out.println("max:" + max);
 		System.out.println("min:" + min);
 		System.out.println("diff:" + (max - min));
-		
+		System.out.println("Porcentaje Incremento High:" + (((100*avgHigh)/avgLow)-100)   );
 		
 		
 	}

@@ -32,6 +32,10 @@ public class RelativeStrengthIndexData   implements Comparable<RelativeStrengthI
 	
 	private double fourteenDayRSI;
 	
+	private double high;
+	
+	private double low;
+	
 	
 	/*
 	 * Getters and 
@@ -125,6 +129,22 @@ public class RelativeStrengthIndexData   implements Comparable<RelativeStrengthI
 		this.fourteenDayRSI = fourteenDayRSI;
 	}
 	
+	public double getHigh() {
+		return high;
+	}
+
+	public void setHigh(double high) {
+		this.high = high;
+	}
+
+	public double getLow() {
+		return low;
+	}
+
+	public void setLow(double low) {
+		this.low = low;
+	}
+
 	@Override
     public String toString() {
 	StringBuffer s = new StringBuffer();
