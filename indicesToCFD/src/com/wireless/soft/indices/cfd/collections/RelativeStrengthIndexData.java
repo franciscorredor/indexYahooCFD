@@ -1,9 +1,6 @@
 package com.wireless.soft.indices.cfd.collections;
 
-import java.util.Calendar;
 import java.util.Date;
-
-import com.wireless.soft.indices.cfd.util.UtilGeneral;
 
 /**
  * @author Francisco

@@ -225,20 +225,27 @@ public class ObtenerMarketIndex {
      * @return
      * @throws IOException
      */
-    private String execute(String url) throws IOException {
+	private String execute(String url) throws IOException {
+		String response = null;
+		try {
+			// _logger.info("Post to " + url + " : " + request);
 
-	// _logger.info("Post to " + url + " : " + request);
+			DefaultHttpClient http = new DefaultHttpClient();
 
-	DefaultHttpClient http = new DefaultHttpClient();
-
-	//HttpPost post = new HttpPost(url);
-	//post.setEntity(new StringEntity(URLEncoder.encode(request, "UTF-8")));
-	HttpGet get = new HttpGet(url);
-	//String response = http.execute(post, new BasicResponseHandler());
-	String response = http.execute(get, new BasicResponseHandler());
-	// _logger.info("Response: " + response);
-	return response;
-    }
+			// HttpPost post = new HttpPost(url);
+			// post.setEntity(new StringEntity(URLEncoder.encode(request,
+			// "UTF-8")));
+			HttpGet get = new HttpGet(url);
+			// String response = http.execute(post, new BasicResponseHandler());
+			response = http.execute(get, new BasicResponseHandler());
+			// _logger.info("Response: " + response);
+		} catch (IOException io) {
+			System.out.println("url No responde:" + url);
+			io.printStackTrace();
+			throw io; 
+		}
+		return response;
+	}
     
     /**
      * Creates a new {@link Gson} object.
@@ -289,12 +296,19 @@ public class ObtenerMarketIndex {
 					QuoteHistoryCompany qhcBefore = (QuoteHistoryCompany) tmp[numIteracionAntes == null ? 1 : numIteracionAntes];
 					QuoteHistoryCompany qhcNow = (QuoteHistoryCompany) tmp[0];
 					
+					
 					Double valueNowVolume = Double.valueOf(qhcNow.getVolume());
 					lstMediaSearch.add(valueNowVolume);
 					
 					//Obtencion de PE ratio by company
 					FundamentalHistoryCompany fc = admEnt.getLastFundamentalRecord(cmp);
 					Double PERatio = Double.valueOf(fc.getpERatio()!=null?fc.getpERatio():"-1" );
+					
+					//Obtencion precio mas bajo
+					Double price = Double.valueOf(qhcNow.getPrice()!=null?qhcNow.getPrice():"0");
+					Double supportLevel = Double.valueOf(qhcNow.getYear_low()!=null?qhcNow.getYear_low():"0");
+					
+					
 					//System.out.println("Company{"+cmp.getName()+"} PERatio{"+PERatio+"}");
 
 					/*
@@ -311,7 +325,8 @@ public class ObtenerMarketIndex {
 					 * variable /indice P/e usando http://jsoup.org/
 					 * 2015Dec24--> Tener en cuenta el laboratorio de analisis fundamental realizado {https://drive.google.com/drive/u/0/folders/0BwJXnohKnxjbfmNJV2NsYm4zT1Zqb0VlUC1zaUlfcjRaM2VIX1E2WmZ6cU1MN1J2WWJhTGs}
 					 */
-					if ((PERatio > 0 && PERatio <= 17)) {
+					if ((PERatio > 0 && PERatio <= 17)
+							&& (price > supportLevel)) {
 						
 						CompanyRanking addAR = null;
 
@@ -540,6 +555,7 @@ public class ObtenerMarketIndex {
 						&& cmp.getUrlIndex().length() > 3){
 				
 				ReturnYahooFinanceQuoteObject ri = this.executeYahooIndexQuote(cmp.getUrlQuote());
+				//System.out.println(cmp.getUrlQuote());
 				//Persiste en loa BD	
 				this.persistirCompaniesFundamental(ri, cmp);
 				//System.out.println("ReturnYahooFinanceQuoteObject: " + ri.toString());
@@ -761,9 +777,18 @@ public class ObtenerMarketIndex {
 		//y las fechas deben ordenarse de menor a Mayor
 		Collections.sort(lstRSI);
 
+		double max = 0;
+		double min = 0;
 		//Iteracion 2 change = close today - close yesterday
 		for (int i = 0; i < lstRSI.size(); i++) {
+			if (i == 0){
+				RelativeStrengthIndexData relativeStrengthIndexMM =  lstRSI.get(i);
+				if (null != relativeStrengthIndexMM){
+					max = relativeStrengthIndexMM.getClose();
+					min = relativeStrengthIndexMM.getClose();
+				}
 			  
+			}
 			if ( i > 0){
 				RelativeStrengthIndexData relativeStrengthIndexDataA = lstRSI.get(i-1);
 				RelativeStrengthIndexData relativeStrengthIndexDataB = lstRSI.get(i);
@@ -772,6 +797,14 @@ public class ObtenerMarketIndex {
 				relativeStrengthIndexDataB.setChange(-relativeStrengthIndexDataA.getClose()+relativeStrengthIndexDataB.getClose());
 				//System.out.println(relativeStrengthIndexDataB.toString());
 				lstRSI.set(i, relativeStrengthIndexDataB);
+				
+				//Valida valor Mayor y menor
+				if (relativeStrengthIndexDataB.getClose() > max){
+					max = relativeStrengthIndexDataB.getClose(); 
+				}
+				if  (relativeStrengthIndexDataB.getClose() < min){
+					min = relativeStrengthIndexDataB.getClose(); 
+				}
 			}
 			
 		}
@@ -806,6 +839,9 @@ public class ObtenerMarketIndex {
 		double rsi = 100 - (100/(1+rs));
 		
 		System.out.println("RSI14:" + rsi);
+		System.out.println("max:" + max);
+		System.out.println("min:" + min);
+		System.out.println("diff:" + (max - min));
 		
 		
 		
