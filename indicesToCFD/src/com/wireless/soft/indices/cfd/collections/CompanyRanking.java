@@ -44,6 +44,7 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	
 	private String Capitalization;
 	
+	private String symbol;
 	
 	
 
@@ -249,6 +250,14 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 		Capitalization = capitalization;
 	}
 
+	public String getSymbol() {
+		return symbol;
+	}
+
+	public void setSymbol(String symbol) {
+		this.symbol = symbol;
+	}
+
 	/**
 	 * @param compareCR
 	 * @return
@@ -294,11 +303,12 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	s.append(" volumenEvaluado [" + this.volumenEvaluado + "]");
 	s.append(" dayHigh [" + this.dayHigh + "]");
 	s.append(" dayLow [" + this.dayLow + "]");
-	s.append(" isPriceBetweenHighLow [" + this.isPriceBetweenHighLow() + "]");
-	s.append("\n fechaIteracion1 [" +  UtilGeneral.printFormat(this.fechaIteracion1, "yyyy-MM-dd HH:mm:ss")  + "]"); 
+	s.append("\n isPriceBetweenHighLow [" + this.isPriceBetweenHighLow() + "]");
+	s.append(" fechaIteracion1 [" +  UtilGeneral.printFormat(this.fechaIteracion1, "yyyy-MM-dd HH:mm:ss")  + "]"); 
 	s.append(" fechaIteracion2 [" + UtilGeneral.printFormat(this.fechaIteracion2, "yyyy-MM-dd HH:mm:ss")  + "]");
-	s.append(" Capitalization [" + this.Capitalization + "]");
+	s.append("\n Capitalization [" + this.Capitalization + "]");
 	s.append(" peRatio [" + this.peRatio + "]");
+	s.append(" symbol [" + this.symbol + "]");
 	return s.toString();
     }
 	
@@ -309,6 +319,7 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 		s.append(" precioEvaluado [" + this.precioEvaluado + "]");
 		s.append(" pricePercentageincrement [" + UtilGeneral.printNumberFormat(this.pricePercentageincrement, "###.###") + "]");
 		s.append("\n notaPonderada [" + this.getNotaPonderada() + "]");
+		s.append(" symbol [" + this.symbol + "]");
 
 		return s.toString();
 	    }
