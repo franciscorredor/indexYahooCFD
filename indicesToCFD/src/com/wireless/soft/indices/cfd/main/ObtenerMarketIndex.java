@@ -1,15 +1,10 @@
 package com.wireless.soft.indices.cfd.main;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,7 +27,6 @@ import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnIndexYahoo
 import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnYahooFinanceQuoteObject;
 import com.wireless.soft.indices.cfd.exception.BusinessException;
 import com.wireless.soft.indices.cfd.util.UtilGeneral;
-import com.wireless.soft.indices.cfd.util.UtilSession;
 
 /**
  * Clase principal encargada de obtener los indices de diferentes compañias 
@@ -109,23 +103,15 @@ public class ObtenerMarketIndex {
 				System.out.println("\n Persiste info de las compañias, consultando de yahoo");
 				omi.printPERatio();
 				omi.printCompanies();
-				System.out.println("Precio accion menor = & % volumen menor = a cero!");
-				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.ZERO);
 				System.out.println("Precio accion menor = & % volumen mayor a cero!");
 				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.ONE);
-				System.out.println("Precio accion mayor & % volumen <= a cero!");
-				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.TWO);
 				System.out.println("Precio accion mayor & % volumen mayor a cero!");
 				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.THREE);
 				break;
 			case "1":
 				System.out.println("\n Imprime el indicador OBV");
-				System.out.println("Precio accion menor = & % volumen menor = a cero!");
-				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.ZERO);
 				System.out.println("Precio accion menor = & % volumen mayor a cero!");
 				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.ONE);
-				System.out.println("Precio accion mayor & % volumen <= a cero!");
-				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.TWO);
 				System.out.println("Precio accion mayor & % volumen mayor a cero!");
 				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.THREE);
 				break;
@@ -196,23 +182,27 @@ public class ObtenerMarketIndex {
 	 * @return el Quote de yahooIndex
 	 * @throws IOException
 	 */
-	private ReturnYahooFinanceQuoteObject executeYahooIndexQuote(String url) throws IOException {
+	private ReturnYahooFinanceQuoteObject executeYahooIndexQuote(String url)
+			throws IOException {
+		try {
+			
+			JsonElement result = executeJ(url);
+			if (result.isJsonObject()) {
+				JsonElement error = result.getAsJsonObject().get("error");
+				if (error != null) {
+					JsonElement code = result.getAsJsonObject().get("code");
+					System.out.println("[Error] code:" + code);
+				}
+			}
 
+			return gson.fromJson(result, ReturnYahooFinanceQuoteObject.class);
 
-	    JsonElement result = executeJ(url);
-	    if (result.isJsonObject()) {
-		JsonElement error = result.getAsJsonObject().get("error");
-		if (error != null) {
-		    JsonElement code = result.getAsJsonObject().get("code");
-		    System.out.println("[Error] code:" + code);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-	    }
+		return null;
 
-
-	    return gson.fromJson(result, ReturnYahooFinanceQuoteObject.class);
-
-	
-   }
+	}
 	
 	private JsonElement executeJ(String url) throws IOException {
 		return new JsonParser().parse(execute(url));
@@ -470,6 +460,7 @@ public class ObtenerMarketIndex {
 						if (null != cr) {
 							// 4. imprime
 							System.out.println("["+iteracionUpDown+"] "+cr.printToChart());
+							System.out.println("["+iteracionUpDown+"] "+cr.toString());
 							if (cr.getPrecioEvaluado() >  crIteracion1.getPrecioEvaluado()){
 								banderaUpDown = !banderaUpDown;	
 							}
@@ -517,6 +508,7 @@ public class ObtenerMarketIndex {
 			addAR.setDayHigh(Double.valueOf(qhcNow.getDay_high()));
 			addAR.setFechaIteracion1(qhcBefore.getFechaCreacion());
 			addAR.setFechaIteracion2(qhcNow.getFechaCreacion());
+			addAR.setSymbol(qhcNow.getSymbol());
 
 		}
 
@@ -610,6 +602,7 @@ public class ObtenerMarketIndex {
 				addAR.setDayHigh(Double.valueOf(qhcNow.getDay_high()));
 				addAR.setFechaIteracion1(qhcBefore.getFechaCreacion());
 				addAR.setFechaIteracion2(qhcNow.getFechaCreacion());
+				addAR.setSymbol(qhcNow.getSymbol());
 			}
 
 		}
@@ -657,6 +650,7 @@ public class ObtenerMarketIndex {
 				addAR.setDayHigh(Double.valueOf(qhcNow.getDay_high()));
 				addAR.setFechaIteracion1(qhcBefore.getFechaCreacion());
 				addAR.setFechaIteracion2(qhcNow.getFechaCreacion());
+				addAR.setSymbol(qhcNow.getSymbol());
 			}
 
 		}
@@ -704,6 +698,7 @@ public class ObtenerMarketIndex {
 				addAR.setDayHigh(Double.valueOf(qhcNow.getDay_high()));
 				addAR.setFechaIteracion1(qhcBefore.getFechaCreacion());
 				addAR.setFechaIteracion2(qhcNow.getFechaCreacion());
+				addAR.setSymbol(qhcNow.getSymbol());
 			}
 
 		}
@@ -751,6 +746,7 @@ public class ObtenerMarketIndex {
 				addAR.setDayHigh(Double.valueOf(qhcNow.getDay_high()));
 				addAR.setFechaIteracion1(qhcBefore.getFechaCreacion());
 				addAR.setFechaIteracion2(qhcNow.getFechaCreacion());
+				addAR.setSymbol(qhcNow.getSymbol());
 			}
 
 		}
