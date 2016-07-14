@@ -98,38 +98,37 @@ public class AdminEntity {
 	 * @param ri
 	 * @param cmp
 	 */
-	public void persistirCompaniesQuotes(ReturnIndexYahooFinanceObject ri, Company cmp){
+	public void persistirCompaniesQuotes(ReturnYahooFinanceQuoteObject rf, Company cmp){
 		
 		this.tx.begin();
 		
-		if (null != ri && null != ri.getList()
-			&& null != ri.getList().getResources()){
-			ReturnIndexYahooFinanceObject.List.Resources[] rs = ri.getList().getResources();
+		if (null != rf && null != rf.getQuery()
+			&& null != rf.getQuery().getResults()
+			&& null != rf.getQuery().getResults().getQuote()){
 			
-			for (Resources resources : rs) {
-				Resource r = resources.getResource();
-				if (null != r && null != r.getFields()){
-					try{
+
+			Quote q = rf.getQuery().getResults().getQuote();
+				if (null != q ){
+				try {
 					
-					Fields f =  r.getFields();
 					QuoteHistoryCompany qhc = new QuoteHistoryCompany();
 					qhc.setCompany(cmp.getId());
 					qhc.setFechaCreacion(Calendar.getInstance());
-					qhc.setName( f.getName() );
-					qhc.setSymbol(f.getSymbol());
-					qhc.setTs(f.getTs());
-					qhc.setType(f.getType());
-					qhc.setUtctime(f.getUtctime());
-					qhc.setVolume(f.getVolume());
-					qhc.setSyntaxis_change(f.getChange());
-					qhc.setChg_percent(f.getChg_percent());
-					qhc.setDay_high(f.getDay_high());
-					qhc.setDay_low(f.getDay_low());
-					qhc.setIssuer_name(f.getIssuer_name());
-					qhc.setIssuer_name_lang(f.getIssuer_name_lang());
-					qhc.setYear_high(f.getYear_high());
-					qhc.setYear_low(f.getYear_low());
-					qhc.setPrice(f.getPrice());
+					//qhc.setName( f.getName() );
+					qhc.setSymbol(q.getSymbol());
+					//qhc.setTs(f.getTs());
+					//qhc.setType(f.getType());
+					//qhc.setUtctime(f.getUtctime());
+					qhc.setVolume(q.getVolume());
+					//qhc.setSyntaxis_change(f.getChange());
+					qhc.setChg_percent(q.getChange());
+					qhc.setDay_high(q.getDaysHigh());
+					qhc.setDay_low(q.getDaysLow());
+					//qhc.setIssuer_name(f.getIssuer_name());
+					//qhc.setIssuer_name_lang(f.getIssuer_name_lang());
+					qhc.setYear_high(q.getYearHigh());
+					qhc.setYear_low(q.getYearLow());
+					qhc.setPrice(q.getAsk());
 					em.persist(qhc);
 					this.em.flush();
 					//_logger.info("PErsistio.." + qhc.toString());
@@ -140,9 +139,6 @@ public class AdminEntity {
 					
 				}
 			}
-			
-			
-		}
 		
 		
 		

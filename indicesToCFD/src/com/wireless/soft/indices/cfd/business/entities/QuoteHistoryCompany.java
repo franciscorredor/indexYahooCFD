@@ -38,13 +38,13 @@ limit 7  --> Importante, validar que el precio este en subido, con esta consulta
  */
 @NamedQueries(value = {				
 		@NamedQuery(name = "findAllQuoteHistory", query = "SELECT s FROM QuoteHistoryCompany s ORDER BY s.id"),
-		@NamedQuery(name = "findQuoteHistoryByCompany", query = "SELECT s FROM QuoteHistoryCompany s WHERE s.company = :company ORDER BY s.id desc ")
+		@NamedQuery(name = "findQuoteHistoryByCompany", query = "SELECT s FROM QuoteHistoryCompany s WHERE s.company = :company AND s.volume is not NULL ORDER BY s.id desc ")
 					})
 @NamedNativeQueries({
 	//TODO --> encontrar la primera iteracion para saber si a superado el high del dia y del año, para dar un ponderado
 	@NamedNativeQuery(name = "findFirstIteracionHistoryByCompany", query = "SELECT	0 as id, qch_codigo, SCN_CODIGO as company, SCN_CODIGO, QHC_FECHA_CREACION as fechaCreacion, QHC_FECHA_CREACION, name, symbol, ts, type, utctime, volume, syntaxis_change, chg_percent, day_high, day_low, issuer_name, issuer_name_lang, year_high, year_low, price "+
 																			"	FROM		indexyahoocfd.iyc_quote_company_history quotehisto0_ "+
-																			"	WHERE	SCN_CODIGO = :company "+
+																			"	WHERE	SCN_CODIGO = :company and volume is not null and price is not null"+
 																			"	AND		QHC_FECHA_CREACION between  DATE_SUB(NOW(), INTERVAL 1 DAY)  AND NOW() "+  
 																			"	ORDER	by QHC_FECHA_CREACION desc "+
 																			"	LIMIT 1 ", resultClass = QuoteHistoryCompany.class)

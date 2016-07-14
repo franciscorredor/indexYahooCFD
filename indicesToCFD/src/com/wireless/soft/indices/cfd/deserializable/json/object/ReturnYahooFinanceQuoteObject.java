@@ -8,6 +8,12 @@ import java.io.Serializable;
  * Obtiene en unobjeto el resultado del WebService Yahoo
  * http://query.yahooapis.com/v1/public/yql?q=select%20PERatio%20from%20yahoo.finance.quotes%20where%20symbol%20IN%20(%22LLOY.L%22)&format=json&env=http://datatables.org/alltables.env
  * http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20IN%20(%22LLOY.L%22)&format=json&env=http://datatables.org/alltables.env
+ * 
+ * @version 20160714
+ * 
+ * Dejo de funcionar el servicio: http://finance.yahoo.com/webservice/v1/symbols/COALINDIA.NS/quote?format=json
+ * Desde ahora se optine toda la informacin de: http://query.yahooapis.com/v1/public/yql?q=select%20symbol,Volume,PriceSale,PriceBook,DividendPayDate,DividendYield,MarketCapitalization,MarketCapRealtime,PERatio,Ask,Bid,PriceSales,EBITDA,PEGRatio,PriceEPSEstimateNextYear,PriceEPSEstimateCurrentYear%20from%20yahoo.finance.quotes%20where%20symbol%20IN%20(%22AIG%22)&format=json&env=http://datatables.org/alltables.env
+ * ** Ayuda para vel el nuevo formato: http://jsonviewer.stack.hu/
  */
 public class ReturnYahooFinanceQuoteObject implements Serializable {
 
@@ -140,6 +146,20 @@ public class ReturnYahooFinanceQuoteObject implements Serializable {
 				private String PEGRatio;
 				private String MarketCapitalization;
 				private String MarketCapRealtime;
+				/*
+				 * Nuevos atributos desde 14Jul2016
+				 */
+				private String Volume;
+				private String PriceSale;
+				private String PriceBook;
+				private String DividendPayDate;
+				private String DividendYield;
+				private String symbol;
+				private String YearLow;
+				private String YearHigh;
+				private String DaysLow;
+				private String DaysHigh;
+				private String Change;
 
 				/**
 				 * @return the pERatio
@@ -243,6 +263,160 @@ public class ReturnYahooFinanceQuoteObject implements Serializable {
 				 */
 				public void setMarketCapRealtime(String marketCapRealtime) {
 					MarketCapRealtime = marketCapRealtime;
+				}
+
+				/**
+				 * @return the volume
+				 */
+				public String getVolume() {
+					return Volume;
+				}
+
+				/**
+				 * @param volume the volume to set
+				 */
+				public void setVolume(String volume) {
+					Volume = volume;
+				}
+
+				/**
+				 * @return the priceSale
+				 */
+				public String getPriceSale() {
+					return PriceSale;
+				}
+
+				/**
+				 * @param priceSale the priceSale to set
+				 */
+				public void setPriceSale(String priceSale) {
+					PriceSale = priceSale;
+				}
+
+				/**
+				 * @return the priceBook
+				 */
+				public String getPriceBook() {
+					return PriceBook;
+				}
+
+				/**
+				 * @param priceBook the priceBook to set
+				 */
+				public void setPriceBook(String priceBook) {
+					PriceBook = priceBook;
+				}
+
+				/**
+				 * @return the dividendPayDate
+				 */
+				public String getDividendPayDate() {
+					return DividendPayDate;
+				}
+
+				/**
+				 * @param dividendPayDate the dividendPayDate to set
+				 */
+				public void setDividendPayDate(String dividendPayDate) {
+					DividendPayDate = dividendPayDate;
+				}
+
+				/**
+				 * @return the dividendYield
+				 */
+				public String getDividendYield() {
+					return DividendYield;
+				}
+
+				/**
+				 * @param dividendYield the dividendYield to set
+				 */
+				public void setDividendYield(String dividendYield) {
+					DividendYield = dividendYield;
+				}
+
+				/**
+				 * @return the symbol
+				 */
+				public String getSymbol() {
+					return symbol;
+				}
+
+				/**
+				 * @param symbol the symbol to set
+				 */
+				public void setSymbol(String symbol) {
+					this.symbol = symbol;
+				}
+
+				/**
+				 * @return the yearLow
+				 */
+				public String getYearLow() {
+					return YearLow;
+				}
+
+				/**
+				 * @param yearLow the yearLow to set
+				 */
+				public void setYearLow(String yearLow) {
+					YearLow = yearLow;
+				}
+
+				/**
+				 * @return the yearHigh
+				 */
+				public String getYearHigh() {
+					return YearHigh;
+				}
+
+				/**
+				 * @param yearHigh the yearHigh to set
+				 */
+				public void setYearHigh(String yearHigh) {
+					YearHigh = yearHigh;
+				}
+
+				/**
+				 * @return the daysLow
+				 */
+				public String getDaysLow() {
+					return DaysLow;
+				}
+
+				/**
+				 * @param daysLow the daysLow to set
+				 */
+				public void setDaysLow(String daysLow) {
+					DaysLow = daysLow;
+				}
+
+				/**
+				 * @return the daysHigh
+				 */
+				public String getDaysHigh() {
+					return DaysHigh;
+				}
+
+				/**
+				 * @param daysHigh the daysHigh to set
+				 */
+				public void setDaysHigh(String daysHigh) {
+					DaysHigh = daysHigh;
+				}
+
+				/**
+				 * @return the change
+				 */
+				public String getChange() {
+					return Change;
+				}
+
+				/**
+				 * @param change the change to set
+				 */
+				public void setChange(String change) {
+					Change = change;
 				}
 
 				@Override

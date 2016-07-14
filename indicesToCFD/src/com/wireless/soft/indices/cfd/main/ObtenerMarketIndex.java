@@ -102,7 +102,6 @@ public class ObtenerMarketIndex {
 			case "0":
 				System.out.println("\n Persiste info de las compañias, consultando de yahoo");
 				omi.printPERatio();
-				omi.printCompanies();
 				System.out.println("Precio accion menor = & % volumen mayor a cero!");
 				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.ONE);
 				System.out.println("Precio accion mayor & % volumen mayor a cero!");
@@ -245,24 +244,7 @@ public class ObtenerMarketIndex {
 	return builder.create();
     }
     
-    /**
-     * @throws BusinessException
-     * @throws IOException 
-     */
-    private  void printCompanies() throws BusinessException, IOException{
-    	for (Company cmp : admEnt.getCompanies()) {
-			
-			if (null != cmp && null != cmp.getUrlIndex() 
-					&& cmp.getUrlIndex().length() > 3){
-			
-			ReturnIndexYahooFinanceObject ri = this.executeYahooIndex(cmp.getUrlIndex());
-			this.persistirCompaniesQuotes(ri, cmp);
-			
-			}
-		}
-    	System.out.println("Persistio la base de companias del Sistema: " + new Date());
-    	
-    }
+    
     
     /**
      * @throws Exception 
@@ -395,7 +377,7 @@ public class ObtenerMarketIndex {
      * @throws BusinessException
      * @throws IOException 
      */
-    private  void persistirCompaniesQuotes(ReturnIndexYahooFinanceObject ri, Company cmp) throws BusinessException, IOException{
+    private  void persistirCompaniesQuotes(ReturnYahooFinanceQuoteObject ri, Company cmp) throws BusinessException, IOException{
     	
     	admEnt.persistirCompaniesQuotes(ri, cmp);
     	
@@ -450,8 +432,10 @@ public class ObtenerMarketIndex {
 					while (true) {
 						iteracionUpDown++;
 						// 1. Persiste info compania
-						ReturnIndexYahooFinanceObject ri = this
-								.executeYahooIndex(cmp.getUrlIndex());
+						ReturnYahooFinanceQuoteObject ri = this.executeYahooIndexQuote(cmp.getUrlQuote());
+						//System.out.println(cmp.getUrlQuote());
+						//Persiste en loa BD	
+						this.persistirCompaniesFundamental(ri, cmp);
 						this.persistirCompaniesQuotes(ri, cmp);
 						// 2. espera un instante de tiempo 1minuto
 						Thread.sleep(60000l);
@@ -523,7 +507,7 @@ public class ObtenerMarketIndex {
 		while (true) {
 			// Persiste cada instante de tiempo 10 minuto
 			Thread.sleep(60000l * 9);
-			this.printCompanies();
+			this.printPERatio();
 		}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -550,6 +534,7 @@ public class ObtenerMarketIndex {
 				//System.out.println(cmp.getUrlQuote());
 				//Persiste en loa BD	
 				this.persistirCompaniesFundamental(ri, cmp);
+				this.persistirCompaniesQuotes(ri, cmp);
 				//System.out.println("ReturnYahooFinanceQuoteObject: " + ri.toString());
 				
 				}
@@ -624,6 +609,10 @@ public class ObtenerMarketIndex {
 		
 		CompanyRanking addAR = null;
 		
+		try{
+			
+	
+		
 		Double valueBeforePrice = Double.valueOf(qhcBefore.getPrice());
 		Double valueNowPrice = Double.valueOf(qhcNow.getPrice());
 		Double valueBeforeVolume = Double.valueOf(qhcBefore.getVolume());
@@ -653,6 +642,9 @@ public class ObtenerMarketIndex {
 				addAR.setSymbol(qhcNow.getSymbol());
 			}
 
+		}
+		}catch (Exception e){
+			//System.out.println("Error en : evalua01 --> " + e.getMessage());
 		}
 		
 		return addAR;
@@ -718,7 +710,10 @@ public class ObtenerMarketIndex {
 	private CompanyRanking evalua03(QuoteHistoryCompany qhcBefore, QuoteHistoryCompany qhcNow, Company cmp){
 		
 		
+		
 		CompanyRanking addAR = null;
+		
+		try{
 		
 		Double valueBeforePrice = Double.valueOf(qhcBefore.getPrice());
 		Double valueNowPrice = Double.valueOf(qhcNow.getPrice());
@@ -749,6 +744,10 @@ public class ObtenerMarketIndex {
 				addAR.setSymbol(qhcNow.getSymbol());
 			}
 
+		}
+		
+		}catch(Exception e){
+			//System.out.println("Error en: evalua03 --> " + e.getMessage());
 		}
 		
 		return addAR;
