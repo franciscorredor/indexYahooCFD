@@ -29,11 +29,11 @@ import com.wireless.soft.indices.cfd.exception.BusinessException;
 import com.wireless.soft.indices.cfd.util.UtilGeneral;
 
 /**
- * Clase principal encargada de obtener los indices de diferentes compañias 
+ * Clase principal encargada de obtener los indices de diferentes compaï¿½ias 
  * @author Francisco Corredor
  * https://sites.google.com/site/gson/gson-user-guide
  * TODO
- * Conseguir BD en la nube y realizar lógica de negocio en CLOUD
+ * Conseguir BD en la nube y realizar lï¿½gica de negocio en CLOUD
  */
 
 enum Evalua {ZERO, ONE, TWO, THREE}
@@ -60,7 +60,7 @@ public class ObtenerMarketIndex {
 	 * @param args
 	 * args[0]  --> Persistir o consultar (1/0)
 	 * args[1]  --> Numero de iteraciones anteriores a ver
-	 * args[2]  --> Porcentaje [1-100], indicador del TOP de las mejores compañias a imprimir, dependiendo del porcentaje
+	 * args[2]  --> Porcentaje [1-100], indicador del TOP de las mejores compaï¿½ias a imprimir, dependiendo del porcentaje
 	 * Samples:
 	 * 	java -jar indicesToCFD.jar 1 2 10
 	 *  java -jar indicesToCFD.jar 0
@@ -100,7 +100,7 @@ public class ObtenerMarketIndex {
 			String accion = args[0];
 			switch (accion){
 			case "0":
-				System.out.println("\n Persiste info de las compañias, consultando de yahoo");
+				System.out.println("\n Persiste info de las compaï¿½ias, consultando de yahoo");
 				omi.printPERatio();
 				System.out.println("Precio accion menor = & % volumen mayor a cero!");
 				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.ONE);
@@ -123,7 +123,7 @@ public class ObtenerMarketIndex {
 				omi.printChartCompany(argumento2);
 				break;
 			case "4":
-				System.out.println("\n Persistir cada 10 minutos información de la compañias");
+				System.out.println("\n Persistir cada 10 minutos informaciï¿½n de la compaï¿½ias");
 				omi.persisteVariasIteraciones();
 				break;
 			case "5":
@@ -136,7 +136,7 @@ public class ObtenerMarketIndex {
 				break;	
 				
 			default:
-				System.out.println("\n No realiza acción");
+				System.out.println("\n No realiza acciï¿½n");
 				break;
 			}
 			
@@ -264,7 +264,7 @@ public class ObtenerMarketIndex {
 				List<Object> listIdxCompany = admEnt.getCompIdxQuote(cmp);
 				Object tmp[] = listIdxCompany.toArray();
 				if (null != tmp && tmp.length > 1) {
-					//TODO --> Realizar comparación con el primer regitro del dia
+					//TODO --> Realizar comparaciï¿½n con el primer regitro del dia
 					QuoteHistoryCompany qhcBefore = (QuoteHistoryCompany) tmp[numIteracionAntes == null ? 1 : numIteracionAntes];
 					QuoteHistoryCompany qhcNow = (QuoteHistoryCompany) tmp[0];
 					
@@ -291,8 +291,8 @@ public class ObtenerMarketIndex {
 					 * que realize ordenamiento, para que imprima en linea el
 					 * resultado y no tener que almacenarlo en ls BD para
 					 * despues leerlo o calcularlo. Realixar el calculo de las
-					 * mejoras comañias depues de la iteración por cada uno de
-					 * las compañias que estan cumplienod con el // *
+					 * mejoras comaï¿½ias depues de la iteraciï¿½n por cada uno de
+					 * las compaï¿½ias que estan cumplienod con el // *
 					 * calculo/estrategia definida en el algoritmo! adicionar la
 					 * variable /indice P/e usando http://jsoup.org/
 					 * 2015Dec24--> Tener en cuenta el laboratorio de analisis fundamental realizado {https://drive.google.com/drive/u/0/folders/0BwJXnohKnxjbfmNJV2NsYm4zT1Zqb0VlUC1zaUlfcjRaM2VIX1E2WmZ6cU1MN1J2WWJhTGs}
@@ -353,14 +353,14 @@ public class ObtenerMarketIndex {
 			// Imprime Arreglo ordenado
 			Collections.sort(cr);
 			// TODO persistir la informacion del resultado, con la fecha de la
-			// ejecuión del proceso
+			// ejecuiï¿½n del proceso
 			int i = 0;
 			for (CompanyRanking companyRanking : cr) {
 				if (null != companyRanking
 						&& companyRanking.getNotaPonderada() > (cortePorcentajePonderado == null ? 25
 								: cortePorcentajePonderado)) {
-					// TODO --> PErsisistir la información para saber cada
-					// cuanto aparece una compañia en la impresion del lsitado
+					// TODO --> PErsisistir la informaciï¿½n para saber cada
+					// cuanto aparece una compaï¿½ia en la impresion del lsitado
 					// en un determinado tiempo.
 					System.out.println((++i) + " " + companyRanking.toString());
 				}
@@ -493,6 +493,15 @@ public class ObtenerMarketIndex {
 			addAR.setFechaIteracion1(qhcBefore.getFechaCreacion());
 			addAR.setFechaIteracion2(qhcNow.getFechaCreacion());
 			addAR.setSymbol(qhcNow.getSymbol());
+			
+			try {
+				// Obtencion de PE ratio by company
+				FundamentalHistoryCompany fc = admEnt.getLastFundamentalRecord(cmp);
+				Double PERatio = Double.valueOf(fc.getpERatio() != null ? fc.getpERatio() : "-1");
+				addAR.setPeRatio(PERatio);
+			} catch (Exception e) {
+				System.out.println("No obtine PERATIO");
+			}
 
 		}
 
@@ -500,7 +509,7 @@ public class ObtenerMarketIndex {
 	}
 	
 	/**
-	 * Persiste la información varias veces
+	 * Persiste la informaciï¿½n varias veces
 	 */
 	private void persisteVariasIteraciones(){
 		try {
@@ -568,10 +577,10 @@ public class ObtenerMarketIndex {
 		
 		
 		if (valueNowPrice <= valueBeforePrice){
-			//Obtine las compañias q tienen un volumen superior!
-			//TODO obtner la media y dar mas calificación a los valores que esten 
+			//Obtine las compaï¿½ias q tienen un volumen superior!
+			//TODO obtner la media y dar mas calificaciï¿½n a los valores que esten 
 			//    dentro mas cerca a la media
-			//Realizar pruebas con la información que tiene en la BD
+			//Realizar pruebas con la informaciï¿½n que tiene en la BD
 			//Idea01: 27Dec2015 --> De la BD sacar la media
 			if ((((valueNowVolume * 100) / valueBeforeVolume) - 100) <= 0) {
 
@@ -620,10 +629,10 @@ public class ObtenerMarketIndex {
 		
 		
 		if (valueNowPrice <= valueBeforePrice){
-			//Obtine las compañias q tienen un volumen superior!
-			//TODO obtner la media y dar mas calificación a los valores que esten 
+			//Obtine las compaï¿½ias q tienen un volumen superior!
+			//TODO obtner la media y dar mas calificaciï¿½n a los valores que esten 
 			//    dentro mas cerca a la media
-			//Realizar pruebas con la información que tiene en la BD
+			//Realizar pruebas con la informaciï¿½n que tiene en la BD
 			//Idea01: 27Dec2015 --> De la BD sacar la media
 			if ((((valueNowVolume * 100) / valueBeforeVolume) - 100) > 0) {
 
@@ -671,10 +680,10 @@ public class ObtenerMarketIndex {
 		
 		
 		if (valueNowPrice > valueBeforePrice){
-			//Obtine las compañias q tienen un volumen superior!
-			//TODO obtner la media y dar mas calificación a los valores que esten 
+			//Obtine las compaï¿½ias q tienen un volumen superior!
+			//TODO obtner la media y dar mas calificaciï¿½n a los valores que esten 
 			//    dentro mas cerca a la media
-			//Realizar pruebas con la información que tiene en la BD
+			//Realizar pruebas con la informaciï¿½n que tiene en la BD
 			//Idea01: 27Dec2015 --> De la BD sacar la media
 			if ((((valueNowVolume * 100) / valueBeforeVolume) - 100) <= 0) {
 
@@ -722,10 +731,10 @@ public class ObtenerMarketIndex {
 		
 		
 		if (valueNowPrice > valueBeforePrice){
-			//Obtine las compañias q tienen un volumen superior!
-			//TODO obtner la media y dar mas calificación a los valores que esten 
+			//Obtine las compaï¿½ias q tienen un volumen superior!
+			//TODO obtner la media y dar mas calificaciï¿½n a los valores que esten 
 			//    dentro mas cerca a la media
-			//Realizar pruebas con la información que tiene en la BD
+			//Realizar pruebas con la informaciï¿½n que tiene en la BD
 			//Idea01: 27Dec2015 --> De la BD sacar la media
 			if ((((valueNowVolume * 100) / valueBeforeVolume) - 100) > 0) {
 

@@ -83,7 +83,7 @@ public class AdminEntity {
 			}
 
 		} catch (Exception ex) {
-			String s = "Error al consultar las compañias";
+			String s = "Error al consultar las compaï¿½ias";
 			_logger.error(s, ex);
 			throw new BusinessException(s, ex);
 		}
@@ -165,7 +165,7 @@ public class AdminEntity {
 	}
 	
 	//TODO
-	//para saber si una compañia subio su maximo high del dia realizar la consulta del dia y si encontro unpunto donde 
+	//para saber si una compaï¿½ia subio su maximo high del dia realizar la consulta del dia y si encontro unpunto donde 
 	//incremento el tope con repecto al minimo, realiar un break;
 	
 	
@@ -173,7 +173,7 @@ public class AdminEntity {
 	 * @param cmp
 	 * @return
 	 * @throws Exception 
-	 * Obtiene el primer record de una compañia
+	 * Obtiene el primer record de una compaï¿½ia
 	 */
 	public QuoteHistoryCompany getFirstRecordDay(Company cmp) throws Exception {
 
@@ -198,7 +198,7 @@ public class AdminEntity {
 	 * @param cmp
 	 * @return
 	 * @throws Exception 
-	 * Obtiene el primer record de una compañia
+	 * Obtiene el primer record de una compaï¿½ia
 	 */
 	public Company getCompanyById(Company cmp) throws Exception {
 
