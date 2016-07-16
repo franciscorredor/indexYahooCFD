@@ -18,7 +18,7 @@ import com.wireless.soft.indices.cfd.collections.RelativeStrengthIndexData;
 /**
  * @author Francisco
  * Clase encargada de calculos matematicos para validar la compra o no de las acciones
- * e impresión de formatos de fecha, entre otros. General
+ * e impresiï¿½n de formatos de fecha, entre otros. General
  *
  */
 public class UtilGeneral {
