@@ -6,6 +6,7 @@
 		<class>com.wireless.soft.indices.cfd.business.entities.Company</class>
 		<class>com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany</class>
 		<class>com.wireless.soft.indices.cfd.business.entities.FundamentalHistoryCompany</class>
+		<class>com.wireless.soft.indices.cfd.business.entities.BloombergIndex</class>
 
 
 		<properties>
@@ -18,7 +19,7 @@
 			<property name="hibernate.connection.url"
 				value="jdbc:mysql://localhost:3306/" />
 			<property name="hibernate.connection.username" value="root" />
-			<property name="hibernate.connection.password" value="" />
+			<property name="hibernate.connection.password" value="h24p1977" />
 
 			
 			

@@ -99,3 +99,15 @@ PRIMARY KEY (`FCH_CODIGO`));
 --Alter Table sample
 --alter table `indexyahoocfd`.`iyc_fundamental_company_history`
 --ADD Column `MarketCapRealtime` VARCHAR(1000)
+
+-- indicador YTD & 1YR Return from Bloomberg 
+CREATE TABLE `indexyahoocfd`.`iyc_bbg_indicator` (
+--identificador unico de la tabla 
+`BBG_CODIGO` INT NOT NULL AUTO_INCREMENT,
+--identificador que relaciona con el nombre de la compañia 
+`SCN_CODIGO` INT NOT NULL,
+ --Link del indicador
+`BBG_URL_YRTN` VARCHAR(5000) NOT NULL,
+-- Fecha creación del indice 
+`BBG_FECHA_CREACION` DATE NULL,
+  PRIMARY KEY (`BBG_CODIGO`));

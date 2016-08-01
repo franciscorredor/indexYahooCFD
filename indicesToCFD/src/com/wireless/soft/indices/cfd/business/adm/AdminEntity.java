@@ -12,6 +12,7 @@ import javax.persistence.Persistence;
 
 import org.apache.log4j.Logger;
 
+import com.wireless.soft.indices.cfd.business.entities.BloombergIndex;
 import com.wireless.soft.indices.cfd.business.entities.Company;
 import com.wireless.soft.indices.cfd.business.entities.FundamentalHistoryCompany;
 import com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany;
@@ -292,6 +293,31 @@ public class AdminEntity {
 		}
 
 		return fhcReturn;
+
+	}
+	
+	/**
+	 * Obtine el URL Bloomberg para obtener los indicadores
+	 * @param cmp
+	 * @return
+	 * @throws Exception
+	 */
+	public BloombergIndex getBloombergIndex(Company cmp) throws Exception {
+
+		BloombergIndex bidxReturn = null;
+
+		Hashtable<String, Object> param = new Hashtable<String, Object>();
+		param.put("company", cmp.getId());
+		List<Object> listFtlCompany = UtilSession.getObjectsByNamedQuery(em,
+				BloombergIndex.FIND_BLOOMBERG_URL_BYCOMPANY, param);
+		if (null != listFtlCompany && listFtlCompany.size() > 0) {
+			for (Object object : listFtlCompany) {
+				bidxReturn = (BloombergIndex) object;
+				break;
+			}
+		}
+
+		return bidxReturn;
 
 	}
 

@@ -13,12 +13,17 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import com.wireless.soft.indices.cfd.collections.RelativeStrengthIndexData;
 
 /**
  * @author Francisco
  * Clase encargada de calculos matematicos para validar la compra o no de las acciones
- * e impresi�n de formatos de fecha, entre otros. General
+ * e impresi_n de formatos de fecha, entre otros. General
  *
  */
 public class UtilGeneral {
@@ -183,6 +188,39 @@ public class UtilGeneral {
 		}
 		
 		return lstRSI;
+	}
+	
+	
+	/**
+	 * Toma info de bloomberg para indicar si hay retornos positivos o negativos
+	 * @return
+	 */
+	public static String getYearReturn(String urlBloomberg) {
+		String retornoYTD = "";
+
+		try {
+			Document doc;
+			doc = Jsoup.connect(urlBloomberg).get();
+			Elements newsHeadlines = doc.select("div.cell__value_up");
+			int itera = 0;
+
+			for (Element element : newsHeadlines) {
+				//System.out.print((++itera) + ". ");
+				retornoYTD += (++itera) + ". ";
+				//System.out.print("[" + element.text() + "]");
+				retornoYTD += "[" + element.text() + "]";
+			}
+
+		} catch (IOException e) {
+			System.out.println("Error al obtener indicador de Bloomberg: " + e.getMessage());
+			//e.printStackTrace();
+		}
+		
+		if (retornoYTD != null && retornoYTD.length() > 2){
+			retornoYTD = urlBloomberg + retornoYTD;
+		}
+
+		return retornoYTD;
 	}
 
 }

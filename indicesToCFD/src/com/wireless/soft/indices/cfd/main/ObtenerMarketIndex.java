@@ -18,6 +18,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.wireless.soft.indices.cfd.business.adm.AdminEntity;
+import com.wireless.soft.indices.cfd.business.entities.BloombergIndex;
 import com.wireless.soft.indices.cfd.business.entities.Company;
 import com.wireless.soft.indices.cfd.business.entities.FundamentalHistoryCompany;
 import com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany;
@@ -36,7 +37,7 @@ import com.wireless.soft.indices.cfd.util.UtilGeneral;
  * Conseguir BD en la nube y realizar l�gica de negocio en CLOUD
  */
 
-enum Evalua {ZERO, ONE, TWO, THREE}
+enum Evalua {ONE, THREE}
 
 public class ObtenerMarketIndex {
 	
@@ -60,7 +61,7 @@ public class ObtenerMarketIndex {
 	 * @param args
 	 * args[0]  --> Persistir o consultar (1/0)
 	 * args[1]  --> Numero de iteraciones anteriores a ver
-	 * args[2]  --> Porcentaje [1-100], indicador del TOP de las mejores compa�ias a imprimir, dependiendo del porcentaje
+	 * args[2]  --> Porcentaje [1-100], indicador del TOP de las mejores compa_ias a imprimir, dependiendo del porcentaje
 	 * Samples:
 	 * 	java -jar indicesToCFD.jar 1 2 10
 	 *  java -jar indicesToCFD.jar 0
@@ -72,6 +73,7 @@ public class ObtenerMarketIndex {
 			System.out.println("Debe especificar un argumento");
 			return;
 		}
+		
 		Integer argumento2 = null;
 		Integer cortePorcentajePonderado = null;
 		PropertyConfigurator.configure("log4j.properties");
@@ -96,11 +98,17 @@ public class ObtenerMarketIndex {
 		
 		//Inicializa la clase principal.
 		ObtenerMarketIndex omi = new ObtenerMarketIndex();
+//		if (args[0].equals("test")) {
+//			Company cmp = new Company();
+//			cmp.setId(609l);
+//			omi.obtenerReturnIndex(cmp);
+//		}
+		
 		try {
 			String accion = args[0];
 			switch (accion){
 			case "0":
-				System.out.println("\n Persiste info de las compa�ias, consultando de yahoo");
+				System.out.println("\n Persiste info de las compañias, consultando de yahoo");
 				omi.printPERatio();
 				System.out.println("Precio accion menor = & % volumen mayor a cero!");
 				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.ONE);
@@ -136,7 +144,7 @@ public class ObtenerMarketIndex {
 				break;	
 				
 			default:
-				System.out.println("\n No realiza acci�n");
+				System.out.println("\n No realiza acci_n");
 				break;
 			}
 			
@@ -315,14 +323,8 @@ public class ObtenerMarketIndex {
 						case THREE:
 							addAR = evalua03(qhcBefore, qhcNow, cmp);
 							break;
-						case TWO:
-							addAR = evalua02(qhcBefore, qhcNow, cmp);
-							break;
 						case ONE:
 							addAR = evalua01(qhcBefore, qhcNow, cmp);
-							break;
-						case ZERO:
-							addAR = evalua00(qhcBefore, qhcNow, cmp);
 							break;
 						default:
 							break;
@@ -548,7 +550,7 @@ public class ObtenerMarketIndex {
 				
 				}
 			}
-			System.out.println("Persistio el analisis fundamental");
+			System.out.println("Persistio el analisis fundamental" + new Date());
 			
     	
     	
@@ -557,53 +559,6 @@ public class ObtenerMarketIndex {
 	//TODO: --> REalizar algoritmo cuando el precio este bajando , recuerde el laboratiorio q realizo con internet y q tiene q 
 	//comprar barato para vender caro. En el ponderado evaluar cuanto a disminuido el precio.
 	
-	/**
-	 * @param qhcBefore
-	 * @param qhcNow
-	 * @param cmp
-	 * @return
-	 * Evalua e = Evalua.ZERO;
-	 * System.out.println("Precio accion menor = & % volumen menor = a cero!");
-	 */
-	private CompanyRanking evalua00(QuoteHistoryCompany qhcBefore, QuoteHistoryCompany qhcNow, Company cmp){
-		
-		
-		CompanyRanking addAR = null;
-		
-		Double valueBeforePrice = Double.valueOf(qhcBefore.getPrice());
-		Double valueNowPrice = Double.valueOf(qhcNow.getPrice());
-		Double valueBeforeVolume = Double.valueOf(qhcBefore.getVolume());
-		Double valueNowVolume = Double.valueOf(qhcNow.getVolume());
-		
-		
-		if (valueNowPrice <= valueBeforePrice){
-			//Obtine las compa�ias q tienen un volumen superior!
-			//TODO obtner la media y dar mas calificaci�n a los valores que esten 
-			//    dentro mas cerca a la media
-			//Realizar pruebas con la informaci�n que tiene en la BD
-			//Idea01: 27Dec2015 --> De la BD sacar la media
-			if ((((valueNowVolume * 100) / valueBeforeVolume) - 100) <= 0) {
-
-				addAR = new CompanyRanking();
-				addAR.setCompanyName(cmp.getName());
-				addAR.setIdCompany(cmp.getId());
-				addAR.setOBV((valueBeforeVolume + valueNowVolume));
-				addAR.setVolumePercentageIncrement((((valueNowVolume * 100) / valueBeforeVolume) - 100));
-				addAR.setPricePercentageincrement((((valueNowPrice * 100) / valueBeforePrice) - 100));
-				addAR.setDayLow(Double.valueOf(qhcNow.getDay_low()));
-				addAR.setPrecioEvaluado(valueNowPrice);
-				addAR.setVolumenEvaluado(valueNowVolume);
-				addAR.setDayHigh(Double.valueOf(qhcNow.getDay_high()));
-				addAR.setFechaIteracion1(qhcBefore.getFechaCreacion());
-				addAR.setFechaIteracion2(qhcNow.getFechaCreacion());
-				addAR.setSymbol(qhcNow.getSymbol());
-			}
-
-		}
-		
-		return addAR;
-		
-	}
 	
 	/**
 	 * @param qhcBefore
@@ -649,59 +604,14 @@ public class ObtenerMarketIndex {
 				addAR.setFechaIteracion1(qhcBefore.getFechaCreacion());
 				addAR.setFechaIteracion2(qhcNow.getFechaCreacion());
 				addAR.setSymbol(qhcNow.getSymbol());
+				//01Aug2016
+				//Adicionar funcionalidad que consulta los indicadores YTD & 1YR return from Bloomberg.
+				addAR.setYearReturn(this.obtenerReturnIndex(cmp));
 			}
 
 		}
 		}catch (Exception e){
 			//System.out.println("Error en : evalua01 --> " + e.getMessage());
-		}
-		
-		return addAR;
-		
-	}
-	
-	/**
-	 * @param qhcBefore
-	 * @param qhcNow
-	 * @param cmp
-	 * @return
-	 * Evalua e = Evalua.TWO;
-	 * System.out.println("Precio accion mayor & % volumen <= a cero!");
-	 */
-	private CompanyRanking evalua02(QuoteHistoryCompany qhcBefore, QuoteHistoryCompany qhcNow, Company cmp){
-		
-		
-		CompanyRanking addAR = null;
-		
-		Double valueBeforePrice = Double.valueOf(qhcBefore.getPrice());
-		Double valueNowPrice = Double.valueOf(qhcNow.getPrice());
-		Double valueBeforeVolume = Double.valueOf(qhcBefore.getVolume());
-		Double valueNowVolume = Double.valueOf(qhcNow.getVolume());
-		
-		
-		if (valueNowPrice > valueBeforePrice){
-			//Obtine las compa�ias q tienen un volumen superior!
-			//TODO obtner la media y dar mas calificaci�n a los valores que esten 
-			//    dentro mas cerca a la media
-			//Realizar pruebas con la informaci�n que tiene en la BD
-			//Idea01: 27Dec2015 --> De la BD sacar la media
-			if ((((valueNowVolume * 100) / valueBeforeVolume) - 100) <= 0) {
-
-				addAR = new CompanyRanking();
-				addAR.setCompanyName(cmp.getName());
-				addAR.setIdCompany(cmp.getId());
-				addAR.setOBV((valueBeforeVolume + valueNowVolume));
-				addAR.setVolumePercentageIncrement((((valueNowVolume * 100) / valueBeforeVolume) - 100));
-				addAR.setPricePercentageincrement((((valueNowPrice * 100) / valueBeforePrice) - 100));
-				addAR.setDayLow(Double.valueOf(qhcNow.getDay_low()));
-				addAR.setPrecioEvaluado(valueNowPrice);
-				addAR.setVolumenEvaluado(valueNowVolume);
-				addAR.setDayHigh(Double.valueOf(qhcNow.getDay_high()));
-				addAR.setFechaIteracion1(qhcBefore.getFechaCreacion());
-				addAR.setFechaIteracion2(qhcNow.getFechaCreacion());
-				addAR.setSymbol(qhcNow.getSymbol());
-			}
-
 		}
 		
 		return addAR;
@@ -731,10 +641,10 @@ public class ObtenerMarketIndex {
 		
 		
 		if (valueNowPrice > valueBeforePrice){
-			//Obtine las compa�ias q tienen un volumen superior!
-			//TODO obtner la media y dar mas calificaci�n a los valores que esten 
+			//Obtine las compa_ias q tienen un volumen superior!
+			//TODO obtner la media y dar mas calificaci_n a los valores que esten 
 			//    dentro mas cerca a la media
-			//Realizar pruebas con la informaci�n que tiene en la BD
+			//Realizar pruebas con la informaci_n que tiene en la BD
 			//Idea01: 27Dec2015 --> De la BD sacar la media
 			if ((((valueNowVolume * 100) / valueBeforeVolume) - 100) > 0) {
 
@@ -751,6 +661,9 @@ public class ObtenerMarketIndex {
 				addAR.setFechaIteracion1(qhcBefore.getFechaCreacion());
 				addAR.setFechaIteracion2(qhcNow.getFechaCreacion());
 				addAR.setSymbol(qhcNow.getSymbol());
+				//01Aug2016
+				//Adicionar funcionalidad que consulta los indicadores YTD & 1YR return from Bloomberg.
+				addAR.setYearReturn(this.obtenerReturnIndex(cmp));
 			}
 
 		}
@@ -864,6 +777,28 @@ public class ObtenerMarketIndex {
 		System.out.println("diff:" + (max - min));
 		System.out.println("Porcentaje Incremento High:" + (((100*avgHigh)/avgLow)-100)   );
 		
+		
+	}
+	
+	
+	/**
+	 * Obtiene el valor de YTD & 1YR from Bloomberg
+	 * @param idCmp
+	 */
+	private String obtenerReturnIndex(Company cmp){
+		 //Consulta la URL, para obtener el indicador
+		String ridx = null;
+		try{
+			BloombergIndex bi = admEnt.getBloombergIndex(cmp);
+			//System.out.println("bi.getUrlBloomberg() " + bi.getUrlBloomberg());
+			ridx =  UtilGeneral.getYearReturn(bi.getUrlBloomberg());
+
+		} catch(Exception e){
+			System.out.println("Error al obtener la informacion de Bloomberg:" + e.getMessage());
+			//e.printStackTrace();
+		}
+		
+		return ridx;
 		
 	}
 	

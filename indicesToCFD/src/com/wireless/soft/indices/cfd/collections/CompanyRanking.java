@@ -46,6 +46,8 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	
 	private String symbol;
 	
+	private String yearReturn;
+	
 	
 
 	/**
@@ -259,6 +261,20 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	}
 
 	/**
+	 * @return the yearReturn
+	 */
+	public String getYearReturn() {
+		return yearReturn;
+	}
+
+	/**
+	 * @param yearReturn the yearReturn to set
+	 */
+	public void setYearReturn(String yearReturn) {
+		this.yearReturn = yearReturn;
+	}
+
+	/**
 	 * @param compareCR
 	 * @return
 	 * Compara Ponderado y volumen
@@ -309,6 +325,7 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	s.append("\n Capitalization [" + this.Capitalization + "]");
 	s.append(" peRatio [" + this.peRatio + "]");
 	s.append(" symbol [" + this.symbol + "]");
+	s.append(" yearReturn [" + this.yearReturn + "]");
 	return s.toString();
     }
 	
