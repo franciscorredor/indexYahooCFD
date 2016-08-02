@@ -160,6 +160,8 @@ public class ReturnYahooFinanceQuoteObject implements Serializable {
 				private String DaysLow;
 				private String DaysHigh;
 				private String Change;
+				
+				private String LastTradePriceOnly;
 
 				/**
 				 * @return the pERatio
@@ -417,6 +419,20 @@ public class ReturnYahooFinanceQuoteObject implements Serializable {
 				 */
 				public void setChange(String change) {
 					Change = change;
+				}
+
+				/**
+				 * @return the lastTradePriceOnly
+				 */
+				public String getLastTradePriceOnly() {
+					return LastTradePriceOnly;
+				}
+
+				/**
+				 * @param lastTradePriceOnly the lastTradePriceOnly to set
+				 */
+				public void setLastTradePriceOnly(String lastTradePriceOnly) {
+					LastTradePriceOnly = lastTradePriceOnly;
 				}
 
 				@Override

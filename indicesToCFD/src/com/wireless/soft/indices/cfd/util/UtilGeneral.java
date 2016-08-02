@@ -217,7 +217,7 @@ public class UtilGeneral {
 		}
 		
 		if (retornoYTD != null && retornoYTD.length() > 2){
-			retornoYTD = urlBloomberg + retornoYTD;
+			retornoYTD = urlBloomberg + "\n" + retornoYTD;
 		}
 
 		return retornoYTD;

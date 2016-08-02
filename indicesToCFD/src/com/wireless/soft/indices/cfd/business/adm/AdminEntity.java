@@ -129,7 +129,7 @@ public class AdminEntity {
 					//qhc.setIssuer_name_lang(f.getIssuer_name_lang());
 					qhc.setYear_high(q.getYearHigh());
 					qhc.setYear_low(q.getYearLow());
-					qhc.setPrice(q.getAsk());
+					qhc.setPrice(q.getLastTradePriceOnly());
 					em.persist(qhc);
 					this.em.flush();
 					//_logger.info("PErsistio.." + qhc.toString());

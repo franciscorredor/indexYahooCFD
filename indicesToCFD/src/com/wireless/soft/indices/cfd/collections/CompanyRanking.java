@@ -325,7 +325,7 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	s.append("\n Capitalization [" + this.Capitalization + "]");
 	s.append(" peRatio [" + this.peRatio + "]");
 	s.append(" symbol [" + this.symbol + "]");
-	s.append(" yearReturn [" + this.yearReturn + "]");
+	s.append("\n yearReturn [" + this.yearReturn + "]");
 	return s.toString();
     }
 	

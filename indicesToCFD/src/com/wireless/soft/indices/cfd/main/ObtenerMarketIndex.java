@@ -30,11 +30,11 @@ import com.wireless.soft.indices.cfd.exception.BusinessException;
 import com.wireless.soft.indices.cfd.util.UtilGeneral;
 
 /**
- * Clase principal encargada de obtener los indices de diferentes compa�ias 
+ * Clase principal encargada de obtener los indices de diferentes compaias 
  * @author Francisco Corredor
  * https://sites.google.com/site/gson/gson-user-guide
  * TODO
- * Conseguir BD en la nube y realizar l�gica de negocio en CLOUD
+ * Conseguir BD en la nube y realizar lgica de negocio en CLOUD
  */
 
 enum Evalua {ONE, THREE}
