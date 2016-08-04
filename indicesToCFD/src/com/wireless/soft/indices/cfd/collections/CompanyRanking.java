@@ -309,7 +309,7 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	@Override
     public String toString() {
 	StringBuffer s = new StringBuffer();
-	//s.append("\n idCompany [" + this.idCompany + "]");
+	s.append("\n idCompany [" + this.idCompany + "]");
 	s.append("\n companyName [" + this.companyName + "]");
 	//s.append(" OBV [" + this.OBV + "]");
 	s.append(" pricePercentageincrement [" + UtilGeneral.printNumberFormat(this.pricePercentageincrement, "###.###") + "]");

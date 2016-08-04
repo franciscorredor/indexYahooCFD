@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.jsoup.Jsoup;
@@ -148,6 +149,9 @@ public class UtilGeneral {
 	}
 	
 	
+	/**
+	 * @return
+	 */
 	public static List<RelativeStrengthIndexData> getListaRSI(){
 		List<RelativeStrengthIndexData> lstRSI = null;
 		lstRSI = new ArrayList<RelativeStrengthIndexData>();
@@ -221,6 +225,48 @@ public class UtilGeneral {
 		}
 
 		return retornoYTD;
+	}
+	
+	
+	/**
+	 * Obtiene la fecha de hoy en formato "yyyy-mm-DD"
+	 * @return
+	 */
+	public static String obtenerToday(){
+		
+		String fh = null;
+		DateFormat formatter1;
+		formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+		fh = formatter1.format(new Date());
+		
+		
+		return fh;
+		
+	}
+	
+	/**
+	 * Obtiene la fecha de hoy hace un mes en formato "yyyy-mm-DD"
+	 * @return
+	 */
+	public static String obtenerTodayMinusMonth(){
+		
+		String dateOneMothAgo = null;
+		
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, -27); // I just want date before 90 days. you can give that you want.
+
+//		SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd"); // you can specify your format here...
+//		Log.d("DATE","Date before 90 Days: " + s.format(new Date(cal.getTimeInMillis())));
+//		
+//		
+//		Date today = new Date();
+		DateFormat formatter1;
+		formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+		dateOneMothAgo = formatter1.format(new Date(cal.getTimeInMillis()));
+		
+		
+		return dateOneMothAgo;
+		
 	}
 
 }

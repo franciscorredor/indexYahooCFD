@@ -2,6 +2,9 @@ package com.wireless.soft.indices.cfd.main;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -24,6 +27,7 @@ import com.wireless.soft.indices.cfd.business.entities.FundamentalHistoryCompany
 import com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany;
 import com.wireless.soft.indices.cfd.collections.CompanyRanking;
 import com.wireless.soft.indices.cfd.collections.RelativeStrengthIndexData;
+import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnHistoricaldataYahooFinance;
 import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnIndexYahooFinanceObject;
 import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnYahooFinanceQuoteObject;
 import com.wireless.soft.indices.cfd.exception.BusinessException;
@@ -104,6 +108,18 @@ public class ObtenerMarketIndex {
 //			omi.obtenerReturnIndex(cmp);
 //		}
 		
+		if (args[0].equals("test")) {
+			try {
+				ReturnHistoricaldataYahooFinance tr =	omi.executeYahooIndexHistoricaldata("http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22YHOO%22%20and%20startDate%20%3D%20%222016-07-01%22%20and%20endDate%20%3D%20%222016-08-04%22&format=json&env=http://datatables.org/alltables.env");
+				System.out.print( tr.toString() );
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}		
+		
+		
+		
+		
 		try {
 			String accion = args[0];
 			switch (accion){
@@ -141,7 +157,12 @@ public class ObtenerMarketIndex {
 			case "6":
 				System.out.println("\n Call relativeStrengthIndex");
 				omi.relativeStrengthIndex();
+				break;
+			case "7":
+				System.out.println("\n Call relativeStrengthIndex: --> [" + args[1] + "]");
+				omi.relativeStrengthIndex(args[1]);
 				break;	
+				
 				
 			default:
 				System.out.println("\n No realiza acci_n");
@@ -203,6 +224,34 @@ public class ObtenerMarketIndex {
 			}
 
 			return gson.fromJson(result, ReturnYahooFinanceQuoteObject.class);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+
+	}
+	
+
+	/**
+	 * @param url
+	 * @return
+	 * @throws IOException
+	 */
+	private ReturnHistoricaldataYahooFinance executeYahooIndexHistoricaldata(String url)
+			throws IOException {
+		try {
+			
+			JsonElement result = executeJ(url);
+			if (result.isJsonObject()) {
+				JsonElement error = result.getAsJsonObject().get("error");
+				if (error != null) {
+					JsonElement code = result.getAsJsonObject().get("code");
+					System.out.println("[Error] code:" + code);
+				}
+			}
+
+			return gson.fromJson(result, ReturnHistoricaldataYahooFinance.class);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -680,8 +729,8 @@ public class ObtenerMarketIndex {
 
 	
 	/*
-	 * TODO
 	 * Obtine el indicador, para saber que tan costosa o overbuy esta la accion
+	 * El input lo toma de un archivo plano
 	 */
 	private void relativeStrengthIndex(){
 		//obtener el historico de 14 dias o iteraciones!
@@ -803,8 +852,160 @@ public class ObtenerMarketIndex {
 	}
 	
 	
+	/*
+	 * Obtine el indicador, para saber que tan costosa o overbuy esta la accion.
+	 * El input lo toma de un servicio de un servicio de yahoo
+	 */
+	private void relativeStrengthIndex(String symbol){
+		//obtener el historico de 14 dias o iteraciones!
+		System.out.println("obtener el historico de 14 dias o iteraciones!");
+		
+		List<RelativeStrengthIndexData> lstRSI = null;
+		lstRSI = this.getListaRSI(symbol);
+		
+		//ordena descendente ID, porque el formamo de la data esta de mayor a menor
+		//y las fechas deben ordenarse de menor a Mayor
+		Collections.sort(lstRSI);
+
+		//Obtener el valor maximo y minimo en el cierre de la accion al dia
+		double max = 0;
+		double min = 0;
+		
+		//obtener el promedio de H&L
+		double avgHigh = 0;
+		double avgLow  = 0;
+		//Iteracion 2 change = close today - close yesterday
+		for (int i = 0; i < lstRSI.size(); i++) {
+			if (i == 0){
+				RelativeStrengthIndexData relativeStrengthIndexMM =  lstRSI.get(i);
+				if (null != relativeStrengthIndexMM){
+					max = relativeStrengthIndexMM.getClose();
+					min = relativeStrengthIndexMM.getClose();
+					avgHigh += relativeStrengthIndexMM.getHigh();
+					avgLow += relativeStrengthIndexMM.getLow();
+				}
+			  
+			}
+			if ( i > 0){
+				RelativeStrengthIndexData relativeStrengthIndexDataA = lstRSI.get(i-1);
+				RelativeStrengthIndexData relativeStrengthIndexDataB = lstRSI.get(i);
+				//System.out.println(relativeStrengthIndexDataA.getClose());
+				//System.out.println(relativeStrengthIndexDataB.getClose());
+				relativeStrengthIndexDataB.setChange(-relativeStrengthIndexDataA.getClose()+relativeStrengthIndexDataB.getClose());
+				//System.out.println(relativeStrengthIndexDataB.toString());
+				lstRSI.set(i, relativeStrengthIndexDataB);
+				
+				//Valida valor Mayor y menor
+				if (relativeStrengthIndexDataB.getClose() > max){
+					max = relativeStrengthIndexDataB.getClose(); 
+				}
+				if  (relativeStrengthIndexDataB.getClose() < min){
+					min = relativeStrengthIndexDataB.getClose(); 
+				}
+				
+				//sumar el average
+				avgHigh += relativeStrengthIndexDataB.getHigh();
+				avgLow += relativeStrengthIndexDataB.getLow();
+				
+			}
+			
+		}
+		
+		avgHigh = avgHigh/lstRSI.size();
+		avgLow = avgLow/lstRSI.size();
+		
+		
+		// print Resultado
+//		for (RelativeStrengthIndexData relativeStrengthIndexData : lstRSI) {			
+//					System.out.println(relativeStrengthIndexData.toString());
+//		}
+
+		
+		//Iteracion 3 suma gain and lost
+		BigDecimal gain = new BigDecimal(0);
+		gain.setScale(10, BigDecimal.ROUND_UNNECESSARY);
+		BigDecimal lost = new BigDecimal(0);
+		lost.setScale(10, BigDecimal.ROUND_UNNECESSARY);
+		for (int i = 0; i < 14; i++) {
+			double change = lstRSI.get(i).getChange();
+			if (change > 0){
+				//System.out.println("change (+) >" + change);
+				gain = gain.add(new BigDecimal (change));
+				//System.out.println("gain >" + gain);
+			}else if (change <0){
+				//System.out.println("change (-) >" + change);
+				lost = lost.add(new BigDecimal( Math.abs(change)));
+				//System.out.println("lost >" + lost);
+			}
+		}
+		//System.out.println(gain + "<-- g");
+		//System.out.println(lost + "<-- l");
+		
+		double rs =  (gain.doubleValue()/14)/(lost.doubleValue()/14);
+		double rsi = 100 - (100/(1+rs));
+		
+		System.out.println("RSI14:" + rsi);
+		System.out.println("max:" + max);
+		System.out.println("min:" + min);
+		System.out.println("diff:" + (max - min));
+		System.out.println("Porcentaje Incremento High:" + (((100*avgHigh)/avgLow)-100)   );
+		
+		
+	}
+
 	
 	
+	
+
+	/**
+	 * Obtine listado de RSI Data
+	 * @return
+	 */
+	private List<RelativeStrengthIndexData> getListaRSI(String symbol){
+		List<RelativeStrengthIndexData> lstRSI = null;
+		lstRSI = new ArrayList<RelativeStrengthIndexData>();
+		
+		String fechaHoy = UtilGeneral.obtenerToday();   //"2016-08-04";
+		String mesatras = UtilGeneral.obtenerTodayMinusMonth();  //"2016-07-04";
+		
+		ReturnHistoricaldataYahooFinance rHistData = null;
+		try {
+			String urlHistdata = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+mesatras+"%22%20and%20endDate%20%3D%20%22"+fechaHoy+"%22&format=json&env=http://datatables.org/alltables.env";
+			System.out.println("urlHistdata: ["+urlHistdata+"]");
+			rHistData =	this.executeYahooIndexHistoricaldata(urlHistdata);
+			if (null != rHistData && null != rHistData.getQuery() 
+					&& null !=  rHistData.getQuery().getResults() && null != rHistData.getQuery().getResults().getQuote()){
+				int ctd = 0;
+				for (ReturnHistoricaldataYahooFinance.Query.Results.Quote quote :  rHistData.getQuery().getResults().getQuote()) {
+					RelativeStrengthIndexData rsid = new RelativeStrengthIndexData();
+			        rsid.setId(++ctd);
+			        DateFormat formatter1;
+			        formatter1 = new SimpleDateFormat("yyyy-mm-DD");
+			        rsid.setFecha(  formatter1.parse(quote.getDate()) ) ;
+			        rsid.setClose(Double.parseDouble(quote.getAdj_Close()));
+			        rsid.setHigh(Double.parseDouble(quote.getHigh()));
+			        rsid.setLow(Double.parseDouble(quote.getLow()));
+			        System.out.println("quote ["+ctd+"] : " +quote.toString());
+			        lstRSI.add(rsid);
+			        
+			        if (ctd > 13){
+			        	break;
+			        }
+				}
+			}
+				
+			
+			//System.out.print( tr.toString() );
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return lstRSI;
+	}
 
 
 }
