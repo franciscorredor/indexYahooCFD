@@ -1095,6 +1095,7 @@ public class ObtenerMarketIndex {
 		try {
 			String urlHistdata = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+mesatras+"%22%20and%20endDate%20%3D%20%22"+fechaHoy+"%22&format=json&env=http://datatables.org/alltables.env";
 			System.out.println("urlHistdata: ["+urlHistdata+"]");
+			System.out.println("Date,Open,High,Low,Close,Adj Close");
 			rHistData =	this.executeYahooIndexHistoricaldata(urlHistdata);
 			if (null != rHistData && null != rHistData.getQuery() 
 					&& null !=  rHistData.getQuery().getResults() && null != rHistData.getQuery().getResults().getQuote()){
