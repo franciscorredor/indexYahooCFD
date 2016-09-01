@@ -124,7 +124,7 @@ public class ObtenerMarketIndex {
 			String accion = args[0];
 			switch (accion){
 			case "0":
-				System.out.println("\n Persiste info de las compañias, consultando de yahoo");
+				System.out.println("\n Persiste info de las compañias, consultando de yahoo  [Go long]");
 				omi.printPERatio();
 				System.out.println("Precio accion menor = & % volumen mayor a cero!");
 				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.ONE);
@@ -147,7 +147,7 @@ public class ObtenerMarketIndex {
 				omi.printChartCompany(argumento2);
 				break;
 			case "4":
-				System.out.println("\n Persistir cada 10 minutos informaci�n de la compa�ias");
+				System.out.println("\n Persistir cada 10 minutos informaci�n de la companias");
 				omi.persisteVariasIteraciones();
 				break;
 			case "5":
@@ -162,8 +162,16 @@ public class ObtenerMarketIndex {
 				System.out.println("\n Call relativeStrengthIndex: --> [" + args[1] + "]");
 				omi.relativeStrengthIndex(args[1]);
 				break;	
+			case "8":
+				System.out.println("\n Persiste info de las compañias, consultando de yahoo [Go short]");
+				omi.printPERatio();
+				System.out.println("Precio accion menor = & % volumen mayor a cero!");
+				omi.printOBVGoShort(argumento2, cortePorcentajePonderado, Evalua.ONE);
+				System.out.println("Precio accion mayor & % volumen mayor a cero!");
+				omi.printOBVGoShort(argumento2, cortePorcentajePonderado, Evalua.THREE);
+				break;
 				
-				
+							
 			default:
 				System.out.println("\n No realiza acci_n");
 				break;
@@ -424,6 +432,121 @@ public class ObtenerMarketIndex {
 
 	}
     
+	/**
+     * @throws Exception 
+     */
+	private void printOBVGoShort(Integer numIteracionAntes,
+			Integer cortePorcentajePonderado, Evalua ev) {
+		List<CompanyRanking> cr = new LinkedList<CompanyRanking>();
+		List<Double> lstMediaSearch = new ArrayList<Double>();
+		try {
+				/*
+				 * 0 --> Accion disminuye, volumen disminuye
+				 * 1 --> Accion disminuye, volumen aumenta
+				 * 2 --> Accion aumenta, volumen disminuye
+				 * 3 --> Accion aumenta, volumen aumenta
+				 */
+			for (Company cmp : admEnt.getCompanies()) {
+				List<Object> listIdxCompany = admEnt.getCompIdxQuote(cmp);
+				Object tmp[] = listIdxCompany.toArray();
+				if (null != tmp && tmp.length > 1) {
+					//TODO --> Realizar comparaci�n con el primer regitro del dia
+					QuoteHistoryCompany qhcBefore = (QuoteHistoryCompany) tmp[numIteracionAntes == null ? 1 : numIteracionAntes];
+					QuoteHistoryCompany qhcNow = (QuoteHistoryCompany) tmp[0];
+					
+					
+					Double valueNowVolume = Double.valueOf(qhcNow.getVolume());
+					lstMediaSearch.add(valueNowVolume);
+					
+					//Obtencion de PE ratio by company
+					FundamentalHistoryCompany fc = admEnt.getLastFundamentalRecord(cmp);
+					Double PERatio = Double.valueOf(fc.getpERatio()!=null?fc.getpERatio():"-1" );
+					
+					//System.out.println("Company{"+cmp.getName()+"} PERatio{"+PERatio+"}");
+
+					/*
+					 * TODO Calcular cuanto porcentaje subio y dar un ponderado
+					 * i. Si encuentra una noticia que contenga palabras
+					 * positivas, dar una nota apreciativa al ponderad de 0,05%
+					 * //Guaardar la informacion que se itera en Collections y
+					 * que realize ordenamiento, para que imprima en linea el
+					 * resultado y no tener que almacenarlo en ls BD para
+					 * despues leerlo o calcularlo. Realixar el calculo de las
+					 * mejoras coma�ias depues de la iteraci�n por cada uno de
+					 * las compa�ias que estan cumplienod con el // *
+					 * calculo/estrategia definida en el algoritmo! adicionar la
+					 * variable /indice P/e usando http://jsoup.org/
+					 * 2015Dec24--> Tener en cuenta el laboratorio de analisis fundamental realizado {https://drive.google.com/drive/u/0/folders/0BwJXnohKnxjbfmNJV2NsYm4zT1Zqb0VlUC1zaUlfcjRaM2VIX1E2WmZ6cU1MN1J2WWJhTGs}
+					 */
+					if (PERatio > 16) {
+						
+						CompanyRanking addAR = null;
+
+						/*
+						 * Variable valor --> A Variable volumen --> B 
+						 * A B 
+						 * 0 0	==0 Evalua.ZERO 
+						 * 0 1 	==1 Evalua.ONE 
+						 * 1 0 	==2 Evalua.TWO
+						 * 1 1 	==3 Evalua.THREE
+						 */
+						//Evalua ev = Evalua.THREE;
+						switch (ev) {
+						case THREE:
+							addAR = evalua03(qhcBefore, qhcNow, cmp);
+							break;
+						case ONE:
+							addAR = evalua01(qhcBefore, qhcNow, cmp);
+							break;
+						default:
+							break;
+
+						}
+						
+						if (null != addAR){
+							addAR.setPeRatio(PERatio);
+							addAR.setCapitalization(fc.getMarketCapitalization());
+							cr.add(addAR);
+						}
+						
+						
+
+					}//END --> PERatio validation
+										
+				
+
+
+				}
+				
+				
+			}//END --> for companies
+			
+			//Imprime la media
+			UtilGeneral.imprimirMedia(lstMediaSearch);
+
+			// Imprime Arreglo ordenado
+			Collections.sort(cr);
+			// TODO persistir la informacion del resultado, con la fecha de la
+			// ejecui�n del proceso
+			int i = 0;
+			for (CompanyRanking companyRanking : cr) {
+				if (null != companyRanking
+						&& companyRanking.getNotaPonderada() > (cortePorcentajePonderado == null ? 25
+								: cortePorcentajePonderado)) {
+					// TODO --> PErsisistir la informaci�n para saber cada
+					// cuanto aparece una compa�ia en la impresion del lsitado
+					// en un determinado tiempo.
+					System.out.println((++i) + " " + companyRanking.toString());
+				}
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
     /**
      * @throws BusinessException
      * @throws IOException 
@@ -985,7 +1108,8 @@ public class ObtenerMarketIndex {
 			        rsid.setClose(Double.parseDouble(quote.getAdj_Close()));
 			        rsid.setHigh(Double.parseDouble(quote.getHigh()));
 			        rsid.setLow(Double.parseDouble(quote.getLow()));
-			        System.out.println("quote ["+ctd+"] : " +quote.toString());
+			        //System.out.println("quote ["+ctd+"] : " +quote.toString());
+			        System.out.println(" " +quote.toString());
 			        lstRSI.add(rsid);
 			        
 			        if (ctd > 13){

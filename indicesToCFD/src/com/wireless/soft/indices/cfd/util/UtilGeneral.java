@@ -217,6 +217,7 @@ public class UtilGeneral {
 
 		} catch (IOException e) {
 			System.out.println("Error al obtener indicador de Bloomberg: " + e.getMessage());
+			System.out.println("{"+urlBloomberg+"}");
 			//e.printStackTrace();
 		}
 		

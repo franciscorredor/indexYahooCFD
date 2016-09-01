@@ -262,22 +262,36 @@ public class ReturnHistoricaldataYahooFinance implements Serializable {
 
 				@Override
 			    public String toString() {
-				StringBuffer s = new StringBuffer(this.getClass().getCanonicalName());
-				if (this.Symbol !=null){
+				StringBuffer s = new StringBuffer();//new StringBuffer(this.getClass().getCanonicalName());
+				/*if (this.Symbol !=null){
 					s.append(" Symbol [" + this.Symbol.toString() + "]");
-				}
-				if (this.Close !=null){
-					s.append(" Close [" + this.Close.toString() + "]");
-				}
-				if (this.Open !=null){
-					s.append(" Open [" + this.Open.toString() + "]");
-				}
-				if (this.Volume !=null){
-					s.append(" Volume [" + this.Volume.toString() + "]");
-				}
+				}*/
+				//Date	Open	High	Low	Close	Adj Close
 				if (this.Date !=null){
-					s.append(" Date [" + this.Date.toString() + "]");
-				}
+					s.append(this.Date.toString() + ",");
+				}else s.append(",");
+				
+				if (this.Open !=null){
+					s.append(this.Open.toString() + ",");
+				}else s.append(",");
+				
+				if (this.High !=null){
+					s.append(this.High.toString() + ",");
+				}else s.append(",");
+				
+				if (this.Low !=null){
+					s.append(this.Low.toString() + ",");
+				}else s.append(",");
+
+				if (this.Close !=null){
+					s.append(this.Close.toString() + ",");
+				}else s.append(",");
+				
+				if (this.Adj_Close !=null){
+					s.append(this.Adj_Close.toString());
+				}else s.append("");
+				
+				
 				
 				return s.toString();
 				}
@@ -287,11 +301,11 @@ public class ReturnHistoricaldataYahooFinance implements Serializable {
 			
 			@Override
 		    public String toString() {
-			StringBuffer s = new StringBuffer(this.getClass().getCanonicalName());
+			StringBuffer s = new StringBuffer("");
 			if (this.getQuote() !=null){
 				int itera = 0;
 				for (Quote q : this.getQuote()) {
-					s.append("\n quote ["+(++itera)+"] [" + q.toString() + "]");
+					s.append("\n " + q.toString() );
 				}
 				
 			}
