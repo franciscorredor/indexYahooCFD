@@ -269,5 +269,80 @@ public class UtilGeneral {
 		return dateOneMothAgo;
 		
 	}
+	
+	
+	
+	/**
+	 * @return
+	 */
+	public static String obtenerTodayMinusThree(){
+		
+		String dateThreeDaysAgo = null;
+		
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, -5); // I just want date before 90 days. you can give that you want.
+		DateFormat formatter1;
+		formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+		dateThreeDaysAgo = formatter1.format(new Date(cal.getTimeInMillis()));
+		
+		return dateThreeDaysAgo;
+		
+	}
+	
+	/**
+	 * @return
+	 */
+	public static String obtenerFirstDateOftheYearMinusOne(){
+		
+		String firstDayYearMinusOne = null;
+		String year = null;
+		
+		DateFormat formatterYear;
+		formatterYear = new SimpleDateFormat("yyyy");
+		year = formatterYear.format(new Date());
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, Integer.parseInt(year));
+		cal.set(Calendar.DAY_OF_YEAR, 1);
+		cal.add(Calendar.DATE, -2); 
+		
+		DateFormat formatter1;
+		formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+		firstDayYearMinusOne = formatter1.format(new Date(cal.getTimeInMillis()));
+		
+		
+		return firstDayYearMinusOne;
+		
+	}
+	
+	
+	/**
+	 * @return
+	 */
+	public static String obtenerFirstDateOftheYearPlusOne(){
+		
+		String firstDayYearPlusOne = null;
+		String year = null;
+		
+		DateFormat formatterYear;
+		formatterYear = new SimpleDateFormat("yyyy");
+		year = formatterYear.format(new Date());
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, Integer.parseInt(year));
+		cal.set(Calendar.DAY_OF_YEAR, 1);
+		cal.add(Calendar.DATE, 2); 
+		
+		DateFormat formatter1;
+		formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+		firstDayYearPlusOne = formatter1.format(new Date(cal.getTimeInMillis()));
+		
+		
+		return firstDayYearPlusOne;
+		
+	}
+	
+	
+	
 
 }

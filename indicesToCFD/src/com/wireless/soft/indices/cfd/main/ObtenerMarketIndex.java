@@ -124,7 +124,7 @@ public class ObtenerMarketIndex {
 			String accion = args[0];
 			switch (accion){
 			case "0":
-				System.out.println("\n Persiste info de las compañias, consultando de yahoo  [Go long]");
+				System.out.println("\n Persiste info de las companias, consultando de yahoo  [Go long]");
 				omi.printPERatio();
 				System.out.println("Precio accion menor = & % volumen mayor a cero!");
 				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.ONE);
@@ -147,7 +147,7 @@ public class ObtenerMarketIndex {
 				omi.printChartCompany(argumento2);
 				break;
 			case "4":
-				System.out.println("\n Persistir cada 10 minutos informaci�n de la companias");
+				System.out.println("\n Persistir cada 10 minutos informacion de la companias");
 				omi.persisteVariasIteraciones();
 				break;
 			case "5":
@@ -163,12 +163,15 @@ public class ObtenerMarketIndex {
 				omi.relativeStrengthIndex(args[1]);
 				break;	
 			case "8":
-				System.out.println("\n Persiste info de las compañias, consultando de yahoo [Go short]");
+				System.out.println("\n Persiste info de las companies, consultando de yahoo [Go short]");
 				omi.printPERatio();
 				System.out.println("Precio accion menor = & % volumen mayor a cero!");
 				omi.printOBVGoShort(argumento2, cortePorcentajePonderado, Evalua.ONE);
 				System.out.println("Precio accion mayor & % volumen mayor a cero!");
 				omi.printOBVGoShort(argumento2, cortePorcentajePonderado, Evalua.THREE);
+				break;
+			case "9":
+				System.out.println("\n Obtener indicador YTD (Regla de tres con respecto al inicio del year) --> [" + args[1] + "] | "+omi.getYearToDateReturn(args[1]));
 				break;
 				
 							
@@ -362,8 +365,24 @@ public class ObtenerMarketIndex {
 					 * variable /indice P/e usando http://jsoup.org/
 					 * 2015Dec24--> Tener en cuenta el laboratorio de analisis fundamental realizado {https://drive.google.com/drive/u/0/folders/0BwJXnohKnxjbfmNJV2NsYm4zT1Zqb0VlUC1zaUlfcjRaM2VIX1E2WmZ6cU1MN1J2WWJhTGs}
 					 */
+					/*
+					 * TODO: Filtrar YTD positivo:
+					 * CAGR=(endingvalue/beginingvalue)elevado[^](1/#deyears) - 1
+					 * 	REF: http://www.investopedia.com/terms/a/annual-return.asp
+					 */
+					
 					if ((PERatio > 0 && PERatio <= 17)
 							&& (price > supportLevel)) {
+						
+						double ytd = 0;
+						try{
+							ytd = this.getYearToDateReturn(qhcNow.getSymbol());
+						}catch(Exception e){
+							
+						}
+						
+						//Evalua si la companie tiene rendimientos positivos
+						if (ytd >=0){
 						
 						CompanyRanking addAR = null;
 
@@ -384,7 +403,7 @@ public class ObtenerMarketIndex {
 							addAR = evalua01(qhcBefore, qhcNow, cmp);
 							break;
 						default:
-							break;
+							break; 
 
 						}
 						
@@ -395,7 +414,7 @@ public class ObtenerMarketIndex {
 						}
 						
 						
-
+					}//End --> YTD index	
 					}//END --> PERatio validation
 										
 				
@@ -478,7 +497,23 @@ public class ObtenerMarketIndex {
 					 * variable /indice P/e usando http://jsoup.org/
 					 * 2015Dec24--> Tener en cuenta el laboratorio de analisis fundamental realizado {https://drive.google.com/drive/u/0/folders/0BwJXnohKnxjbfmNJV2NsYm4zT1Zqb0VlUC1zaUlfcjRaM2VIX1E2WmZ6cU1MN1J2WWJhTGs}
 					 */
-					if (PERatio > 16) {
+					/*
+					 * TODO: Filtrar YTD negativo:
+					 * CAGR=(endingvalue/beginingvalue)elevado[^](1/#deyears) - 1
+					 * 	REF: http://www.investopedia.com/terms/a/annual-return.asp
+					 */
+					if (PERatio > 16
+							&& (this.getYearToDateReturn(qhcNow.getSymbol()) < 0) ) {
+						
+						double ytd = 0;
+						try{
+							ytd = this.getYearToDateReturn(qhcNow.getSymbol());
+						}catch(Exception e){
+							
+						}
+						
+						//Evalua si la companie tiene rendimientos positivos
+						if (ytd <=0){
 						
 						CompanyRanking addAR = null;
 
@@ -510,7 +545,7 @@ public class ObtenerMarketIndex {
 						}
 						
 						
-
+					}//End --> YTD index
 					}//END --> PERatio validation
 										
 				
@@ -979,12 +1014,14 @@ public class ObtenerMarketIndex {
 	 * Obtine el indicador, para saber que tan costosa o overbuy esta la accion.
 	 * El input lo toma de un servicio de un servicio de yahoo
 	 */
-	private void relativeStrengthIndex(String symbol){
+	private void relativeStrengthIndex(String companySymbol){
 		//obtener el historico de 14 dias o iteraciones!
 		System.out.println("obtener el historico de 14 dias o iteraciones!");
 		
 		List<RelativeStrengthIndexData> lstRSI = null;
-		lstRSI = this.getListaRSI(symbol);
+		String fechaHoy = UtilGeneral.obtenerToday();   //"2016-08-04";
+		String mesatras = UtilGeneral.obtenerTodayMinusMonth();  //"2016-07-04";
+		lstRSI = this.getListaRSI(companySymbol, fechaHoy, mesatras, true);
 		
 		//ordena descendente ID, porque el formamo de la data esta de mayor a menor
 		//y las fechas deben ordenarse de menor a Mayor
@@ -1084,18 +1121,26 @@ public class ObtenerMarketIndex {
 	 * Obtine listado de RSI Data
 	 * @return
 	 */
-	private List<RelativeStrengthIndexData> getListaRSI(String symbol){
+	/**
+	 * @param symbol
+	 * @param dateEnd: Fecha mas proxima
+	 * @param dateBegin: Fecha mas lejana
+	 * @return
+	 */
+	private List<RelativeStrengthIndexData> getListaRSI(String symbol, String dateEnd, String dateBegin, boolean print){
 		List<RelativeStrengthIndexData> lstRSI = null;
 		lstRSI = new ArrayList<RelativeStrengthIndexData>();
 		
-		String fechaHoy = UtilGeneral.obtenerToday();   //"2016-08-04";
-		String mesatras = UtilGeneral.obtenerTodayMinusMonth();  //"2016-07-04";
+		//String fechaHoy = UtilGeneral.obtenerToday();   //"2016-08-04";
+		//String mesatras = UtilGeneral.obtenerTodayMinusMonth();  //"2016-07-04";
 		
 		ReturnHistoricaldataYahooFinance rHistData = null;
 		try {
-			String urlHistdata = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+mesatras+"%22%20and%20endDate%20%3D%20%22"+fechaHoy+"%22&format=json&env=http://datatables.org/alltables.env";
-			System.out.println("urlHistdata: ["+urlHistdata+"]");
-			System.out.println("Date,Open,High,Low,Close,Adj Close");
+			String urlHistdata = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+dateBegin+"%22%20and%20endDate%20%3D%20%22"+dateEnd+"%22&format=json&env=http://datatables.org/alltables.env";
+			if (print){
+				System.out.println("urlHistdata: ["+urlHistdata+"]");
+				System.out.println("Date,Open,High,Low,Close,Adj Close");
+			}
 			rHistData =	this.executeYahooIndexHistoricaldata(urlHistdata);
 			if (null != rHistData && null != rHistData.getQuery() 
 					&& null !=  rHistData.getQuery().getResults() && null != rHistData.getQuery().getResults().getQuote()){
@@ -1110,7 +1155,9 @@ public class ObtenerMarketIndex {
 			        rsid.setHigh(Double.parseDouble(quote.getHigh()));
 			        rsid.setLow(Double.parseDouble(quote.getLow()));
 			        //System.out.println("quote ["+ctd+"] : " +quote.toString());
-			        System.out.println(" " +quote.toString());
+			        if (print){
+			        	System.out.println(" " +quote.toString());
+			        }
 			        lstRSI.add(rsid);
 			        
 			        if (ctd > 13){
@@ -1132,5 +1179,49 @@ public class ObtenerMarketIndex {
 		return lstRSI;
 	}
 
+	
+	//TODO: Filtrar YTD positivo:
+	//	 * CAGR=(endingvalue/beginingvalue)elevado[^](1/#deyears) - 1
+	//	 * 	REF: http://www.investopedia.com/terms/a/annual-return.asp
+	// Compara hoy y hace un año
+	//private Double getAnnualReaturn(String companySymbol){
+		
+	//}
+	
+	
+	/*
+	 * Ecuacion de regla de tres
+	 * Compara hoy con respecto al primero de enero.
+	 */
+	private Double getYearToDateReturn(String companySymbol){
+		
+		Double returnPorcentajeYTD = null;
+		
+		//Valor stock a hoy
+		List<RelativeStrengthIndexData> valuePonderadoToday = null;
+		valuePonderadoToday = this.getListaRSI(companySymbol, UtilGeneral.obtenerToday(), UtilGeneral.obtenerTodayMinusThree(), false);	
+		
+		//Valor stock a principio del anio
+		List<RelativeStrengthIndexData> valuePonderadoBeginYear = null;
+		valuePonderadoBeginYear = this.getListaRSI(companySymbol, UtilGeneral.obtenerFirstDateOftheYearPlusOne(), UtilGeneral.obtenerFirstDateOftheYearMinusOne(), false);	
+		
+		Double valorActual = 0d;
+		Double valorBeginYear = 0d;
+		//Obtiene el valor ajustado al cierre [Adj Close] a la fecha
+		valorActual = valuePonderadoToday.size() > 0?(valuePonderadoToday.get(0)==null?0d:valuePonderadoToday.get(0).getClose()):0d;
+		for (RelativeStrengthIndexData tmpVBY : valuePonderadoBeginYear) {
+			if (tmpVBY.getClose() > valorBeginYear){
+				valorBeginYear = tmpVBY.getClose();
+			}
+			
+		}
+
+		//Calculo de regla de tres para consultar el porcentaje de YTD
+		returnPorcentajeYTD = ((100*valorActual)/valorBeginYear)-100;
+		
+		return returnPorcentajeYTD;
+
+		
+	}
 
 }
