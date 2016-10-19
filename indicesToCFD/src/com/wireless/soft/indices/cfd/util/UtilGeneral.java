@@ -246,6 +246,32 @@ public class UtilGeneral {
 	}
 	
 	/**
+	 * Obtiene la fecha de hoy en formato "yyyy-mm-DD"
+	 * @return
+	 */
+	public static String obtenerTodayMinusNDays(int ndays){
+		
+		String dateOneMothAgo = null;
+		
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, ndays); // I just want date before 90 days. you can give that you want.
+
+//		SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd"); // you can specify your format here...
+//		Log.d("DATE","Date before 90 Days: " + s.format(new Date(cal.getTimeInMillis())));
+//		
+//		
+//		Date today = new Date();
+		DateFormat formatter1;
+		formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+		dateOneMothAgo = formatter1.format(new Date(cal.getTimeInMillis()));
+		
+		
+		return dateOneMothAgo;
+		
+	}
+	
+	
+	/**
 	 * Obtiene la fecha de hoy hace un mes en formato "yyyy-mm-DD"
 	 * @return
 	 */
@@ -341,7 +367,6 @@ public class UtilGeneral {
 		return firstDayYearPlusOne;
 		
 	}
-	
 	
 	
 

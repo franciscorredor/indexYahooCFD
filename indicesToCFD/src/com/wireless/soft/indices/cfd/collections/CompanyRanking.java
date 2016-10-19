@@ -289,12 +289,12 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 		
 		int value1 = 0;
 		try{
-		int comparePonderado = (int) ((CompanyRanking) compareCR).getNotaPonderada();
+		int comparePonderado = (int) compareCR.getNotaPonderada();
 		int evaluarNotaPonderada = (int) this.getNotaPonderada();
 		
 		
 		
-		value1 = (int) ((int) comparePonderado - evaluarNotaPonderada);
+		value1 = comparePonderado - evaluarNotaPonderada;
 		
 		return value1;
 		}catch(Exception e){
@@ -308,6 +308,9 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	
 	@Override
     public String toString() {
+		
+	int printPrecioEvaluado = (int)this.precioEvaluado % 10;
+		
 	StringBuffer s = new StringBuffer();
 	s.append("\n idCompany [" + this.idCompany + "]");
 	s.append("\n companyName [" + this.companyName + "]");
@@ -315,7 +318,7 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	s.append(" pricePercentageincrement [" + UtilGeneral.printNumberFormat(this.pricePercentageincrement, "###.###") + "]");
 	s.append(" volumePercentageIncrement [" + UtilGeneral.printNumberFormat(this.volumePercentageIncrement, "###.###") + "]");
 	s.append("\n notaPonderada [" + this.getNotaPonderada() + "]");
-	s.append(" precioEvaluado [" + this.precioEvaluado + "]");
+	s.append(" precioEvaluado [" + this.precioEvaluado + (printPrecioEvaluado==7?"Termina en 7*":"")  + "]" );
 	s.append(" volumenEvaluado [" + this.volumenEvaluado + "]");
 	s.append(" dayHigh [" + this.dayHigh + "]");
 	s.append(" dayLow [" + this.dayLow + "]");

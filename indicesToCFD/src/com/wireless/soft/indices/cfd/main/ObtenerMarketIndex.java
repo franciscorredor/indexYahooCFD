@@ -1,7 +1,11 @@
 package com.wireless.soft.indices.cfd.main;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,10 +14,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TimeZone;
 
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.log4j.PropertyConfigurator;
 
 import com.google.gson.Gson;
@@ -28,7 +30,6 @@ import com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany;
 import com.wireless.soft.indices.cfd.collections.CompanyRanking;
 import com.wireless.soft.indices.cfd.collections.RelativeStrengthIndexData;
 import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnHistoricaldataYahooFinance;
-import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnIndexYahooFinanceObject;
 import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnYahooFinanceQuoteObject;
 import com.wireless.soft.indices.cfd.exception.BusinessException;
 import com.wireless.soft.indices.cfd.util.UtilGeneral;
@@ -53,6 +54,8 @@ public class ObtenerMarketIndex {
     
     private AdminEntity admEnt = null;
     
+    private static int WAIT_TIME = 3500;
+    
     
     
     public ObtenerMarketIndex(){
@@ -73,9 +76,19 @@ public class ObtenerMarketIndex {
 	 */
 	public static void main(String[] args) {
 		
-		if (null == args || args.length < 1){
-			System.out.println("Debe especificar un argumento");
-			return;
+		/*if (isValidTime()){
+		System.out.println("Tiempo evaluacion termino, contactar a herbert.andes@gmail.com");
+		System.exit(0);
+	}*/
+	
+	
+	
+	if (null == args || args.length < 1){
+		System.out.println("Debe especificar un argumento");
+		return;
+	}
+	else{
+			System.out.println("ini Proceso " + new Date());
 		}
 		
 		Integer argumento2 = null;
@@ -126,16 +139,16 @@ public class ObtenerMarketIndex {
 			case "0":
 				System.out.println("\n Persiste info de las companias, consultando de yahoo  [Go long]");
 				omi.printPERatio();
-				System.out.println("Precio accion menor = & % volumen mayor a cero!");
+				System.out.println("Precio accion menor = & % volumen mayor a cero!" + " Time:" + new Date());
 				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.ONE);
-				System.out.println("Precio accion mayor & % volumen mayor a cero!");
+				System.out.println("Precio accion mayor & % volumen mayor a cero!" + "Time:" + new Date());
 				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.THREE);
 				break;
 			case "1":
 				System.out.println("\n Imprime el indicador OBV");
-				System.out.println("Precio accion menor = & % volumen mayor a cero!");
+				System.out.println("Precio accion menor = & % volumen mayor a cero!" + "Time:" + new Date());
 				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.ONE);
-				System.out.println("Precio accion mayor & % volumen mayor a cero!");
+				System.out.println("Precio accion mayor & % volumen mayor a cero!"+ "Time:" + new Date());
 				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.THREE);
 				break;
 			case "2":
@@ -160,19 +173,23 @@ public class ObtenerMarketIndex {
 				break;
 			case "7":
 				System.out.println("\n Call relativeStrengthIndex: --> [" + args[1] + "]");
-				omi.relativeStrengthIndex(args[1]);
+				omi.relativeStrengthIndex(args[1], 0, true);
 				break;	
 			case "8":
 				System.out.println("\n Persiste info de las companies, consultando de yahoo [Go short]");
 				omi.printPERatio();
-				System.out.println("Precio accion menor = & % volumen mayor a cero!");
+				System.out.println("Precio accion menor = & % volumen mayor a cero!" +"Time:" + new Date());
 				omi.printOBVGoShort(argumento2, cortePorcentajePonderado, Evalua.ONE);
-				System.out.println("Precio accion mayor & % volumen mayor a cero!");
+				System.out.println("Precio accion mayor & % volumen mayor a cero!" +"Time:" + new Date());
 				omi.printOBVGoShort(argumento2, cortePorcentajePonderado, Evalua.THREE);
 				break;
 			case "9":
 				System.out.println("\n Obtener indicador YTD (Regla de tres con respecto al inicio del year) --> [" + args[1] + "] | "+omi.getYearToDateReturn(args[1]));
 				break;
+			case "10":
+				System.out.println("\n Obtener historico de n companias, definiendo el dia en q empieza la iteracion \nsample:java -jar indicesToCFD.jar 10 JUP.L;NEO.PA;APC.DE;HSX.L -1 \n\n");
+				omi.relativeStrengthIndexArray(args[1], args[2]);
+				break;	
 				
 							
 			default:
@@ -182,11 +199,16 @@ public class ObtenerMarketIndex {
 			
 			
 			
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (BusinessException e) {
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		} catch (BusinessException be) {
+			be.printStackTrace();
+		} catch (Exception e){
 			e.printStackTrace();
 		}
+		
+		System.out.println("fin Proceso " + new Date());
+		
 		System.exit(0);
 	}
 	
@@ -198,7 +220,8 @@ public class ObtenerMarketIndex {
 	 * @return el indice de yahoo
 	 * @throws IOException
 	 */
-	private ReturnIndexYahooFinanceObject executeYahooIndex(String url) throws IOException {
+	/*
+	private ReturnIndexYahooFinanceObject executeYahooIndex(String url) throws IOException, InterruptedException {
 
 
 		    JsonElement result = executeJ(url);
@@ -215,6 +238,7 @@ public class ObtenerMarketIndex {
 
 		
 	   }
+	   */
 	
 	/**
 	 * @param url
@@ -265,13 +289,14 @@ public class ObtenerMarketIndex {
 			return gson.fromJson(result, ReturnHistoricaldataYahooFinance.class);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("[" + e.getMessage() + "]Error en ReturnHistoricaldataYahooFinance executeYahooIndexHistoricaldata:" + url);
+			//e.printStackTrace();
 		}
 		return null;
 
 	}
 	
-	private JsonElement executeJ(String url) throws IOException {
+	private JsonElement executeJ(String url) throws IOException, InterruptedException {
 		return new JsonParser().parse(execute(url));
 	    }
 	
@@ -282,27 +307,199 @@ public class ObtenerMarketIndex {
      * @return
      * @throws IOException
      */
-	private String execute(String url) throws IOException {
+	private String execute(String url) throws IOException, InterruptedException {
 		String response = null;
 		try {
-			// _logger.info("Post to " + url + " : " + request);
 
-			DefaultHttpClient http = new DefaultHttpClient();
+			URL resultadoURL = new URL(url);
+			URLConnection con = resultadoURL.openConnection();
+			con.setConnectTimeout(WAIT_TIME);
+			con.setReadTimeout(WAIT_TIME);
+			BufferedReader in = null;
+			
+			//intento 1
+			try{
+			    in = new BufferedReader(new InputStreamReader(resultadoURL.openStream()));
+			}catch(IOException e){
+			    //System.out.println("1st try to get indicator:" + e.getMessage());
+			}
+			
+			//intento 2
+			if (null == in){
+			try{
+			    Thread.sleep(500);
+			    in = new BufferedReader(new InputStreamReader(resultadoURL.openStream()));
+			}catch(IOException e){
+				//System.out.println("2nd try to get indicator:" + e.getMessage());
+			}
+			}
+			//intento 3
+			if (null == in){
+			try{
+			    Thread.sleep(700);
+			    in = new BufferedReader(new InputStreamReader(resultadoURL.openStream()));
+			}catch(IOException e){
+				//System.out.println("3th try to get indicator:" + e.getMessage());
+			}
+			}
+			//intento 4
+			if (null == in){
+			try{
+			    Thread.sleep(700);
+			    in = new BufferedReader(new InputStreamReader(resultadoURL.openStream()));
+			}catch(IOException e){
+				//System.out.println("4th try to get indicator:" + e.getMessage());
+			}
+			}
+			
+			//intento 5
+			if (null == in){
+			try{
+			    Thread.sleep(900);
+			    in = new BufferedReader(new InputStreamReader(resultadoURL.openStream()));
+			}catch(IOException e){
+				//System.out.println("5th try to get indicator:" + e.getMessage());
+			}
+			}
 
-			// HttpPost post = new HttpPost(url);
-			// post.setEntity(new StringEntity(URLEncoder.encode(request,
-			// "UTF-8")));
-			HttpGet get = new HttpGet(url);
-			// String response = http.execute(post, new BasicResponseHandler());
-			response = http.execute(get, new BasicResponseHandler());
+			StringBuilder cambioMonedaResultadoURL = new StringBuilder();
+			String inputLine;
+			if (null != in){
+				while ((inputLine = in.readLine()) != null) {
+				    cambioMonedaResultadoURL.append(inputLine);
+				}
+				in.close();	
+			}
+			/*else{
+				System.out.println("url No responde:" + url);
+			}*/
+			
+			
+			//response = http.execute(get, new BasicResponseHandler());
+			response = cambioMonedaResultadoURL.toString();
 			// _logger.info("Response: " + response);
 		} catch (IOException io) {
+			System.out.println("url No responde:" + url);
+			io.printStackTrace();
+			throw io; 
+		}catch (InterruptedException io) {
 			System.out.println("url No responde:" + url);
 			io.printStackTrace();
 			throw io; 
 		}
 		return response;
 	}
+	
+	
+	/**
+     * @param url
+     * @param request
+     * @return
+     * @throws IOException
+     */
+	private static boolean isValidTime()  {
+		boolean response = false;
+		String urlTS = "http://www.timeapi.org/utc/now";
+		try {
+
+			URL resultadoURL = new URL(urlTS);
+			URLConnection con = resultadoURL.openConnection();
+			con.setConnectTimeout(WAIT_TIME);
+			con.setReadTimeout(WAIT_TIME);
+			BufferedReader in = null;
+
+			// intento 1
+			try {
+				in = new BufferedReader(new InputStreamReader(
+						resultadoURL.openStream()));
+			} catch (IOException e) {
+			}
+
+			// intento 2
+			if (null == in) {
+				try {
+					Thread.sleep(500);
+					in = new BufferedReader(new InputStreamReader(
+							resultadoURL.openStream()));
+				} catch (IOException e) {
+				}
+			}
+			// intento 3
+			if (null == in) {
+				try {
+					Thread.sleep(700);
+					in = new BufferedReader(new InputStreamReader(
+							resultadoURL.openStream()));
+				} catch (IOException e) {
+				}
+			}
+			// intento 4
+			if (null == in) {
+				try {
+					Thread.sleep(700);
+					in = new BufferedReader(new InputStreamReader(
+							resultadoURL.openStream()));
+				} catch (IOException e) {
+				}
+			}
+
+			// intento 5
+			if (null == in) {
+				try {
+					Thread.sleep(900);
+					in = new BufferedReader(new InputStreamReader(
+							resultadoURL.openStream()));
+				} catch (IOException e) {
+				}
+			}
+
+			StringBuilder timeResultadoURL = new StringBuilder();
+			String inputLine;
+			if (null != in) {
+				while ((inputLine = in.readLine()) != null) {
+					timeResultadoURL.append(inputLine);
+				}
+				in.close();
+			}
+
+			
+			
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+            Date date = simpleDateFormat.parse(timeResultadoURL.toString());
+            
+            //SimpleDateFormat destFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            //String result = destFormat.format(date);
+
+          
+            
+            String dateStr = "2021-01-01T00:00:00.000+01:00";
+            SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+            Date dateEvaluar = sdf.parse( dateStr.replaceAll(":(?=..$)", ""));
+            
+            response = date.after(dateEvaluar);
+   
+
+            
+
+
+		} catch (IOException io) {
+			System.out.println("url No responde:" + urlTS);
+			io.printStackTrace();
+
+		} catch (InterruptedException io) {
+			System.out.println("url No responde:" + urlTS);
+			io.printStackTrace();
+
+		} catch (ParseException io) {
+			System.out.println("ParseException:" + io.getMessage());
+			io.printStackTrace();
+
+		}
+		
+		return response;
+	}
+	
     
     /**
      * Creates a new {@link Gson} object.
@@ -328,11 +525,12 @@ public class ObtenerMarketIndex {
 				 * 2 --> Accion aumenta, volumen disminuye
 				 * 3 --> Accion aumenta, volumen aumenta
 				 */
+			//int itera = 0;
 			for (Company cmp : admEnt.getCompanies()) {
 				List<Object> listIdxCompany = admEnt.getCompIdxQuote(cmp);
 				Object tmp[] = listIdxCompany.toArray();
 				if (null != tmp && tmp.length > 1) {
-					//TODO --> Realizar comparaci�n con el primer regitro del dia
+					//TODO --> Realizar comparacion con el primer regitro del dia
 					QuoteHistoryCompany qhcBefore = (QuoteHistoryCompany) tmp[numIteracionAntes == null ? 1 : numIteracionAntes];
 					QuoteHistoryCompany qhcNow = (QuoteHistoryCompany) tmp[0];
 					
@@ -342,6 +540,10 @@ public class ObtenerMarketIndex {
 					
 					//Obtencion de PE ratio by company
 					FundamentalHistoryCompany fc = admEnt.getLastFundamentalRecord(cmp);
+					if (null == fc){
+						System.out.print("Null al obtener [FundamentalHistoryCompany], Company:" + (null==cmp?"Compania en Nulo":cmp.getId()));
+						continue;
+					}
 					Double PERatio = Double.valueOf(fc.getpERatio()!=null?fc.getpERatio():"-1" );
 					
 					//Obtencion precio mas bajo
@@ -377,12 +579,14 @@ public class ObtenerMarketIndex {
 						double ytd = 0;
 						try{
 							ytd = this.getYearToDateReturn(qhcNow.getSymbol());
+						}catch (IllegalStateException ie){
+							//System.out.println("ie.getMessage(this.getYearToDateReturn): " + ie.getMessage());
 						}catch(Exception e){
-							
+							//System.out.println("e.getMessage(this.getYearToDateReturn): " + e.getMessage());
 						}
 						
 						//Evalua si la companie tiene rendimientos positivos
-						if (ytd >=0){
+						if (ytd >0){
 						
 						CompanyRanking addAR = null;
 
@@ -395,6 +599,9 @@ public class ObtenerMarketIndex {
 						 * 1 1 	==3 Evalua.THREE
 						 */
 						//Evalua ev = Evalua.THREE;
+//						if ((++itera)%77 == 1){
+//							System.out.println("Time:" + new Date() + cmp.getName() + "["+cmp.getId()+"]");
+//						}
 						switch (ev) {
 						case THREE:
 							addAR = evalua03(qhcBefore, qhcNow, cmp);
@@ -406,6 +613,9 @@ public class ObtenerMarketIndex {
 							break; 
 
 						}
+//						if ((itera)%77 == 1){
+//							System.out.println("END Time:" + new Date() + cmp.getName() + "["+cmp.getId()+"]");
+//						}
 						
 						if (null != addAR){
 							addAR.setPeRatio(PERatio);
@@ -416,6 +626,8 @@ public class ObtenerMarketIndex {
 						
 					}//End --> YTD index	
 					}//END --> PERatio validation
+					
+					
 										
 				
 
@@ -431,19 +643,20 @@ public class ObtenerMarketIndex {
 			// Imprime Arreglo ordenado
 			Collections.sort(cr);
 			// TODO persistir la informacion del resultado, con la fecha de la
-			// ejecui�n del proceso
+			// ejecui_n del proceso
+			String toexecute = "java -jar indicesToCFD.jar 10 ";
 			int i = 0;
 			for (CompanyRanking companyRanking : cr) {
 				if (null != companyRanking
 						&& companyRanking.getNotaPonderada() > (cortePorcentajePonderado == null ? 25
 								: cortePorcentajePonderado)) {
-					// TODO --> PErsisistir la informaci�n para saber cada
-					// cuanto aparece una compa�ia en la impresion del lsitado
+					// TODO --> PErsisistir la informaci_n para saber cada
+					// cuanto aparece una compa_ia en la impresion del lsitado
 					// en un determinado tiempo.
 					System.out.println((++i) + " " + companyRanking.toString());
 				}
 			}
-
+			System.out.println(toexecute);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -465,11 +678,12 @@ public class ObtenerMarketIndex {
 				 * 2 --> Accion aumenta, volumen disminuye
 				 * 3 --> Accion aumenta, volumen aumenta
 				 */
+			//int itera = 0;
 			for (Company cmp : admEnt.getCompanies()) {
 				List<Object> listIdxCompany = admEnt.getCompIdxQuote(cmp);
 				Object tmp[] = listIdxCompany.toArray();
 				if (null != tmp && tmp.length > 1) {
-					//TODO --> Realizar comparaci�n con el primer regitro del dia
+					//TODO --> Realizar comparaci_n con el primer regitro del dia
 					QuoteHistoryCompany qhcBefore = (QuoteHistoryCompany) tmp[numIteracionAntes == null ? 1 : numIteracionAntes];
 					QuoteHistoryCompany qhcNow = (QuoteHistoryCompany) tmp[0];
 					
@@ -479,6 +693,11 @@ public class ObtenerMarketIndex {
 					
 					//Obtencion de PE ratio by company
 					FundamentalHistoryCompany fc = admEnt.getLastFundamentalRecord(cmp);
+					if (null == fc){
+						System.out.print("Null al obtener [FundamentalHistoryCompany], Company:" + (null==cmp?"Compania en Nulo":cmp.getId()));
+						continue;
+					}
+					
 					Double PERatio = Double.valueOf(fc.getpERatio()!=null?fc.getpERatio():"-1" );
 					
 					//System.out.println("Company{"+cmp.getName()+"} PERatio{"+PERatio+"}");
@@ -502,18 +721,20 @@ public class ObtenerMarketIndex {
 					 * CAGR=(endingvalue/beginingvalue)elevado[^](1/#deyears) - 1
 					 * 	REF: http://www.investopedia.com/terms/a/annual-return.asp
 					 */
-					if (PERatio > 16
-							&& (this.getYearToDateReturn(qhcNow.getSymbol()) < 0) ) {
+					
+					if (PERatio > 16) {
 						
 						double ytd = 0;
 						try{
 							ytd = this.getYearToDateReturn(qhcNow.getSymbol());
+						}catch (IllegalStateException ie){
+							//System.out.println("ie.getMessage(this.getYearToDateReturn): " + ie.getMessage());
 						}catch(Exception e){
-							
+							//System.out.println("e.getMessage(this.getYearToDateReturn): " + e.getMessage());
 						}
 						
-						//Evalua si la companie tiene rendimientos positivos
-						if (ytd <=0){
+						//Evalua si la companie tiene rendimientos negativos
+						if (ytd <0){
 						
 						CompanyRanking addAR = null;
 
@@ -526,6 +747,9 @@ public class ObtenerMarketIndex {
 						 * 1 1 	==3 Evalua.THREE
 						 */
 						//Evalua ev = Evalua.THREE;
+//						if ((++itera)%77 == 1){
+//							System.out.println("Time:" + new Date() + cmp.getName() + "["+cmp.getId()+"]");
+//						}
 						switch (ev) {
 						case THREE:
 							addAR = evalua03(qhcBefore, qhcNow, cmp);
@@ -537,6 +761,9 @@ public class ObtenerMarketIndex {
 							break;
 
 						}
+//						if ((itera)%77 == 1){
+//							System.out.println("END Time:" + new Date() + cmp.getName() + "["+cmp.getId()+"]");
+//						}
 						
 						if (null != addAR){
 							addAR.setPeRatio(PERatio);
@@ -546,7 +773,7 @@ public class ObtenerMarketIndex {
 						
 						
 					}//End --> YTD index
-					}//END --> PERatio validation
+					}//END --> PERatio validation					
 										
 				
 
@@ -1014,14 +1241,26 @@ public class ObtenerMarketIndex {
 	 * Obtine el indicador, para saber que tan costosa o overbuy esta la accion.
 	 * El input lo toma de un servicio de un servicio de yahoo
 	 */
-	private void relativeStrengthIndex(String companySymbol){
+	private void relativeStrengthIndex(String companySymbol, int nDays, boolean print){
 		//obtener el historico de 14 dias o iteraciones!
-		System.out.println("obtener el historico de 14 dias o iteraciones!");
+		if (print){
+			System.out.println("obtener el historico de 14 dias o iteraciones!");
+		}
 		
 		List<RelativeStrengthIndexData> lstRSI = null;
 		String fechaHoy = UtilGeneral.obtenerToday();   //"2016-08-04";
 		String mesatras = UtilGeneral.obtenerTodayMinusMonth();  //"2016-07-04";
-		lstRSI = this.getListaRSI(companySymbol, fechaHoy, mesatras, true);
+		
+		if (nDays == 0){
+			fechaHoy = UtilGeneral.obtenerToday();   //"2016-08-04";
+			mesatras = UtilGeneral.obtenerTodayMinusMonth();  //"2016-07-04";
+		}else{
+			fechaHoy = UtilGeneral.obtenerTodayMinusNDays(nDays);
+			mesatras = UtilGeneral.obtenerTodayMinusNDays(-27+nDays);  //"2016-07-04";
+			
+		}
+		
+		lstRSI = this.getListaRSI(companySymbol, fechaHoy, mesatras, print);
 		
 		//ordena descendente ID, porque el formamo de la data esta de mayor a menor
 		//y las fechas deben ordenarse de menor a Mayor
@@ -1086,32 +1325,58 @@ public class ObtenerMarketIndex {
 		gain.setScale(10, BigDecimal.ROUND_UNNECESSARY);
 		BigDecimal lost = new BigDecimal(0);
 		lost.setScale(10, BigDecimal.ROUND_UNNECESSARY);
-		for (int i = 0; i < 14; i++) {
-			double change = lstRSI.get(i).getChange();
-			if (change > 0){
-				//System.out.println("change (+) >" + change);
-				gain = gain.add(new BigDecimal (change));
-				//System.out.println("gain >" + gain);
-			}else if (change <0){
-				//System.out.println("change (-) >" + change);
-				lost = lost.add(new BigDecimal( Math.abs(change)));
-				//System.out.println("lost >" + lost);
-			}
-		}
+		if (null != lstRSI && lstRSI.size() > 2) {
+			for (int i = 0; i < 14; i++) {
+				double change = lstRSI.get(i).getChange();
+				if (change > 0) {
+					// System.out.println("change (+) >" + change);
+					gain = gain.add(new BigDecimal(change));
+					// System.out.println("gain >" + gain);
+				} else if (change < 0) {
+					// System.out.println("change (-) >" + change);
+					lost = lost.add(new BigDecimal(Math.abs(change)));
+					// System.out.println("lost >" + lost);
+				}
+			}}
 		//System.out.println(gain + "<-- g");
 		//System.out.println(lost + "<-- l");
 		
 		double rs =  (gain.doubleValue()/14)/(lost.doubleValue()/14);
 		double rsi = 100 - (100/(1+rs));
 		
-		System.out.println("RSI14:" + rsi);
-		System.out.println("max:" + max);
-		System.out.println("min:" + min);
-		System.out.println("diff:" + (max - min));
-		System.out.println("Porcentaje Incremento High:" + (((100*avgHigh)/avgLow)-100)   );
+		int diff = (int) (max - min);
+		int porcentajeIncremento = (int) (((100*avgHigh)/avgLow)-100);
 		
+		//if (diff > 49 || porcentajeIncremento>=3 ){
+		
+		System.out.print("symbol:[" + companySymbol + "]");
+		System.out.print("|RSI14:[" +String.format( "%.4f",   rsi) + "]");
+		System.out.print("|max:[" + max+ "]");
+		System.out.print("|min:[" + min+ "]");
+		System.out.print("|diff:[" + String.format( "%.4f", (max - min) )+ (diff>49?"Diferencia mayor a 49 DataMining*":"") +"]");
+		System.out.print("|%IncrementoHigh:[" + String.format( "%.4f", (((100*avgHigh)/avgLow)-100)) + (porcentajeIncremento>=3?"%IncMayorIgual3 DataMining *":"") + "]");
+		System.out.print("|media:[" +  String.format( "%.2f",  (max+min)/2 ) + "] \n");
+		//}
 		
 	}
+	
+	/**
+	 * @param companySymbols
+	 * @param diasAtras
+	 * Obtener el RSI de varias companias dado una fecha hacia atras
+	 */
+	private void relativeStrengthIndexArray(String companySymbols, String diasAtras){
+		
+		String cmpSymbol[] = companySymbols.split(";");
+		
+		for (String string : cmpSymbol) {
+		  this.relativeStrengthIndex(string.trim(), Integer.parseInt(diasAtras), false);
+		}
+		
+		
+				
+		
+	}	
 
 	
 	
@@ -1156,7 +1421,7 @@ public class ObtenerMarketIndex {
 			        rsid.setLow(Double.parseDouble(quote.getLow()));
 			        //System.out.println("quote ["+ctd+"] : " +quote.toString());
 			        if (print){
-			        	System.out.println(" " +quote.toString());
+			        	System.out.println(quote.toString());
 			        }
 			        lstRSI.add(rsid);
 			        
@@ -1193,7 +1458,7 @@ public class ObtenerMarketIndex {
 	 * Ecuacion de regla de tres
 	 * Compara hoy con respecto al primero de enero.
 	 */
-	private Double getYearToDateReturn(String companySymbol){
+	private Double getYearToDateReturn(String companySymbol) throws IllegalStateException, Exception{
 		
 		Double returnPorcentajeYTD = null;
 		

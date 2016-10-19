@@ -167,12 +167,12 @@ public class RelativeStrengthIndexData   implements Comparable<RelativeStrengthI
 		
 		int value1 = 0;
 		try{
-		int compareOrden = (int) ((RelativeStrengthIndexData) compareSID).getId();
+		int compareOrden = (int) compareSID.getId();
 		int evaluarOrden = (int) this.getId();
 		
 		
 		
-		value1 = (int) ((int)compareOrden - evaluarOrden);
+		value1 = compareOrden - evaluarOrden;
 		
 		return value1;
 		}catch(Exception e){
