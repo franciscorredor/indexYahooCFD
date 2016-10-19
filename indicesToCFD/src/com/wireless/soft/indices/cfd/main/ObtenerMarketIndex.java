@@ -654,6 +654,7 @@ public class ObtenerMarketIndex {
 					// cuanto aparece una compa_ia en la impresion del lsitado
 					// en un determinado tiempo.
 					System.out.println((++i) + " " + companyRanking.toString());
+					toexecute += companyRanking.getSymbol() + ";";
 				}
 			}
 			System.out.println(toexecute);
