@@ -18,9 +18,9 @@
 			<!-- Conexion con driver de jTDS -->
 			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
 			<property name="hibernate.connection.url"
-				value="jdbc:mysql://localhost:3306/" />
+				value="jdbc:mysql://localhost:3306" />
 			<property name="hibernate.connection.username" value="root" />
-			<property name="hibernate.connection.password" value="h24p1977" />
+			<property name="hibernate.connection.password" value="" />
 
 			
 			
