@@ -8,6 +8,77 @@ CREATE SCHEMA `indexyahoocfd` ;
 
 -- Pagina web de la compañia.
 
+-- Nombre de la tabla de datamining
+--DROP TABLE  `indexyahoocfd`.`dmc_data_mining_company`
+CREATE TABLE `indexyahoocfd`.`dmc_data_mining_company`
+(
+	-- identificador unico del regitro
+   DMC_CODIGO INT NOT NULL AUTO_INCREMENT, --int PRIMARY KEY NOT NULL,
+   -- identificador unico de la iteracion
+   DMC_CODIGO_GRP_ITERACION int NOT NULL,
+   -- fecha creacion del registro
+   DMC_FECHA_CREACION timestamp,
+   -- Join con la compania
+   `SCN_CODIGO` INT NOT NULL,
+   -- isPriceBetweenHighLow		
+   DMC_IS_PRICE_BETWEEN_HIGH_LOW smallint,
+   -- Tendencia, ipod 3meses, *atributo Nominal		
+   /*
+     * 	(0) - alza
+		(1)	- baja
+		(2)	Alza
+		(3)	Baja
+     */	
+   DMC_TENDENCIA int,
+   --Price Percentage Increment Class
+   DMC_PRICE_PERCENTAGE_INCREMENT VARCHAR(1000),
+   -- Nota Ponderada			
+   DMC_NOTA_PONDERADA VARCHAR(1000),
+   --Price Earning Ratio		
+   DMC_PRICE_EARNING_RATIO VARCHAR(1000),
+   -- 	RSI, Relative Strength Index		
+   DMC_RELATIVE_STRENGTH_INDEX VARCHAR(1000),
+   -- 	Precio Accion			
+   DMC_STOCK_PRICE VARCHAR(1000),
+   --LastDigit, es el utimo digito del precio de la accion
+   -- en la muestra indica que un valor de 7siete tiene
+   -- probablidad en que la accion suba de precio.
+   DMC_LAST_DIGIT int,
+   --Diff Max Vs Min			
+   DMC_DIFF_MAX_MIN VARCHAR(1000),
+   --% Incremento			
+   DMC_PERCENTAGE_INCREMENT VARCHAR(1000),
+   --Valor accion Mayor a la media en RSI			
+   DMC_IS_STOCK_PRICE_MAYOR_MEDIA smallint,
+   -- Determina el valor de la accion al final del dia, 
+   -- en la logica del sistema nos permite saber si la
+   --accion gano o perdio valor, comparando con el campo 'dmc_stock_price'
+   DMC_STOCK_PRICE_CLOSE VARCHAR(1000),
+   PRIMARY KEY (`DMC_CODIGO`)
+)
+;
+
+ALTER TABLE `indexyahoocfd`.`dmc_data_mining_company` 
+
+  ADD CONSTRAINT `companyForeignKey`
+
+  FOREIGN KEY (`SCN_CODIGO` )
+
+  REFERENCES `indexyahoocfd`.`iyc_stock_companies` (`SCN_CODIGO` )
+
+  ON DELETE NO ACTION
+
+  ON UPDATE NO ACTION
+
+, ADD INDEX `company` (`SCN_CODIGO` ASC) ;
+
+--CREATE UNIQUE INDEX PRIMARY ON dmc_data_mining_company(DMC_CODIGO)
+--;
+--2016Nov01
+ALTER TABLE  `indexyahoocfd`.`dmc_data_mining_company` 
+	ADD DMC_YTD_PLATAFORMA VARCHAR(1000);
+
+
 
 -- Nombre de compañias en la bolsa
 CREATE TABLE `indexyahoocfd`.`iyc_stock_companies` (
