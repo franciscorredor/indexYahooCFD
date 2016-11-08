@@ -19,6 +19,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.wireless.soft.indices.cfd.business.entities.Company;
+import com.wireless.soft.indices.cfd.business.entities.DataMiningCompany;
+import com.wireless.soft.indices.cfd.collections.CompanyRanking;
 import com.wireless.soft.indices.cfd.collections.RelativeStrengthIndexData;
 
 /**
@@ -246,6 +249,22 @@ public class UtilGeneral {
 	}
 	
 	/**
+	 * Obtiene identificadorunicoiteracion
+	 * @return
+	 */
+	public static Long obtenerIdIteracion(){
+		
+		String fh = null;
+		DateFormat formatter1;
+		formatter1 = new SimpleDateFormat("yyMMddHHmm");
+		fh = formatter1.format(new Date());
+		
+		
+		return Long.parseLong(fh);
+		
+	}
+	
+	/**
 	 * Obtiene la fecha de hoy en formato "yyyy-mm-DD"
 	 * @return
 	 */
@@ -269,7 +288,6 @@ public class UtilGeneral {
 		return dateOneMothAgo;
 		
 	}
-	
 	
 	/**
 	 * Obtiene la fecha de hoy hace un mes en formato "yyyy-mm-DD"
@@ -367,6 +385,30 @@ public class UtilGeneral {
 		return firstDayYearPlusOne;
 		
 	}
+	
+	
+	/**
+	 * @return
+	 */
+	public static DataMiningCompany construirObjetoDataMiningCompany(CompanyRanking cpnRnk, Long identificadorUnicoIteracion){
+		DataMiningCompany retornoDMC = new DataMiningCompany();
+		retornoDMC.setIdIteracion(identificadorUnicoIteracion);
+		retornoDMC.setFechaCreacion(Calendar.getInstance());
+		Company cmp = new Company();
+		cmp.setId(cpnRnk.getIdCompany());
+		retornoDMC.setCompany(cmp);
+		retornoDMC.setNotaPonderada(  printNumberFormat (cpnRnk.getNotaPonderada(), "#########.#########"));
+		retornoDMC.setStockPrice( printNumberFormat( cpnRnk.getPrecioEvaluado(), "#########.#########"));
+		retornoDMC.setPriceEarningRatio(printNumberFormat( cpnRnk.getPeRatio() , "#########.#########"));
+		retornoDMC.setIsPriceBetweenHighLow( cpnRnk.isPriceBetweenHighLow() );
+		retornoDMC.setPricePercentageIncrement(printNumberFormat (cpnRnk.getPricePercentageincrement(), "###.###"));
+		int price = (int)cpnRnk.getPrecioEvaluado();
+		retornoDMC.setLastDigitStockPrice(price%10);
+		retornoDMC.setYTDPlataforma(printNumberFormat (cpnRnk.getYTD(), "#########.#########"));
+		
+		return retornoDMC;
+	}
+	
 	
 	
 

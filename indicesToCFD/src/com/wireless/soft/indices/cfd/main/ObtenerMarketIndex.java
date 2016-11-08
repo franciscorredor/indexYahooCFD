@@ -25,13 +25,27 @@ import com.google.gson.JsonParser;
 import com.wireless.soft.indices.cfd.business.adm.AdminEntity;
 import com.wireless.soft.indices.cfd.business.entities.BloombergIndex;
 import com.wireless.soft.indices.cfd.business.entities.Company;
+import com.wireless.soft.indices.cfd.business.entities.DataMiningCompany;
 import com.wireless.soft.indices.cfd.business.entities.FundamentalHistoryCompany;
 import com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany;
 import com.wireless.soft.indices.cfd.collections.CompanyRanking;
 import com.wireless.soft.indices.cfd.collections.RelativeStrengthIndexData;
 import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnHistoricaldataYahooFinance;
+import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnSingleDataYahooFinance;
 import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnYahooFinanceQuoteObject;
 import com.wireless.soft.indices.cfd.exception.BusinessException;
+import com.wireless.soft.indices.cfd.statistics.DiffMaxMin;
+import com.wireless.soft.indices.cfd.statistics.IStatistics;
+import com.wireless.soft.indices.cfd.statistics.LastDigit;
+import com.wireless.soft.indices.cfd.statistics.NotaPonderada;
+import com.wireless.soft.indices.cfd.statistics.PercentageIncremento;
+import com.wireless.soft.indices.cfd.statistics.PrecioAccion;
+import com.wireless.soft.indices.cfd.statistics.PriceBetweenHighLow;
+import com.wireless.soft.indices.cfd.statistics.PriceEarningRatio;
+import com.wireless.soft.indices.cfd.statistics.PricePercentageIncrement;
+import com.wireless.soft.indices.cfd.statistics.RelativeStrengthIndex;
+import com.wireless.soft.indices.cfd.statistics.StockMayorMedia;
+import com.wireless.soft.indices.cfd.statistics.TendenciaTresMeses;
 import com.wireless.soft.indices.cfd.util.UtilGeneral;
 
 /**
@@ -44,6 +58,8 @@ import com.wireless.soft.indices.cfd.util.UtilGeneral;
 
 enum Evalua {ONE, THREE}
 
+enum TENDENCIA {minusalza, minusbaja, ALZA, BAJA, NO_EVALUADA;}
+
 public class ObtenerMarketIndex {
 	
 	// ////////////////////////////////////////////////////////////////////////
@@ -55,6 +71,10 @@ public class ObtenerMarketIndex {
     private AdminEntity admEnt = null;
     
     private static int WAIT_TIME = 3500;
+    
+    private static int diasIntentos = -1;
+    
+    
     
     
     
@@ -76,20 +96,22 @@ public class ObtenerMarketIndex {
 	 */
 	public static void main(String[] args) {
 		
+		diasIntentos =-1;
+		
 		/*if (isValidTime()){
-		System.out.println("Tiempo evaluacion termino, contactar a herbert.andes@gmail.com");
-		System.exit(0);
-	}*/
-	
-	
-	
-	if (null == args || args.length < 1){
-		System.out.println("Debe especificar un argumento");
-		return;
-	}
-	else{
-			System.out.println("ini Proceso " + new Date());
+			System.out.println("Tiempo evaluacion termino, contactar a herbert.andes@gmail.com");
+			System.exit(0);
+		}*/
+		
+		
+		
+		if (null == args || args.length < 1){
+			System.out.println("Debe especificar un argumento");
+			return;
 		}
+		else{
+				System.out.println("ini Proceso " + new Date());
+			}
 		
 		Integer argumento2 = null;
 		Integer cortePorcentajePonderado = null;
@@ -173,7 +195,9 @@ public class ObtenerMarketIndex {
 				break;
 			case "7":
 				System.out.println("\n Call relativeStrengthIndex: --> [" + args[1] + "]");
-				omi.relativeStrengthIndex(args[1], 0, true);
+				//El identificador  0 es que no tiene iteracion y no debe almacenar ningun tipo
+				//de informacion para el Datamining
+				omi.relativeStrengthIndex(args[1], 0, true, "0");
 				break;	
 			case "8":
 				System.out.println("\n Persiste info de las companies, consultando de yahoo [Go short]");
@@ -187,9 +211,17 @@ public class ObtenerMarketIndex {
 				System.out.println("\n Obtener indicador YTD (Regla de tres con respecto al inicio del year) --> [" + args[1] + "] | "+omi.getYearToDateReturn(args[1]));
 				break;
 			case "10":
-				System.out.println("\n Obtener historico de n companias, definiendo el dia en q empieza la iteracion \nsample:java -jar indicesToCFD.jar 10 JUP.L;NEO.PA;APC.DE;HSX.L -1 \n\n");
-				omi.relativeStrengthIndexArray(args[1], args[2]);
+				System.out.println("\n Obtener historico de n companias, definiendo el dia en q empieza la iteracion \nsample:java -jar indicesToCFD.jar 10 JUP.L;NEO.PA;APC.DE;HSX.L -1 \n");
+				omi.relativeStrengthIndexArray(args[1], args[2], args[3]);
 				break;	
+			case "11":
+				System.out.println("\n Obtener tendencia de la compania en n meses (0) - alza 	(1)	- baja		(2)	Alza		(3)	Baja \n");
+				System.out.println(" " + omi.getTendencia(args[1],  Integer.parseInt( args[2] )));
+				break;
+			case "12":
+				System.out.println("\n Evaluar data mining statistical modeling ");
+				omi.getStatisticalModeling(Long.parseLong( args[1] ));
+				break;
 				
 							
 			default:
@@ -296,6 +328,32 @@ public class ObtenerMarketIndex {
 
 	}
 	
+	private ReturnSingleDataYahooFinance executeYahooIndexSingleData(String url)
+			throws IOException {
+		try {
+			
+			JsonElement result = executeJ(url);
+			if (result.isJsonObject()) {
+				JsonElement error = result.getAsJsonObject().get("error");
+				if (error != null) {
+					JsonElement code = result.getAsJsonObject().get("code");
+					System.out.println("[Error] code:" + code);
+				}
+			}
+
+			return gson.fromJson(result, ReturnSingleDataYahooFinance.class);
+
+		} catch (Exception e) {
+			System.out.println("[" + e.getMessage() + "]Error en ReturnSingleDataYahooFinance executeYahooIndexSingleData:" + url);
+			//e.printStackTrace();
+		}
+		return null;
+
+	}
+	
+	
+	
+	
 	private JsonElement executeJ(String url) throws IOException, InterruptedException {
 		return new JsonParser().parse(execute(url));
 	    }
@@ -310,7 +368,7 @@ public class ObtenerMarketIndex {
 	private String execute(String url) throws IOException, InterruptedException {
 		String response = null;
 		try {
-
+			
 			URL resultadoURL = new URL(url);
 			URLConnection con = resultadoURL.openConnection();
 			con.setConnectTimeout(WAIT_TIME);
@@ -362,21 +420,17 @@ public class ObtenerMarketIndex {
 			}
 			}
 
-			StringBuilder cambioMonedaResultadoURL = new StringBuilder();
+			StringBuilder yahooSM = new StringBuilder();
 			String inputLine;
 			if (null != in){
 				while ((inputLine = in.readLine()) != null) {
-				    cambioMonedaResultadoURL.append(inputLine);
+				    yahooSM.append(inputLine);
 				}
 				in.close();	
 			}
-			/*else{
-				System.out.println("url No responde:" + url);
-			}*/
-			
 			
 			//response = http.execute(get, new BasicResponseHandler());
-			response = cambioMonedaResultadoURL.toString();
+			response = yahooSM.toString();
 			// _logger.info("Response: " + response);
 		} catch (IOException io) {
 			System.out.println("url No responde:" + url);
@@ -389,7 +443,6 @@ public class ObtenerMarketIndex {
 		}
 		return response;
 	}
-	
 	
 	/**
      * @param url
@@ -499,7 +552,6 @@ public class ObtenerMarketIndex {
 		
 		return response;
 	}
-	
     
     /**
      * Creates a new {@link Gson} object.
@@ -525,7 +577,6 @@ public class ObtenerMarketIndex {
 				 * 2 --> Accion aumenta, volumen disminuye
 				 * 3 --> Accion aumenta, volumen aumenta
 				 */
-			//int itera = 0;
 			for (Company cmp : admEnt.getCompanies()) {
 				List<Object> listIdxCompany = admEnt.getCompIdxQuote(cmp);
 				Object tmp[] = listIdxCompany.toArray();
@@ -599,9 +650,6 @@ public class ObtenerMarketIndex {
 						 * 1 1 	==3 Evalua.THREE
 						 */
 						//Evalua ev = Evalua.THREE;
-//						if ((++itera)%77 == 1){
-//							System.out.println("Time:" + new Date() + cmp.getName() + "["+cmp.getId()+"]");
-//						}
 						switch (ev) {
 						case THREE:
 							addAR = evalua03(qhcBefore, qhcNow, cmp);
@@ -613,21 +661,17 @@ public class ObtenerMarketIndex {
 							break; 
 
 						}
-//						if ((itera)%77 == 1){
-//							System.out.println("END Time:" + new Date() + cmp.getName() + "["+cmp.getId()+"]");
-//						}
 						
 						if (null != addAR){
 							addAR.setPeRatio(PERatio);
 							addAR.setCapitalization(fc.getMarketCapitalization());
+							addAR.setYTD(ytd);
 							cr.add(addAR);
 						}
 						
 						
 					}//End --> YTD index	
 					}//END --> PERatio validation
-					
-					
 										
 				
 
@@ -646,6 +690,7 @@ public class ObtenerMarketIndex {
 			// ejecui_n del proceso
 			String toexecute = "java -jar indicesToCFD.jar 10 ";
 			int i = 0;
+			Long identificadorUnicoIteracion = UtilGeneral.obtenerIdIteracion();
 			for (CompanyRanking companyRanking : cr) {
 				if (null != companyRanking
 						&& companyRanking.getNotaPonderada() > (cortePorcentajePonderado == null ? 25
@@ -654,10 +699,14 @@ public class ObtenerMarketIndex {
 					// cuanto aparece una compa_ia en la impresion del lsitado
 					// en un determinado tiempo.
 					System.out.println((++i) + " " + companyRanking.toString());
+					//Persiste informacion en DataMining
+					DataMiningCompany  dmcToPersistir = UtilGeneral.construirObjetoDataMiningCompany(companyRanking, identificadorUnicoIteracion);
+					admEnt.persistirDataMiningCompany(dmcToPersistir);
 					toexecute += companyRanking.getSymbol() + ";";
 				}
 			}
-			System.out.println(toexecute);
+			System.out.println("Identificador iteracion:" + identificadorUnicoIteracion);
+			System.out.println(toexecute + " 0 " + identificadorUnicoIteracion);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -679,7 +728,6 @@ public class ObtenerMarketIndex {
 				 * 2 --> Accion aumenta, volumen disminuye
 				 * 3 --> Accion aumenta, volumen aumenta
 				 */
-			//int itera = 0;
 			for (Company cmp : admEnt.getCompanies()) {
 				List<Object> listIdxCompany = admEnt.getCompIdxQuote(cmp);
 				Object tmp[] = listIdxCompany.toArray();
@@ -722,7 +770,6 @@ public class ObtenerMarketIndex {
 					 * CAGR=(endingvalue/beginingvalue)elevado[^](1/#deyears) - 1
 					 * 	REF: http://www.investopedia.com/terms/a/annual-return.asp
 					 */
-					
 					if (PERatio > 16) {
 						
 						double ytd = 0;
@@ -748,9 +795,6 @@ public class ObtenerMarketIndex {
 						 * 1 1 	==3 Evalua.THREE
 						 */
 						//Evalua ev = Evalua.THREE;
-//						if ((++itera)%77 == 1){
-//							System.out.println("Time:" + new Date() + cmp.getName() + "["+cmp.getId()+"]");
-//						}
 						switch (ev) {
 						case THREE:
 							addAR = evalua03(qhcBefore, qhcNow, cmp);
@@ -762,19 +806,17 @@ public class ObtenerMarketIndex {
 							break;
 
 						}
-//						if ((itera)%77 == 1){
-//							System.out.println("END Time:" + new Date() + cmp.getName() + "["+cmp.getId()+"]");
-//						}
 						
 						if (null != addAR){
 							addAR.setPeRatio(PERatio);
 							addAR.setCapitalization(fc.getMarketCapitalization());
+							addAR.setYTD(ytd);
 							cr.add(addAR);
 						}
 						
 						
 					}//End --> YTD index
-					}//END --> PERatio validation					
+					}//END --> PERatio validation
 										
 				
 
@@ -790,7 +832,7 @@ public class ObtenerMarketIndex {
 			// Imprime Arreglo ordenado
 			Collections.sort(cr);
 			// TODO persistir la informacion del resultado, con la fecha de la
-			// ejecui�n del proceso
+			// ejecucion del proceso
 			int i = 0;
 			for (CompanyRanking companyRanking : cr) {
 				if (null != companyRanking
@@ -967,11 +1009,19 @@ public class ObtenerMarketIndex {
 	}
 	
 	
+	/**
+	 * @throws BusinessException
+	 * @throws IOException
+	 */
 	private  void printPERatio() throws BusinessException, IOException{
+		
+		
     	
 			//ReturnYahooFinanceQuoteObject ri = this.executeYahooIndexQuote("http://query.yahooapis.com/v1/public/yql?q=select%20PERatio%20from%20yahoo.finance.quotes%20where%20symbol%20IN%20(%22LLOY.L%22)&format=json&env=http://datatables.org/alltables.env");
 			//ReturnYahooFinanceQuoteObject ri = this.executeYahooIndexQuote("http://query.yahooapis.com/v1/public/yql?q=select%20PERatio%20from%20yahoo.finance.quotes%20where%20symbol%20IN%20(%22888.L%22)&format=json&env=http://datatables.org/alltables.env");			
 			for (Company cmp : admEnt.getCompanies()) {
+				
+				
 				
 				if (null != cmp && null != cmp.getUrlIndex() 
 						&& cmp.getUrlIndex().length() > 3){
@@ -1241,8 +1291,9 @@ public class ObtenerMarketIndex {
 	/*
 	 * Obtine el indicador, para saber que tan costosa o overbuy esta la accion.
 	 * El input lo toma de un servicio de un servicio de yahoo
+	 * nDays debe ser negativo para que sirva el algoritmo
 	 */
-	private void relativeStrengthIndex(String companySymbol, int nDays, boolean print){
+	private void relativeStrengthIndex(String companySymbol, int nDays, boolean print, String iteracion){
 		//obtener el historico de 14 dias o iteraciones!
 		if (print){
 			System.out.println("obtener el historico de 14 dias o iteraciones!");
@@ -1339,6 +1390,8 @@ public class ObtenerMarketIndex {
 					// System.out.println("lost >" + lost);
 				}
 			}}
+
+
 		//System.out.println(gain + "<-- g");
 		//System.out.println(lost + "<-- l");
 		
@@ -1358,6 +1411,88 @@ public class ObtenerMarketIndex {
 		System.out.print("|%IncrementoHigh:[" + String.format( "%.4f", (((100*avgHigh)/avgLow)-100)) + (porcentajeIncremento>=3?"%IncMayorIgual3 DataMining *":"") + "]");
 		System.out.print("|media:[" +  String.format( "%.2f",  (max+min)/2 ) + "] \n");
 		//}
+		//Almacenar informacion de Data Mining si el numero
+		//de la iteracion contine informacion
+		try {
+			if (null != iteracion && Long.valueOf(iteracion) > 0) {
+				// Consultar identificador de la compania
+				Company cmp = new Company();
+				cmp.setUrlIndex(companySymbol);
+				cmp = admEnt.getCompanyBySymbol(cmp);
+				
+				DataMiningCompany dmCmp = new DataMiningCompany();
+				dmCmp.setCompany(cmp);
+				dmCmp.setIdIteracion(Long.valueOf(iteracion));
+				dmCmp = admEnt.getDMCompanyByCmpAndIteracion(dmCmp);
+				dmCmp.setRelativeStrengthIndex(String.format( "%.4f",   rsi) );
+				dmCmp.setDiffMaxMin(String.format( "%.4f", (max - min) ));
+				dmCmp.setPercentageIncrement(String.format( "%.4f", (((100*avgHigh)/avgLow)-100)));
+				boolean  isStockPriceMayorMedia = (Double.parseDouble( dmCmp.getStockPrice() )  > (max+min)/2 );
+				dmCmp.setIsTockPriceMayorMedia( isStockPriceMayorMedia );
+				//Obtener tendencia (0) - alza 	(1)	- baja		(2)	Alza		(3)	Baja
+				diasIntentos = -1;
+				dmCmp.setTendencia(getTendencia(companySymbol,-1));
+				
+				admEnt.updateDataMiningCompany(dmCmp);
+
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			System.out.println("Error al persistir el DataMining" + e.getMessage());
+			
+		}
+
+		
+	}
+	
+	
+	/**
+	 * @param companySymbol
+	 * @param nDays
+	 * Obtener la tendencia segun 4 estados
+	 * /*
+     * 	(0) - alza
+		(1)	- baja
+		(2)	Alza
+		(3)	Baja
+		enum TENDENCIA {minusalza, minusbaja, ALZA, BAJA;}
+     */
+	private Integer getTendencia(String companySymbol, int nDays){
+		
+		//yyyy-MM-dd
+		String fechaHoy = UtilGeneral.obtenerToday();  
+		String mesatras = UtilGeneral.obtenerTodayMinusNDays(-90); 
+		
+		if (nDays == 0){
+			fechaHoy = UtilGeneral.obtenerToday();  
+			mesatras = UtilGeneral.obtenerTodayMinusNDays(-90); 
+		}else{
+			fechaHoy = UtilGeneral.obtenerTodayMinusNDays(nDays);
+			mesatras = UtilGeneral.obtenerTodayMinusNDays(-90+nDays); 
+			
+		}
+		
+		
+			
+		switch (this.getTendencia(companySymbol, fechaHoy, mesatras)) {
+		case minusalza:
+			return 0; // "-alza";
+		case minusbaja:
+			return 1; //"-baja";
+		case ALZA:
+			return 2; //"ALZA";
+		case BAJA:
+			return 3; //"BAJA";
+		case NO_EVALUADA:
+			System.out.println("Se llama de forma recursiva a getTendencia " + (diasIntentos--));
+			return getTendencia(companySymbol, nDays + (diasIntentos));
+		default:
+			break; 
+
+		}
+		
+		return null;
 		
 	}
 	
@@ -1366,18 +1501,18 @@ public class ObtenerMarketIndex {
 	 * @param diasAtras
 	 * Obtener el RSI de varias companias dado una fecha hacia atras
 	 */
-	private void relativeStrengthIndexArray(String companySymbols, String diasAtras){
+	private void relativeStrengthIndexArray(String companySymbols, String diasAtras, String idIteracion){
 		
 		String cmpSymbol[] = companySymbols.split(";");
 		
 		for (String string : cmpSymbol) {
-		  this.relativeStrengthIndex(string.trim(), Integer.parseInt(diasAtras), false);
+		  this.relativeStrengthIndex(string.trim(), Integer.parseInt(diasAtras), false, idIteracion);
 		}
 		
 		
 				
 		
-	}	
+	}
 
 	
 	
@@ -1444,6 +1579,73 @@ public class ObtenerMarketIndex {
 		
 		return lstRSI;
 	}
+	
+	
+	/**
+	 * @param symbol
+	 * @param dateEnd
+	 * @param dateBegin
+	 * @param print
+	 * @return
+	 * Obtiene la tendencia de la compania
+	 */
+	private TENDENCIA getTendencia(String symbol, String dateEnd, String dateBegin){
+		
+		Double valorTresMesesAtras = null;
+		Double valorHoy = null;
+		//String fechaHoy = UtilGeneral.obtenerToday();   //"2016-08-04";
+		//String mesatras = UtilGeneral.obtenerTodayMinusMonth();  //"2016-07-04";
+		
+		String urlDataHoy = null;
+		String urlDataTresMonthBefore = null;
+		
+		ReturnSingleDataYahooFinance rHistDataHoy = null;
+		ReturnSingleDataYahooFinance rHistDataTresMonthBefore = null;
+		try {
+			urlDataHoy = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+dateEnd+"%22%20and%20endDate%20%3D%20%22"+dateEnd+"%22&format=json&env=http://datatables.org/alltables.env";
+			urlDataTresMonthBefore = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+dateBegin+"%22%20and%20endDate%20%3D%20%22"+dateBegin+"%22&format=json&env=http://datatables.org/alltables.env";
+			rHistDataHoy =	this.executeYahooIndexSingleData(urlDataHoy);
+			rHistDataTresMonthBefore =	this.executeYahooIndexSingleData(urlDataTresMonthBefore);
+			if (null != rHistDataHoy && null != rHistDataHoy.getQuery() 
+					&& null !=  rHistDataHoy.getQuery().getResults() && null != rHistDataHoy.getQuery().getResults().getQuote()){
+					valorHoy = Double.parseDouble(rHistDataHoy.getQuery().getResults().getQuote().getAdj_Close());
+			}
+			if (null != rHistDataTresMonthBefore && null != rHistDataTresMonthBefore.getQuery() 
+					&& null !=  rHistDataTresMonthBefore.getQuery().getResults() && null != rHistDataTresMonthBefore.getQuery().getResults().getQuote()){
+					valorTresMesesAtras = Double.parseDouble(rHistDataTresMonthBefore.getQuery().getResults().getQuote().getAdj_Close());
+				
+			}
+			
+			if (null == valorHoy | null == valorTresMesesAtras){
+				return TENDENCIA.NO_EVALUADA;
+			}
+			
+			if (valorHoy > valorTresMesesAtras){
+				
+				double res = valorHoy - valorTresMesesAtras;
+				if (res < 1.2d){
+					return TENDENCIA.minusalza;
+				}
+				return TENDENCIA.ALZA;
+			}else{
+				double res = valorTresMesesAtras - valorHoy;
+				if (res < 1.2d){
+					return TENDENCIA.minusbaja;
+				}
+				return TENDENCIA.BAJA;	
+			}
+				
+			
+			//System.out.print( tr.toString() );
+		} catch (IOException e) {
+			System.out.println("urlDataHoy: ["+urlDataHoy+"]");
+			System.out.println("urlDataTresMonthBefore: ["+urlDataTresMonthBefore+"]");
+			System.out.println("Error al evaluar la tendencia" + e.getMessage()) ;
+		} 
+		
+		
+		return TENDENCIA.NO_EVALUADA;
+	}
 
 	
 	//TODO: Filtrar YTD positivo:
@@ -1457,7 +1659,9 @@ public class ObtenerMarketIndex {
 	
 	/*
 	 * Ecuacion de regla de tres
-	 * Compara hoy con respecto al primero de enero.
+	 * Compara hoy con respecto al primero de enero. 
+	 * 
+	 * FIXME: ##Si estoy a principio de anio (Enero 01 a 30 de abril) comparar con Junio!
 	 */
 	private Double getYearToDateReturn(String companySymbol) throws IllegalStateException, Exception{
 		
@@ -1487,6 +1691,165 @@ public class ObtenerMarketIndex {
 		
 		return returnPorcentajeYTD;
 
+		
+	}
+	
+	
+	/*
+	 * Algoritmo que:
+	 * 	1. Consula en la BD por Numero de Iteracion
+	 * 	2. Da un peso a cada variable del data mining
+	 *  3. Genera un respuesta idicando si el peso de ganancia es mayor al de perdida
+	 *  
+	 * REF: 
+	 *  Book: Data Mining, Practical machine learning, tools and techniques
+	 *		Chapter: 4.2
+	 *
+	 * FIXME: Ajustar los pesos con la variable YTD de la plataforma.
+	 */
+	/*
+	 * Tener en cuenta esta consulta>
+	 * 
+SELECT	CASE 
+			WHEN d.DMC_TENDENCIA = 0 THEN '(0) - alza'
+			WHEN d.DMC_TENDENCIA = 1 THEN '(1)	- baja'
+			WHEN d.DMC_TENDENCIA = 2 THEN '(2)	Alza'
+			WHEN d.DMC_TENDENCIA = 3 THEN '(3)	Baja'
+		END as tendencia, 
+		c.id, c.name, c.urlIndex, d.DMC_STOCK_PRICE, d.DMC_FECHA_CREACION, d.DMC_RELATIVE_STRENGTH_INDEX
+FROM		indexyahoocfd.company c   inner join  indexyahoocfd.dmc_data_mining_company d on d.SCN_CODIGO = c.id 
+--WHERE	name like '%Vonovia SE%'
+WHERE	d.DMC_CODIGO_GRP_ITERACION = 1611040744
+ORDER by d.DMC_FECHA_CREACION desc
+
+     SIEMPRE:
+      	1. VERIFICAR QUE EL rsi ESTE POR DEBAJO DE 60
+      	2. https://online.capitalcube.com/#!/stock/gb/london/pdl, verificar CapitalCube4
+      	3. Sector: seguros y finanzas muy riesgoso
+	 * 
+	 */
+	private void getStatisticalModeling(Long numeroIteracion) throws Exception{
+		
+		System.out.println("Evalua numero de iteracion: " + numeroIteracion);
+		
+		try{
+		
+		DataMiningCompany dmCmp = new DataMiningCompany();
+		dmCmp.setIdIteracion(numeroIteracion);
+		
+		List<DataMiningCompany> lstDM = admEnt.getDMCompanyByIteracion(dmCmp);
+		
+		for (DataMiningCompany dataMiningCompany : lstDM) {
+			try{
+			Double probabiliadadWinTotal = null;
+			Double probabiliadadLostTotal = null;
+			//System.out.println(dataMiningCompany.toString());
+			PriceBetweenHighLow probabilidadVariable01 = new PriceBetweenHighLow();
+			double probabiliadadWin01  = probabilidadVariable01.getWinStatistics(dataMiningCompany.getIsPriceBetweenHighLow());
+			double probabiliadadLost01 = probabilidadVariable01.getLostStatistics(dataMiningCompany.getIsPriceBetweenHighLow());
+			//System.out.print("W1" + probabiliadadWin01);
+			//System.out.print("L1" + probabiliadadLost01);
+			
+			TendenciaTresMeses probabilidadVariable02 = new TendenciaTresMeses();
+			double probabiliadadWin02  =   probabilidadVariable02.getWinStatistics(dataMiningCompany.getTendencia());
+			double probabiliadadLost02 =   probabilidadVariable02.getLostStatistics(dataMiningCompany.getTendencia());
+			//System.out.print("W2" + probabiliadadWin02);
+			//System.out.print("L2" + probabiliadadLost02);
+			
+			PricePercentageIncrement probabilidadVariable03 = new PricePercentageIncrement();
+			double probabiliadadWin03  =   probabilidadVariable03.getWinStatistics(Double.parseDouble( dataMiningCompany.getPercentageIncrement() ));
+			double probabiliadadLost03 =   probabilidadVariable03.getLostStatistics(Double.parseDouble( dataMiningCompany.getPercentageIncrement() ));
+			//System.out.print("W3" + probabiliadadWin03);
+			//System.out.print("L3" + probabiliadadLost03);
+			
+			NotaPonderada probabilidadVariable04 = new NotaPonderada();
+			double probabiliadadWin04  =   probabilidadVariable04.getWinStatistics(Double.parseDouble(dataMiningCompany.getNotaPonderada()));
+			double probabiliadadLost04 =   probabilidadVariable04.getLostStatistics(Double.parseDouble(dataMiningCompany.getNotaPonderada()));
+			//System.out.print("W4" + probabiliadadWin04);
+			//System.out.print("L4" + probabiliadadLost04);
+			
+			PriceEarningRatio probabilidadVariable05 = new PriceEarningRatio();
+			double probabiliadadWin05  =   probabilidadVariable05.getWinStatistics(Double.parseDouble(dataMiningCompany.getPriceEarningRatio()));
+			double probabiliadadLost05 =   probabilidadVariable05.getLostStatistics(Double.parseDouble(dataMiningCompany.getPriceEarningRatio()));
+			//System.out.print("W5" + probabiliadadWin05);
+			//System.out.print("L5" + probabiliadadLost05);
+			
+			RelativeStrengthIndex probabilidadVariable06 = new RelativeStrengthIndex();
+			double probabiliadadWin06  =   probabilidadVariable06.getWinStatistics(Double.parseDouble(dataMiningCompany.getRelativeStrengthIndex()));
+			double probabiliadadLost06 =   probabilidadVariable06.getLostStatistics(Double.parseDouble(dataMiningCompany.getRelativeStrengthIndex()));
+			//System.out.print("W6" + probabiliadadWin06);
+			//System.out.print("L6" + probabiliadadLost06);
+			
+			PrecioAccion probabilidadVariable07 = new PrecioAccion();
+			double probabiliadadWin07  =   probabilidadVariable07.getWinStatistics(Double.parseDouble(dataMiningCompany.getStockPrice()));
+			double probabiliadadLost07 =   probabilidadVariable07.getLostStatistics(Double.parseDouble(dataMiningCompany.getStockPrice()));
+			//System.out.print("W7" + probabiliadadWin07);
+			//System.out.print("L7" + probabiliadadLost07);
+			
+			LastDigit probabilidadVariable08 = new LastDigit();
+			double probabiliadadWin08  =   probabilidadVariable08.getWinStatistics(dataMiningCompany.getLastDigitStockPrice());
+			double probabiliadadLost08 =   probabilidadVariable08.getLostStatistics(dataMiningCompany.getLastDigitStockPrice());
+			//System.out.print("W8" + probabiliadadWin08);
+			//System.out.print("L8" + probabiliadadLost08);
+			
+			DiffMaxMin probabilidadVariable09 = new DiffMaxMin();
+			double probabiliadadWin09  =   probabilidadVariable09.getWinStatistics(Double.parseDouble(dataMiningCompany.getDiffMaxMin()));
+			double probabiliadadLost09 =   probabilidadVariable09.getLostStatistics(Double.parseDouble(dataMiningCompany.getDiffMaxMin()));
+			//System.out.print("W9" + probabiliadadWin09);
+			//System.out.print("L9" + probabiliadadLost09);
+			
+			PercentageIncremento probabilidadVariable10 = new PercentageIncremento();
+			double probabiliadadWin10  =   probabilidadVariable10.getWinStatistics(Double.parseDouble(dataMiningCompany.getPercentageIncrement()));
+			double probabiliadadLost10 =   probabilidadVariable10.getLostStatistics(Double.parseDouble(dataMiningCompany.getPercentageIncrement()));
+			//System.out.print("W10" + probabiliadadWin10);
+			//System.out.print("L10" + probabiliadadLost10);
+			
+			StockMayorMedia probabilidadVariable11 = new StockMayorMedia();
+			double probabiliadadWin11  =   probabilidadVariable11.getWinStatistics(dataMiningCompany.getIsTockPriceMayorMedia());
+			double probabiliadadLost11 =   probabilidadVariable11.getLostStatistics(dataMiningCompany.getIsTockPriceMayorMedia());
+			//System.out.print("W11" + probabiliadadWin11);
+			//System.out.print("L11" + probabiliadadLost11);
+			
+			//Indicador/peso de la ganancia o perdida de la accion al final del dia
+			double probabiliadadWin12  =   IStatistics.ganoVariacionPrecio;
+			double probabiliadadLost12 =   IStatistics.perdioVariacionPrecio;
+			//System.out.print("W12" + probabiliadadWin12);
+			//System.out.print("L12" + probabiliadadLost12);
+			
+			
+			probabiliadadWinTotal  = probabiliadadWin01 * probabiliadadWin02 * probabiliadadWin03 * probabiliadadWin04 * probabiliadadWin05 * probabiliadadWin06 * probabiliadadWin07 * probabiliadadWin08 * probabiliadadWin09 * probabiliadadWin10 * probabiliadadWin11 * probabiliadadWin12;
+			probabiliadadLostTotal = probabiliadadLost01 * probabiliadadLost02 * probabiliadadLost03 * probabiliadadLost04 * probabiliadadLost05 * probabiliadadLost06 * probabiliadadLost07 * probabiliadadLost08 * probabiliadadLost09 * probabiliadadLost10 * probabiliadadLost11 * probabiliadadLost12;
+			
+			if (probabiliadadWinTotal  > probabiliadadLostTotal && Double.parseDouble( dataMiningCompany.getRelativeStrengthIndex() ) < 60 ){
+				System.out.println("La Compania "+dataMiningCompany.getCompany().getName()+" Tiene probabilidad de ganancia al final del dia ");
+				System.out.println(dataMiningCompany.toString());
+				System.out.println ("probabiliadadWin - Lost *10000-->"+  ((probabiliadadWinTotal - probabiliadadLostTotal) * 10000) );
+				System.out.println(dataMiningCompany.toString());
+				
+			}
+			
+			if ( Double.parseDouble(dataMiningCompany.getDiffMaxMin() ) > 49 |  Double.parseDouble( dataMiningCompany.getPercentageIncrement() ) >= 3
+					| dataMiningCompany.getLastDigitStockPrice() == 7  ){
+				System.out.println("Diferencia mayor a 49 DataMining* OR %IncMayorIgual3 DataMining * OR lastDigit=7");
+				System.out.println(dataMiningCompany.toString());
+				System.out.println ("dataMiningCompany.getDiffMaxMin()"+  dataMiningCompany.getDiffMaxMin() );
+				System.out.println ("dataMiningCompany.getPercentageIncrement()"+ dataMiningCompany.getPercentageIncrement() );
+				System.out.println ("dataMiningCompany.getLastDigitStockPrice()"+ dataMiningCompany.getLastDigitStockPrice() );
+			}
+			
+			}catch (NumberFormatException e) {
+				//Continua con el siguiente
+			}catch (NullPointerException e) {
+				//Continua con el siguiente
+			}
+		}
+		
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
 		
 	}
 

@@ -6,6 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 
 
@@ -14,14 +17,22 @@ import javax.persistence.NamedNativeQuery;
  * @since  	01Dec2015
  * @version	1.0  
  */
-@Entity
 @NamedNativeQueries({ 
 	@NamedNativeQuery(name = "findCompanies", query = " SELECT	com.SCN_CODIGO as id, com.SCN_NAME as name, sci.SCI_URL_INDEX as urlIndex, scq.SCQ_URL_QUOTE as urlQuote \n"+
 														" FROM		indexyahoocfd.iyc_stack_company_index sci  	INNER JOIN indexyahoocfd.iyc_stock_companies com   	on com.SCN_CODIGO = sci.SCN_CODIGO \n"+ 
 														" inner join indexyahoocfd.iyc_stack_company_quotes scq	on scq.scn_codigo = com.scn_codigo \n"+
 														" ORDER by com.SCN_CODIGO", resultClass = Company.class),
-	@NamedNativeQuery(name = "findCompanyById", query = "SELECT	com.SCN_CODIGO as id, com.SCN_NAME as name, sci.SCI_URL_INDEX as urlIndex, scq.SCQ_URL_QUOTE as urlQuote FROM		indexyahoocfd.iyc_stack_company_index sci  INNER JOIN  indexyahoocfd.iyc_stock_companies com   on com.SCN_CODIGO = sci.SCN_CODIGO inner join indexyahoocfd.iyc_stack_company_quotes scq	on scq.scn_codigo = com.scn_codigo WHERE  com.SCN_CODIGO = :companyId  ", resultClass = Company.class)	
+	@NamedNativeQuery(name = "findCompanyById", query = "SELECT	com.SCN_CODIGO as id, com.SCN_NAME as name, sci.SCI_URL_INDEX as urlIndex, scq.SCQ_URL_QUOTE as urlQuote FROM		indexyahoocfd.iyc_stack_company_index sci  INNER JOIN  indexyahoocfd.iyc_stock_companies com   on com.SCN_CODIGO = sci.SCN_CODIGO inner join indexyahoocfd.iyc_stack_company_quotes scq	on scq.scn_codigo = com.scn_codigo WHERE  com.SCN_CODIGO = :companyId  ", resultClass = Company.class),
+	@NamedNativeQuery(name = "findCompanyBySymbol", query = " SELECT	com.SCN_CODIGO as id, com.SCN_NAME as name, ch.symbol as urlIndex, ch.utctime as urlQuote  \n"+
+															" FROM		indexyahoocfd.iyc_quote_company_history ch  	INNER JOIN indexyahoocfd.iyc_stock_companies com   	on com.SCN_CODIGO = ch.SCN_CODIGO \n"+ 
+															" WHERE	ch.symbol = :cmpSymbol \n"+
+															" ORDER by com.SCN_CODIGO LIMIT 1 ", resultClass = Company.class),
 })
+
+
+
+@Entity
+@Table(name = "indexyahoocfd.Company")
 public class Company  implements Serializable {
 
 
@@ -38,6 +49,9 @@ public class Company  implements Serializable {
 
     /** */
     public static final String FIND_COMPANY_BY_ID = "findCompanyById";
+    
+    /** */
+    public static final String FIND_COMPANY_BY_SYMBOL = "findCompanyBySymbol";
 
     // ////////////////////////////////////////////////////////////////////////
     // Campos del backing bean
@@ -99,5 +113,14 @@ public class Company  implements Serializable {
 		this.urlQuote = urlQuote;
 	}
 	
+	
+	@Override
+    public String toString() {
+	StringBuffer s = new StringBuffer();
+	s.append(" name [" + this.name + "]");
+	s.append(" urlQuote [\n" + this.urlQuote + "\n]");
+	
+	return s.toString();
+    }
 
 }

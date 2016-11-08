@@ -46,9 +46,20 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	
 	private String symbol;
 	
+	/*
+	 * Year return from Bloomberg
+	 */
 	private String yearReturn;
 	
+	/*
+	 * Year return evaluado por el sistema
+	 */
+	/*
+	 * FIXME: Adicionarme en el Datamning
+	 */
+	private double YTD;
 	
+
 
 	/**
 	 * @return the idCompany
@@ -164,7 +175,7 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	/**
 	 * @param notaPonderada the notaPonderada to set
 	 */
-	private void setNotaPonderada(double notaPonderada) {
+	public void setNotaPonderada(double notaPonderada) {
 		this.notaPonderada = notaPonderada;
 	}
 
@@ -273,6 +284,20 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	public void setYearReturn(String yearReturn) {
 		this.yearReturn = yearReturn;
 	}
+	
+	/**
+	 * @return the yTD
+	 */
+	public double getYTD() {
+		return YTD;
+	}
+
+	/**
+	 * @param yTD the yTD to set
+	 */
+	public void setYTD(double yTD) {
+		YTD = yTD;
+	}
 
 	/**
 	 * @param compareCR
@@ -303,6 +328,9 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 		return -1;
 		
 	}
+	
+
+
 
 	
 	
@@ -328,7 +356,8 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 	s.append("\n Capitalization [" + this.Capitalization + "]");
 	s.append(" peRatio [" + this.peRatio + "]");
 	s.append(" symbol [" + this.symbol + "]");
-	s.append("\n yearReturn [" + this.yearReturn + "]");
+	s.append("\n yearReturn Bloomberg [" + this.yearReturn + "]");
+	s.append("\n YTD Plataforma FrancisCorredor [" + this.YTD + "]");
 	return s.toString();
     }
 	
@@ -344,9 +373,13 @@ public class CompanyRanking  implements Comparable<CompanyRanking> {
 		return s.toString();
 	    }
 	
-	private Boolean isPriceBetweenHighLow(){
+	/**
+	 * @return
+	 */
+	public Boolean isPriceBetweenHighLow(){
 		return  UtilGeneral.isPriceBetweenHighLow(this.precioEvaluado, this.dayHigh, this.dayLow);
 	}
 
+	
 
 }

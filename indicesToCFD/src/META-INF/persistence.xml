@@ -7,6 +7,7 @@
 		<class>com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany</class>
 		<class>com.wireless.soft.indices.cfd.business.entities.FundamentalHistoryCompany</class>
 		<class>com.wireless.soft.indices.cfd.business.entities.BloombergIndex</class>
+		<class>com.wireless.soft.indices.cfd.business.entities.DataMiningCompany</class>
 
 
 		<properties>

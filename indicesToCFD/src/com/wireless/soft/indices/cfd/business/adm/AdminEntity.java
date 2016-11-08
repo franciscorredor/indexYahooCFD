@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 
 import com.wireless.soft.indices.cfd.business.entities.BloombergIndex;
 import com.wireless.soft.indices.cfd.business.entities.Company;
+import com.wireless.soft.indices.cfd.business.entities.DataMiningCompany;
 import com.wireless.soft.indices.cfd.business.entities.FundamentalHistoryCompany;
 import com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany;
 import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnYahooFinanceQuoteObject;
@@ -215,6 +216,83 @@ public class AdminEntity {
 
 	}
 	
+	/**
+	 * @param cmp
+	 * @return
+	 * @throws Exception 
+	 * Obtiene el primer record de una compa�ia
+	 */
+	public Company getCompanyBySymbol(Company cmp) throws Exception {
+
+		Company cReturn = null;
+
+		Hashtable<String, Object> param = new Hashtable<String, Object>();
+		param.put("cmpSymbol", cmp.getUrlIndex());
+		List<Object> listIdxCompany = UtilSession.getObjectsByNamedQuery(em, Company.FIND_COMPANY_BY_SYMBOL, param);
+		if (null != listIdxCompany && listIdxCompany.size() > 0) {
+			for (Object object : listIdxCompany) {
+				cReturn = (Company) object;
+				break;
+			}
+		}
+
+		return cReturn;
+
+	}
+	
+	/**
+	 * @param cmp
+	 * @return
+	 * @throws Exception 
+	 * Obtiene el primer record de una compania
+	 */
+	
+	public DataMiningCompany getDMCompanyByCmpAndIteracion(DataMiningCompany dmCmp) throws Exception {
+
+		DataMiningCompany dmcReturn = null;
+
+		Hashtable<String, Object> param = new Hashtable<String, Object>();
+		param.put("companyId", dmCmp.getCompany().getId());
+		param.put("iteracion", dmCmp.getIdIteracion());
+		List<Object> listIdxCompany = UtilSession.getObjectsByNamedQuery(em, DataMiningCompany.FIND_DATAMINING_COMPANY_BY_ID_ITERACION, param);
+		if (null != listIdxCompany && listIdxCompany.size() > 0) {
+			for (Object object : listIdxCompany) {
+				dmcReturn = (DataMiningCompany) object;
+				break;
+			}
+		}
+
+		return dmcReturn;
+
+	}
+	
+	
+	/**
+	 * @param dmCmp
+	 * @return
+	 * @throws Exception
+	 * Obtiene lista de DataMining
+	 */
+	public List<DataMiningCompany> getDMCompanyByIteracion(DataMiningCompany dmCmp) throws Exception {
+		List<DataMiningCompany> lstDataMC = new ArrayList<DataMiningCompany>();
+		
+		Hashtable<String, Object> param = new Hashtable<String, Object>();
+		param.put("iteracion01", dmCmp.getIdIteracion());
+		List<Object> listDMC = UtilSession.getObjectsByNamedQuery (em, 
+				DataMiningCompany.FIND_DATAMINING_BY_ID_ITERACION, 
+				param);
+		
+
+		if (null != listDMC && listDMC.size() > 0) {
+			for (Object object : listDMC) {
+				DataMiningCompany dmc = (DataMiningCompany) object;
+				lstDataMC.add(dmc);
+			}
+		}
+
+		return lstDataMC;
+	}
+	
 	
 	/**
 	 * @param rf
@@ -264,6 +342,53 @@ public class AdminEntity {
 		
 		
 	    this.tx.commit();	
+	}
+	
+	
+	/**
+	 * @param dmc
+	 */
+	public void persistirDataMiningCompany(DataMiningCompany dmc) {
+
+		this.tx.begin();
+
+		if (null != dmc && null != dmc.getCompany()
+				&& null != dmc.getCompany().getId()) {
+
+			try {
+				Company cmp  = em.find(Company.class, dmc.getCompany().getId());
+				dmc.setCompany(cmp);
+				em.persist(dmc);
+				this.em.flush();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+
+		this.tx.commit();
+	}
+	
+	/**
+	 * @param dmc
+	 */
+	public void updateDataMiningCompany(DataMiningCompany dmc) {
+
+		this.tx.begin();
+
+		if (null != dmc && null != dmc.getCompany()
+				&& null != dmc.getCompany().getId()) {
+
+			try {
+				em.merge(dmc);
+				this.em.flush();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+
+		this.tx.commit();
 	}
 	
 	
