@@ -1427,7 +1427,7 @@ public class ObtenerMarketIndex {
 				dmCmp.setRelativeStrengthIndex(String.format( "%.4f",   rsi) );
 				dmCmp.setDiffMaxMin(String.format( "%.4f", (max - min) ));
 				dmCmp.setPercentageIncrement(String.format( "%.4f", (((100*avgHigh)/avgLow)-100)));
-				boolean  isStockPriceMayorMedia = (Double.parseDouble( dmCmp.getStockPrice() )  > (max+min)/2 );
+				boolean  isStockPriceMayorMedia = (Double.parseDouble( dmCmp.getStockPrice().replace(',','.').trim() )  > (max+min)/2 );
 				dmCmp.setIsTockPriceMayorMedia( isStockPriceMayorMedia );
 				//Obtener tendencia (0) - alza 	(1)	- baja		(2)	Alza		(3)	Baja
 				diasIntentos = -1;
@@ -1437,9 +1437,9 @@ public class ObtenerMarketIndex {
 
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			e.printStackTrace();
 			System.out.println("Error al persistir el DataMining" + e.getMessage());
+			
 			
 		}
 
@@ -1506,6 +1506,9 @@ public class ObtenerMarketIndex {
 		String cmpSymbol[] = companySymbols.split(";");
 		
 		for (String string : cmpSymbol) {
+			if (string != null){
+				string = string.replace(',', '.');
+			}
 		  this.relativeStrengthIndex(string.trim(), Integer.parseInt(diasAtras), false, idIteracion);
 		}
 		
@@ -1757,32 +1760,32 @@ ORDER by d.DMC_FECHA_CREACION desc
 			//System.out.print("L2" + probabiliadadLost02);
 			
 			PricePercentageIncrement probabilidadVariable03 = new PricePercentageIncrement();
-			double probabiliadadWin03  =   probabilidadVariable03.getWinStatistics(Double.parseDouble( dataMiningCompany.getPercentageIncrement() ));
-			double probabiliadadLost03 =   probabilidadVariable03.getLostStatistics(Double.parseDouble( dataMiningCompany.getPercentageIncrement() ));
+			double probabiliadadWin03  =   probabilidadVariable03.getWinStatistics(Double.parseDouble( dataMiningCompany.getPercentageIncrement().replace(',','.').trim() ));
+			double probabiliadadLost03 =   probabilidadVariable03.getLostStatistics(Double.parseDouble( dataMiningCompany.getPercentageIncrement().replace(',','.').trim() ));
 			//System.out.print("W3" + probabiliadadWin03);
 			//System.out.print("L3" + probabiliadadLost03);
 			
 			NotaPonderada probabilidadVariable04 = new NotaPonderada();
-			double probabiliadadWin04  =   probabilidadVariable04.getWinStatistics(Double.parseDouble(dataMiningCompany.getNotaPonderada()));
-			double probabiliadadLost04 =   probabilidadVariable04.getLostStatistics(Double.parseDouble(dataMiningCompany.getNotaPonderada()));
+			double probabiliadadWin04  =   probabilidadVariable04.getWinStatistics(Double.parseDouble(dataMiningCompany.getNotaPonderada().replace(',','.').trim()));
+			double probabiliadadLost04 =   probabilidadVariable04.getLostStatistics(Double.parseDouble(dataMiningCompany.getNotaPonderada().replace(',','.').trim()));
 			//System.out.print("W4" + probabiliadadWin04);
 			//System.out.print("L4" + probabiliadadLost04);
 			
 			PriceEarningRatio probabilidadVariable05 = new PriceEarningRatio();
-			double probabiliadadWin05  =   probabilidadVariable05.getWinStatistics(Double.parseDouble(dataMiningCompany.getPriceEarningRatio()));
-			double probabiliadadLost05 =   probabilidadVariable05.getLostStatistics(Double.parseDouble(dataMiningCompany.getPriceEarningRatio()));
+			double probabiliadadWin05  =   probabilidadVariable05.getWinStatistics(Double.parseDouble(dataMiningCompany.getPriceEarningRatio().replace(',','.').trim()));
+			double probabiliadadLost05 =   probabilidadVariable05.getLostStatistics(Double.parseDouble(dataMiningCompany.getPriceEarningRatio().replace(',','.').trim()));
 			//System.out.print("W5" + probabiliadadWin05);
 			//System.out.print("L5" + probabiliadadLost05);
 			
 			RelativeStrengthIndex probabilidadVariable06 = new RelativeStrengthIndex();
-			double probabiliadadWin06  =   probabilidadVariable06.getWinStatistics(Double.parseDouble(dataMiningCompany.getRelativeStrengthIndex()));
-			double probabiliadadLost06 =   probabilidadVariable06.getLostStatistics(Double.parseDouble(dataMiningCompany.getRelativeStrengthIndex()));
+			double probabiliadadWin06  =   probabilidadVariable06.getWinStatistics(Double.parseDouble(dataMiningCompany.getRelativeStrengthIndex().replace(',','.').trim()));
+			double probabiliadadLost06 =   probabilidadVariable06.getLostStatistics(Double.parseDouble(dataMiningCompany.getRelativeStrengthIndex().replace(',','.').trim()));
 			//System.out.print("W6" + probabiliadadWin06);
 			//System.out.print("L6" + probabiliadadLost06);
 			
 			PrecioAccion probabilidadVariable07 = new PrecioAccion();
-			double probabiliadadWin07  =   probabilidadVariable07.getWinStatistics(Double.parseDouble(dataMiningCompany.getStockPrice()));
-			double probabiliadadLost07 =   probabilidadVariable07.getLostStatistics(Double.parseDouble(dataMiningCompany.getStockPrice()));
+			double probabiliadadWin07  =   probabilidadVariable07.getWinStatistics(Double.parseDouble(dataMiningCompany.getStockPrice().replace(',','.').trim()));
+			double probabiliadadLost07 =   probabilidadVariable07.getLostStatistics(Double.parseDouble(dataMiningCompany.getStockPrice().replace(',','.').trim()));
 			//System.out.print("W7" + probabiliadadWin07);
 			//System.out.print("L7" + probabiliadadLost07);
 			
@@ -1793,14 +1796,14 @@ ORDER by d.DMC_FECHA_CREACION desc
 			//System.out.print("L8" + probabiliadadLost08);
 			
 			DiffMaxMin probabilidadVariable09 = new DiffMaxMin();
-			double probabiliadadWin09  =   probabilidadVariable09.getWinStatistics(Double.parseDouble(dataMiningCompany.getDiffMaxMin()));
-			double probabiliadadLost09 =   probabilidadVariable09.getLostStatistics(Double.parseDouble(dataMiningCompany.getDiffMaxMin()));
+			double probabiliadadWin09  =   probabilidadVariable09.getWinStatistics(Double.parseDouble(dataMiningCompany.getDiffMaxMin().replace(',','.').trim()));
+			double probabiliadadLost09 =   probabilidadVariable09.getLostStatistics(Double.parseDouble(dataMiningCompany.getDiffMaxMin().replace(',','.').trim()));
 			//System.out.print("W9" + probabiliadadWin09);
 			//System.out.print("L9" + probabiliadadLost09);
 			
 			PercentageIncremento probabilidadVariable10 = new PercentageIncremento();
-			double probabiliadadWin10  =   probabilidadVariable10.getWinStatistics(Double.parseDouble(dataMiningCompany.getPercentageIncrement()));
-			double probabiliadadLost10 =   probabilidadVariable10.getLostStatistics(Double.parseDouble(dataMiningCompany.getPercentageIncrement()));
+			double probabiliadadWin10  =   probabilidadVariable10.getWinStatistics(Double.parseDouble(dataMiningCompany.getPercentageIncrement().replace(',','.').trim()));
+			double probabiliadadLost10 =   probabilidadVariable10.getLostStatistics(Double.parseDouble(dataMiningCompany.getPercentageIncrement().replace(',','.').trim()));
 			//System.out.print("W10" + probabiliadadWin10);
 			//System.out.print("L10" + probabiliadadLost10);
 			
@@ -1820,7 +1823,7 @@ ORDER by d.DMC_FECHA_CREACION desc
 			probabiliadadWinTotal  = probabiliadadWin01 * probabiliadadWin02 * probabiliadadWin03 * probabiliadadWin04 * probabiliadadWin05 * probabiliadadWin06 * probabiliadadWin07 * probabiliadadWin08 * probabiliadadWin09 * probabiliadadWin10 * probabiliadadWin11 * probabiliadadWin12;
 			probabiliadadLostTotal = probabiliadadLost01 * probabiliadadLost02 * probabiliadadLost03 * probabiliadadLost04 * probabiliadadLost05 * probabiliadadLost06 * probabiliadadLost07 * probabiliadadLost08 * probabiliadadLost09 * probabiliadadLost10 * probabiliadadLost11 * probabiliadadLost12;
 			
-			if (probabiliadadWinTotal  > probabiliadadLostTotal && Double.parseDouble( dataMiningCompany.getRelativeStrengthIndex() ) < 60 ){
+			if (probabiliadadWinTotal  > probabiliadadLostTotal && Double.parseDouble( dataMiningCompany.getRelativeStrengthIndex().replace(',','.').trim() ) < 60 ){
 				System.out.println("La Compania "+dataMiningCompany.getCompany().getName()+" Tiene probabilidad de ganancia al final del dia ");
 				System.out.println(dataMiningCompany.toString());
 				System.out.println ("probabiliadadWin - Lost *10000-->"+  ((probabiliadadWinTotal - probabiliadadLostTotal) * 10000) );
@@ -1828,19 +1831,25 @@ ORDER by d.DMC_FECHA_CREACION desc
 				
 			}
 			
-			if ( Double.parseDouble(dataMiningCompany.getDiffMaxMin() ) > 49 |  Double.parseDouble( dataMiningCompany.getPercentageIncrement() ) >= 3
-					| dataMiningCompany.getLastDigitStockPrice() == 7  ){
-				System.out.println("Diferencia mayor a 49 DataMining* OR %IncMayorIgual3 DataMining * OR lastDigit=7");
+			Double ytd = Double.parseDouble(dataMiningCompany.getYTDPlataforma().replace(',', '.').trim() );
+			
+			if ( Double.parseDouble(dataMiningCompany.getDiffMaxMin().replace(',','.').trim() ) > 49 |  Double.parseDouble( dataMiningCompany.getPercentageIncrement().replace(',','.').trim() ) >= 3
+					| dataMiningCompany.getLastDigitStockPrice() == 7 
+					| (ytd > 0 && ytd < 20)){
+				System.out.println("Diferencia mayor a 49 DataMining* OR %IncMayorIgual3 DataMining * OR lastDigit=7 OR YTD between 0 - 20");
 				System.out.println(dataMiningCompany.toString());
 				System.out.println ("dataMiningCompany.getDiffMaxMin()"+  dataMiningCompany.getDiffMaxMin() );
 				System.out.println ("dataMiningCompany.getPercentageIncrement()"+ dataMiningCompany.getPercentageIncrement() );
 				System.out.println ("dataMiningCompany.getLastDigitStockPrice()"+ dataMiningCompany.getLastDigitStockPrice() );
+				System.out.println ("dataMiningCompany.getYTDPlataforma()"+ dataMiningCompany.getYTDPlataforma() );
 			}
 			
 			}catch (NumberFormatException e) {
 				//Continua con el siguiente
+				e.printStackTrace();
 			}catch (NullPointerException e) {
 				//Continua con el siguiente
+				e.printStackTrace();
 			}
 		}
 		

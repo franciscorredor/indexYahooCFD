@@ -213,7 +213,7 @@ public class UtilGeneral {
 
 			for (Element element : newsHeadlines) {
 				//System.out.print((++itera) + ". ");
-				retornoYTD += (++itera) + ". ";
+				//retornoYTD += (++itera) + ". ";
 				//System.out.print("[" + element.text() + "]");
 				retornoYTD += "[" + element.text() + "]";
 			}
@@ -225,7 +225,7 @@ public class UtilGeneral {
 		}
 		
 		if (retornoYTD != null && retornoYTD.length() > 2){
-			retornoYTD = urlBloomberg + "\n" + retornoYTD;
+			retornoYTD = urlBloomberg + "\t " + retornoYTD;
 		}
 
 		return retornoYTD;
