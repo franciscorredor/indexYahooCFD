@@ -145,7 +145,7 @@ public class ObtenerMarketIndex {
 		
 		if (args[0].equals("test")) {
 			try {
-				ReturnHistoricaldataYahooFinance tr =	omi.executeYahooIndexHistoricaldata("http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22YHOO%22%20and%20startDate%20%3D%20%222016-07-01%22%20and%20endDate%20%3D%20%222016-08-04%22&format=json&env=http://datatables.org/alltables.env");
+				ReturnHistoricaldataYahooFinance tr =	omi.executeYahooIndexHistoricaldata("http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22YHOO%22%20and%20startDate%20%3D%20%222016-07-01%22%20and%20endDate%20%3D%20%222016-08-04%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=");
 				System.out.print( tr.toString() );
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -1540,7 +1540,7 @@ public class ObtenerMarketIndex {
 		
 		ReturnHistoricaldataYahooFinance rHistData = null;
 		try {
-			String urlHistdata = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+dateBegin+"%22%20and%20endDate%20%3D%20%22"+dateEnd+"%22&format=json&env=http://datatables.org/alltables.env";
+			String urlHistdata = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+dateBegin+"%22%20and%20endDate%20%3D%20%22"+dateEnd+"%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
 			if (print){
 				System.out.println("urlHistdata: ["+urlHistdata+"]");
 				System.out.println("Date,Open,High,Low,Close,Adj Close");
@@ -1605,8 +1605,8 @@ public class ObtenerMarketIndex {
 		ReturnSingleDataYahooFinance rHistDataHoy = null;
 		ReturnSingleDataYahooFinance rHistDataTresMonthBefore = null;
 		try {
-			urlDataHoy = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+dateEnd+"%22%20and%20endDate%20%3D%20%22"+dateEnd+"%22&format=json&env=http://datatables.org/alltables.env";
-			urlDataTresMonthBefore = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+dateBegin+"%22%20and%20endDate%20%3D%20%22"+dateBegin+"%22&format=json&env=http://datatables.org/alltables.env";
+			urlDataHoy = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+dateEnd+"%22%20and%20endDate%20%3D%20%22"+dateEnd+"%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
+			urlDataTresMonthBefore = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+dateBegin+"%22%20and%20endDate%20%3D%20%22"+dateBegin+"%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
 			rHistDataHoy =	this.executeYahooIndexSingleData(urlDataHoy);
 			rHistDataTresMonthBefore =	this.executeYahooIndexSingleData(urlDataTresMonthBefore);
 			if (null != rHistDataHoy && null != rHistDataHoy.getQuery() 
@@ -1823,9 +1823,9 @@ ORDER by d.DMC_FECHA_CREACION desc
 			probabiliadadWinTotal  = probabiliadadWin01 * probabiliadadWin02 * probabiliadadWin03 * probabiliadadWin04 * probabiliadadWin05 * probabiliadadWin06 * probabiliadadWin07 * probabiliadadWin08 * probabiliadadWin09 * probabiliadadWin10 * probabiliadadWin11 * probabiliadadWin12;
 			probabiliadadLostTotal = probabiliadadLost01 * probabiliadadLost02 * probabiliadadLost03 * probabiliadadLost04 * probabiliadadLost05 * probabiliadadLost06 * probabiliadadLost07 * probabiliadadLost08 * probabiliadadLost09 * probabiliadadLost10 * probabiliadadLost11 * probabiliadadLost12;
 			
+			System.out.println("*******************(ini) [" +dataMiningCompany.getCompany().getName()+ "]*************************" );
 			if (probabiliadadWinTotal  > probabiliadadLostTotal && Double.parseDouble( dataMiningCompany.getRelativeStrengthIndex().replace(',','.').trim() ) < 60 ){
-				System.out.println("La Compania "+dataMiningCompany.getCompany().getName()+" Tiene probabilidad de ganancia al final del dia ");
-				System.out.println(dataMiningCompany.toString());
+				System.out.println("Tiene probabilidad de ganancia al final del dia ");
 				System.out.println ("probabiliadadWin - Lost *10000-->"+  ((probabiliadadWinTotal - probabiliadadLostTotal) * 10000) );
 				System.out.println(dataMiningCompany.toString());
 				
@@ -1837,19 +1837,18 @@ ORDER by d.DMC_FECHA_CREACION desc
 					| dataMiningCompany.getLastDigitStockPrice() == 7 
 					| (ytd > 0 && ytd < 20)){
 				System.out.println("Diferencia mayor a 49 DataMining* OR %IncMayorIgual3 DataMining * OR lastDigit=7 OR YTD between 0 - 20");
-				System.out.println(dataMiningCompany.toString());
 				System.out.println ("dataMiningCompany.getDiffMaxMin()"+  dataMiningCompany.getDiffMaxMin() );
 				System.out.println ("dataMiningCompany.getPercentageIncrement()"+ dataMiningCompany.getPercentageIncrement() );
 				System.out.println ("dataMiningCompany.getLastDigitStockPrice()"+ dataMiningCompany.getLastDigitStockPrice() );
 				System.out.println ("dataMiningCompany.getYTDPlataforma()"+ dataMiningCompany.getYTDPlataforma() );
+				System.out.println(dataMiningCompany.toString());
 			}
+			System.out.println("*******************(fin) [" +dataMiningCompany.getCompany().getName()+ "]*************************" );
 			
 			}catch (NumberFormatException e) {
-				//Continua con el siguiente
-				e.printStackTrace();
+				System.out.println("NumberFormatException");
 			}catch (NullPointerException e) {
-				//Continua con el siguiente
-				e.printStackTrace();
+				System.out.println("NullPointerException");
 			}
 		}
 		

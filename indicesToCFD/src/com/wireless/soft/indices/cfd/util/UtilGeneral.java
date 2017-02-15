@@ -107,8 +107,13 @@ public class UtilGeneral {
 		
 		String retornoFF = null;
 		
-		SimpleDateFormat format1 = new SimpleDateFormat(format); //"yyyy-MM-dd HH:mm:ss.SSS0"
-		retornoFF = format1.format(calendar.getTime());    
+		if (null != calendar) {
+
+			SimpleDateFormat format1 = new SimpleDateFormat(format); // "yyyy-MM-dd HH:mm:ss.SSS0"
+			retornoFF = format1.format(calendar.getTime());
+		}else{
+			retornoFF = "Fecha Null";
+		}
 		
 		
 		return retornoFF;
@@ -348,7 +353,8 @@ public class UtilGeneral {
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, Integer.parseInt(year));
 		cal.set(Calendar.DAY_OF_YEAR, 1);
-		cal.add(Calendar.DATE, -2); 
+		//cal.add(Calendar.DATE, -2); --30 de diciembre
+		cal.add(Calendar.DATE, -367);
 		
 		DateFormat formatter1;
 		formatter1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -375,7 +381,8 @@ public class UtilGeneral {
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, Integer.parseInt(year));
 		cal.set(Calendar.DAY_OF_YEAR, 1);
-		cal.add(Calendar.DATE, 2); 
+		//cal.add(Calendar.DATE, 2); 
+		cal.add(Calendar.DATE, -363);
 		
 		DateFormat formatter1;
 		formatter1 = new SimpleDateFormat("yyyy-MM-dd");
