@@ -353,8 +353,8 @@ public class UtilGeneral {
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, Integer.parseInt(year));
 		cal.set(Calendar.DAY_OF_YEAR, 1);
-		//cal.add(Calendar.DATE, -2); --30 de diciembre
-		cal.add(Calendar.DATE, -367);
+		cal.add(Calendar.DATE, -3); //--29 de Diciembre 
+		//cal.add(Calendar.DATE, -362); --Evaluar si al restar estos dias es un dia habil, tener en cuenta una fecha fija seteando el valor del primer dia del anio
 		
 		DateFormat formatter1;
 		formatter1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -381,8 +381,8 @@ public class UtilGeneral {
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, Integer.parseInt(year));
 		cal.set(Calendar.DAY_OF_YEAR, 1);
-		//cal.add(Calendar.DATE, 2); 
-		cal.add(Calendar.DATE, -363);
+		cal.add(Calendar.DATE, 2); //
+		//cal.add(Calendar.DATE, -367); --Evaluar si al restar estos dias es un dia habil, tener en cuenta una fecha fija seteando el valor del primer dia del anio
 		
 		DateFormat formatter1;
 		formatter1 = new SimpleDateFormat("yyyy-MM-dd");
