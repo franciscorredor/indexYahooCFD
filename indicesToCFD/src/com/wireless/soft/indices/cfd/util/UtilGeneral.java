@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -160,10 +163,12 @@ public class UtilGeneral {
 	/**
 	 * @return
 	 */
-	public static List<RelativeStrengthIndexData> getListaRSI(){
+	public static List<RelativeStrengthIndexData> getListaRSIGoogle(){
 		List<RelativeStrengthIndexData> lstRSI = null;
 		lstRSI = new ArrayList<RelativeStrengthIndexData>();
-		try(BufferedReader br = new BufferedReader(new FileReader("/nbr/relativeStrengthIndex/table_888.L.csv"))) {
+		//try(BufferedReader br = new BufferedReader(new FileReader("/nbr/relativeStrengthIndex/table_888.L.csv"))) {
+		try(InputStream input = new URL( "http://www.google.com/finance/historical?q=ETR%3ASKB&startdate=Nov%201,%202011&enddate=Nov%2030,%202011&output=csv" ).openStream()) {
+			BufferedReader br = new BufferedReader(new InputStreamReader(input, "UTF-8"));
 		    StringBuilder sb = new StringBuilder();
 		    String line = br.readLine();
 
@@ -179,9 +184,9 @@ public class UtilGeneral {
 		        	String[] torsid = line.split(",");
 			        rsid.setId(++ctd);
 			        DateFormat formatter1;
-			        formatter1 = new SimpleDateFormat("yyyy-mm-DD");
+			        formatter1 = new SimpleDateFormat("yyyy-MMM-DD");
 			        rsid.setFecha(  formatter1.parse(torsid[0]) ) ;
-			        rsid.setClose(Double.parseDouble(torsid[6]));
+			        rsid.setClose(Double.parseDouble(torsid[4]));
 			        rsid.setHigh(Double.parseDouble(torsid[2]));
 			        rsid.setLow(Double.parseDouble(torsid[3]));
 			        lstRSI.add(rsid);
@@ -202,6 +207,77 @@ public class UtilGeneral {
 		return lstRSI;
 	}
 	
+	/**
+	 * @param companySymbol
+	 * @param nDays
+	 * @param print
+	 * @param iteracion
+	 * @return
+	 */
+	public static List<RelativeStrengthIndexData> getListaRSIGoogle(String symbol, String dateEnd, String dateBegin, boolean print){
+		List<RelativeStrengthIndexData> lstRSI = null;
+		lstRSI = new ArrayList<RelativeStrengthIndexData>();
+		String urlHistdata = "http://www.google.com/finance/historical?q="+symbol.replace(":", "%3A")+"&startdate="+dateBegin.replace(" ", "%20")+"&enddate="+dateEnd.replace(" ", "%20")+"&output=csv";
+		try(InputStream input = new URL( urlHistdata ).openStream()) {
+			
+			if (print){
+				System.out.println("urlHistdata: ["+urlHistdata+"]");
+				System.out.println("Date,Open,High,Low,Close");
+			}
+			
+			BufferedReader br = new BufferedReader(new InputStreamReader(input, "UTF-8"));
+		    StringBuilder sb = new StringBuilder();
+		    String line = br.readLine();
+
+		    int ctd = 0;
+		    while (line != null) {
+		    	
+		        sb.append(line);
+		        sb.append(System.lineSeparator());
+		        line = br.readLine();
+		        if (null != line){
+		        	//System.out.println(line);
+		        	RelativeStrengthIndexData rsid = new RelativeStrengthIndexData();
+		        	String[] torsid = line.split(",");
+			        rsid.setId(++ctd);
+			        DateFormat formatter1;
+			        formatter1 = new SimpleDateFormat("dd-MMM-yy");
+			        rsid.setFecha(  formatter1.parse(torsid[0]) ) ;
+			        rsid.setClose(Double.parseDouble(torsid[4]));
+			        rsid.setHigh(Double.parseDouble(torsid[2]));
+			        rsid.setLow(Double.parseDouble(torsid[3]));
+			        lstRSI.add(rsid);
+			        
+			        if (print){
+			        	System.out.println(formatter1.parse(torsid[0])+","
+			        					+Double.parseDouble(torsid[1])+","
+			        					+Double.parseDouble(torsid[2])+","
+			        					+Double.parseDouble(torsid[3])+","
+			        					+Double.parseDouble(torsid[4])
+			        					);
+			        }
+			        
+			        if (ctd > 13){
+			        	break;
+			        }
+		        }
+		        
+		    }
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return lstRSI;
+	}
+	
+	
 	
 	/**
 	 * Toma info de bloomberg para indicar si hay retornos positivos o negativos
@@ -212,9 +288,9 @@ public class UtilGeneral {
 
 		try {
 			Document doc;
-			doc = Jsoup.connect(urlBloomberg).get();
+			doc = Jsoup.connect(urlBloomberg).timeout(3000).get();
 			Elements newsHeadlines = doc.select("div.cell__value_up");
-			int itera = 0;
+			//int itera = 0;
 
 			for (Element element : newsHeadlines) {
 				//System.out.print((++itera) + ". ");
@@ -238,14 +314,14 @@ public class UtilGeneral {
 	
 	
 	/**
-	 * Obtiene la fecha de hoy en formato "yyyy-mm-DD"
+	 * Obtiene la fecha de hoy en formato "MMM dd, yyyy"
 	 * @return
 	 */
 	public static String obtenerToday(){
 		
 		String fh = null;
 		DateFormat formatter1;
-		formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+		formatter1 = new SimpleDateFormat("MMM dd, yyyy");
 		fh = formatter1.format(new Date());
 		
 		
@@ -295,7 +371,7 @@ public class UtilGeneral {
 	}
 	
 	/**
-	 * Obtiene la fecha de hoy hace un mes en formato "yyyy-mm-DD"
+	 * Obtiene la fecha de hoy hace un mes en formato "MMM dd, yyyy"
 	 * @return
 	 */
 	public static String obtenerTodayMinusMonth(){
@@ -311,7 +387,7 @@ public class UtilGeneral {
 //		
 //		Date today = new Date();
 		DateFormat formatter1;
-		formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+		formatter1 = new SimpleDateFormat("MMM dd, yyyy");
 		dateOneMothAgo = formatter1.format(new Date(cal.getTimeInMillis()));
 		
 		

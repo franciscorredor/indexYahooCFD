@@ -197,7 +197,7 @@ public class ObtenerMarketIndex {
 				System.out.println("\n Call relativeStrengthIndex: --> [" + args[1] + "]");
 				//El identificador  0 es que no tiene iteracion y no debe almacenar ningun tipo
 				//de informacion para el Datamining
-				omi.relativeStrengthIndex(args[1], 0, true, "0");
+				omi.relativeStrengthIndexFromGoogle(args[1], 0, true, "0");
 				break;	
 			case "8":
 				System.out.println("\n Persiste info de las companies, consultando de yahoo [Go short]");
@@ -1173,7 +1173,7 @@ public class ObtenerMarketIndex {
 		System.out.println("obtener el historico de 14 dias o iteraciones!");
 		
 		List<RelativeStrengthIndexData> lstRSI = null;
-		lstRSI = UtilGeneral.getListaRSI();
+		lstRSI = UtilGeneral.getListaRSIGoogle();
 		
 		//ordena descendente ID, porque el formamo de la data esta de mayor a menor
 		//y las fechas deben ordenarse de menor a Mayor
@@ -1264,7 +1264,109 @@ public class ObtenerMarketIndex {
 		
 		
 	}
+
 	
+	/*
+	 * Obtine el indicador, para saber que tan costosa o overbuy esta la accion
+	 * El input lo toma de un archivo plano
+	 */
+	private void relativeStrengthIndexDinamico(){
+		//obtener el historico de 14 dias o iteraciones!
+		System.out.println("obtener el historico de 14 dias o iteraciones!");
+		
+		List<RelativeStrengthIndexData> lstRSI = null;
+		lstRSI = UtilGeneral.getListaRSIGoogle();
+		
+		//ordena descendente ID, porque el formamo de la data esta de mayor a menor
+		//y las fechas deben ordenarse de menor a Mayor
+		Collections.sort(lstRSI);
+
+		//Obtener el valor maximo y minimo en el cierre de la accion al dia
+		double max = 0;
+		double min = 0;
+		
+		//obtener el promedio de H&L
+		double avgHigh = 0;
+		double avgLow  = 0;
+		//Iteracion 2 change = close today - close yesterday
+		for (int i = 0; i < lstRSI.size(); i++) {
+			if (i == 0){
+				RelativeStrengthIndexData relativeStrengthIndexMM =  lstRSI.get(i);
+				if (null != relativeStrengthIndexMM){
+					max = relativeStrengthIndexMM.getClose();
+					min = relativeStrengthIndexMM.getClose();
+					avgHigh += relativeStrengthIndexMM.getHigh();
+					avgLow += relativeStrengthIndexMM.getLow();
+				}
+			  
+			}
+			if ( i > 0){
+				RelativeStrengthIndexData relativeStrengthIndexDataA = lstRSI.get(i-1);
+				RelativeStrengthIndexData relativeStrengthIndexDataB = lstRSI.get(i);
+				//System.out.println(relativeStrengthIndexDataA.getClose());
+				//System.out.println(relativeStrengthIndexDataB.getClose());
+				relativeStrengthIndexDataB.setChange(-relativeStrengthIndexDataA.getClose()+relativeStrengthIndexDataB.getClose());
+				//System.out.println(relativeStrengthIndexDataB.toString());
+				lstRSI.set(i, relativeStrengthIndexDataB);
+				
+				//Valida valor Mayor y menor
+				if (relativeStrengthIndexDataB.getClose() > max){
+					max = relativeStrengthIndexDataB.getClose(); 
+				}
+				if  (relativeStrengthIndexDataB.getClose() < min){
+					min = relativeStrengthIndexDataB.getClose(); 
+				}
+				
+				//sumar el average
+				avgHigh += relativeStrengthIndexDataB.getHigh();
+				avgLow += relativeStrengthIndexDataB.getLow();
+				
+			}
+			
+		}
+		
+		avgHigh = avgHigh/lstRSI.size();
+		avgLow = avgLow/lstRSI.size();
+		
+		
+		// print Resultado
+//		for (RelativeStrengthIndexData relativeStrengthIndexData : lstRSI) {			
+//					System.out.println(relativeStrengthIndexData.toString());
+//		}
+
+		
+		//Iteracion 3 suma gain and lost
+		BigDecimal gain = new BigDecimal(0);
+		gain.setScale(10, BigDecimal.ROUND_UNNECESSARY);
+		BigDecimal lost = new BigDecimal(0);
+		lost.setScale(10, BigDecimal.ROUND_UNNECESSARY);
+		for (int i = 0; i < 14; i++) {
+			double change = lstRSI.get(i).getChange();
+			if (change > 0){
+				//System.out.println("change (+) >" + change);
+				gain = gain.add(new BigDecimal (change));
+				//System.out.println("gain >" + gain);
+			}else if (change <0){
+				//System.out.println("change (-) >" + change);
+				lost = lost.add(new BigDecimal( Math.abs(change)));
+				//System.out.println("lost >" + lost);
+			}
+		}
+		//System.out.println(gain + "<-- g");
+		//System.out.println(lost + "<-- l");
+		
+		double rs =  (gain.doubleValue()/14)/(lost.doubleValue()/14);
+		double rsi = 100 - (100/(1+rs));
+		
+		System.out.println("RSI14:" + rsi);
+		System.out.println("max:" + max);
+		System.out.println("min:" + min);
+		System.out.println("diff:" + (max - min));
+		System.out.println("Porcentaje Incremento High:" + (((100*avgHigh)/avgLow)-100)   );
+		
+		
+	}
+
 	
 	/**
 	 * Obtiene el valor de YTD & 1YR from Bloomberg
@@ -1292,7 +1394,9 @@ public class ObtenerMarketIndex {
 	 * Obtine el indicador, para saber que tan costosa o overbuy esta la accion.
 	 * El input lo toma de un servicio de un servicio de yahoo
 	 * nDays debe ser negativo para que sirva el algoritmo
+	 * Metodo no se usa porque yahoo descontinuo el servicio, usar relativeStrengthIndexFromGoogle
 	 */
+	@Deprecated
 	private void relativeStrengthIndex(String companySymbol, int nDays, boolean print, String iteracion){
 		//obtener el historico de 14 dias o iteraciones!
 		if (print){
@@ -1312,7 +1416,7 @@ public class ObtenerMarketIndex {
 			
 		}
 		
-		lstRSI = this.getListaRSI(companySymbol, fechaHoy, mesatras, print);
+		lstRSI = this.getListaRSIYahoo(companySymbol, fechaHoy, mesatras, print);
 		
 		//ordena descendente ID, porque el formamo de la data esta de mayor a menor
 		//y las fechas deben ordenarse de menor a Mayor
@@ -1379,6 +1483,7 @@ public class ObtenerMarketIndex {
 		lost.setScale(10, BigDecimal.ROUND_UNNECESSARY);
 		if (null != lstRSI && lstRSI.size() > 2) {
 			for (int i = 0; i < 14; i++) {
+				try{
 				double change = lstRSI.get(i).getChange();
 				if (change > 0) {
 					// System.out.println("change (+) >" + change);
@@ -1388,7 +1493,7 @@ public class ObtenerMarketIndex {
 					// System.out.println("change (-) >" + change);
 					lost = lost.add(new BigDecimal(Math.abs(change)));
 					// System.out.println("lost >" + lost);
-				}
+				}}catch(IndexOutOfBoundsException iobE){System.out.print("Error en obtenerReturnIndex" + iobE.getMessage());}
 			}}
 
 
@@ -1446,6 +1551,166 @@ public class ObtenerMarketIndex {
 		
 	}
 	
+	
+	/*
+	 * Obtine el indicador, para saber que tan costosa o overbuy esta la accion.
+	 * El input lo toma de un servicio de un servicio de yahoo
+	 * nDays debe ser negativo para que sirva el algoritmo
+	 */
+	private void relativeStrengthIndexFromGoogle(String companySymbol, int nDays, boolean print, String iteracion){
+		//obtener el historico de 14 dias o iteraciones!
+		if (print){
+			System.out.println("obtener el historico de 14 dias o iteraciones!");
+		}
+		
+		List<RelativeStrengthIndexData> lstRSI = null;
+		String fechaHoy = UtilGeneral.obtenerToday();   //"2016-08-04";
+		String mesatras = UtilGeneral.obtenerTodayMinusMonth();  //"2016-07-04";
+		
+		if (nDays == 0){
+			fechaHoy = UtilGeneral.obtenerToday();   //"2016-08-04";
+			mesatras = UtilGeneral.obtenerTodayMinusMonth();  //"2016-07-04";
+		}else{
+			fechaHoy = UtilGeneral.obtenerTodayMinusNDays(nDays);
+			mesatras = UtilGeneral.obtenerTodayMinusNDays(-27+nDays);  //"2016-07-04";
+			
+		}
+		
+		lstRSI = UtilGeneral.getListaRSIGoogle(companySymbol, fechaHoy, mesatras, print);
+		
+		//ordena descendente ID, porque el formamo de la data esta de mayor a menor
+		//y las fechas deben ordenarse de menor a Mayor
+		Collections.sort(lstRSI);
+
+		//Obtener el valor maximo y minimo en el cierre de la accion al dia
+		double max = 0;
+		double min = 0;
+		
+		//obtener el promedio de H&L
+		double avgHigh = 0;
+		double avgLow  = 0;
+		//Iteracion 2 change = close today - close yesterday
+		for (int i = 0; i < lstRSI.size(); i++) {
+			if (i == 0){
+				RelativeStrengthIndexData relativeStrengthIndexMM =  lstRSI.get(i);
+				if (null != relativeStrengthIndexMM){
+					max = relativeStrengthIndexMM.getClose();
+					min = relativeStrengthIndexMM.getClose();
+					avgHigh += relativeStrengthIndexMM.getHigh();
+					avgLow += relativeStrengthIndexMM.getLow();
+				}
+			  
+			}
+			if ( i > 0){
+				RelativeStrengthIndexData relativeStrengthIndexDataA = lstRSI.get(i-1);
+				RelativeStrengthIndexData relativeStrengthIndexDataB = lstRSI.get(i);
+				//System.out.println(relativeStrengthIndexDataA.getClose());
+				//System.out.println(relativeStrengthIndexDataB.getClose());
+				relativeStrengthIndexDataB.setChange(-relativeStrengthIndexDataA.getClose()+relativeStrengthIndexDataB.getClose());
+				//System.out.println(relativeStrengthIndexDataB.toString());
+				lstRSI.set(i, relativeStrengthIndexDataB);
+				
+				//Valida valor Mayor y menor
+				if (relativeStrengthIndexDataB.getClose() > max){
+					max = relativeStrengthIndexDataB.getClose(); 
+				}
+				if  (relativeStrengthIndexDataB.getClose() < min){
+					min = relativeStrengthIndexDataB.getClose(); 
+				}
+				
+				//sumar el average
+				avgHigh += relativeStrengthIndexDataB.getHigh();
+				avgLow += relativeStrengthIndexDataB.getLow();
+				
+			}
+			
+		}
+		
+		avgHigh = avgHigh/lstRSI.size();
+		avgLow = avgLow/lstRSI.size();
+		
+		
+		// print Resultado
+//		for (RelativeStrengthIndexData relativeStrengthIndexData : lstRSI) {			
+//					System.out.println(relativeStrengthIndexData.toString());
+//		}
+
+		
+		//Iteracion 3 suma gain and lost
+		BigDecimal gain = new BigDecimal(0);
+		gain.setScale(10, BigDecimal.ROUND_UNNECESSARY);
+		BigDecimal lost = new BigDecimal(0);
+		lost.setScale(10, BigDecimal.ROUND_UNNECESSARY);
+		if (null != lstRSI && lstRSI.size() > 2) {
+			for (int i = 0; i < 14; i++) {
+				try{
+				double change = lstRSI.get(i).getChange();
+				if (change > 0) {
+					// System.out.println("change (+) >" + change);
+					gain = gain.add(new BigDecimal(change));
+					// System.out.println("gain >" + gain);
+				} else if (change < 0) {
+					// System.out.println("change (-) >" + change);
+					lost = lost.add(new BigDecimal(Math.abs(change)));
+					// System.out.println("lost >" + lost);
+				}}catch(IndexOutOfBoundsException iobE){System.out.print("Error en obtenerReturnIndex" + iobE.getMessage());}
+			}}
+
+
+		//System.out.println(gain + "<-- g");
+		//System.out.println(lost + "<-- l");
+		
+		double rs =  (gain.doubleValue()/14)/(lost.doubleValue()/14);
+		double rsi = 100 - (100/(1+rs));
+		
+		int diff = (int) (max - min);
+		int porcentajeIncremento = (int) (((100*avgHigh)/avgLow)-100);
+		
+		//if (diff > 49 || porcentajeIncremento>=3 ){
+		
+		System.out.print("symbol:[" + companySymbol + "]");
+		System.out.print("|RSI14:[" +String.format( "%.4f",   rsi) + "]");
+		System.out.print("|max:[" + max+ "]");
+		System.out.print("|min:[" + min+ "]");
+		System.out.print("|diff:[" + String.format( "%.4f", (max - min) )+ (diff>49?"Diferencia mayor a 49 DataMining*":"") +"]");
+		System.out.print("|%IncrementoHigh:[" + String.format( "%.4f", (((100*avgHigh)/avgLow)-100)) + (porcentajeIncremento>=3?"%IncMayorIgual3 DataMining *":"") + "]");
+		System.out.print("|media:[" +  String.format( "%.2f",  (max+min)/2 ) + "] \n");
+		//}
+		//Almacenar informacion de Data Mining si el numero
+		//de la iteracion contine informacion
+		try {
+			if (null != iteracion && Long.valueOf(iteracion) > 0) {
+				// Consultar identificador de la compania
+				Company cmp = new Company();
+				cmp.setUrlIndex(companySymbol);
+				cmp = admEnt.getCompanyBySymbol(cmp);
+				
+				DataMiningCompany dmCmp = new DataMiningCompany();
+				dmCmp.setCompany(cmp);
+				dmCmp.setIdIteracion(Long.valueOf(iteracion));
+				dmCmp = admEnt.getDMCompanyByCmpAndIteracion(dmCmp);
+				dmCmp.setRelativeStrengthIndex(String.format( "%.4f",   rsi) );
+				dmCmp.setDiffMaxMin(String.format( "%.4f", (max - min) ));
+				dmCmp.setPercentageIncrement(String.format( "%.4f", (((100*avgHigh)/avgLow)-100)));
+				boolean  isStockPriceMayorMedia = (Double.parseDouble( dmCmp.getStockPrice().replace(',','.').trim() )  > (max+min)/2 );
+				dmCmp.setIsTockPriceMayorMedia( isStockPriceMayorMedia );
+				//Obtener tendencia (0) - alza 	(1)	- baja		(2)	Alza		(3)	Baja
+				diasIntentos = -1;
+				dmCmp.setTendencia(getTendencia(companySymbol,-1));
+				
+				admEnt.updateDataMiningCompany(dmCmp);
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error al persistir el DataMining" + e.getMessage());
+			
+			
+		}
+
+		
+	}
+
 	
 	/**
 	 * @param companySymbol
@@ -1530,8 +1795,11 @@ public class ObtenerMarketIndex {
 	 * @param dateEnd: Fecha mas proxima
 	 * @param dateBegin: Fecha mas lejana
 	 * @return
+	 * Ya no se usa porque el servicio historico de Yahoo ya no esta trayendo la informacion
+	 *   se debe usar el metodo: relativeStrengthIndexDinamico
 	 */
-	private List<RelativeStrengthIndexData> getListaRSI(String symbol, String dateEnd, String dateBegin, boolean print){
+	@Deprecated
+	private List<RelativeStrengthIndexData> getListaRSIYahoo(String symbol, String dateEnd, String dateBegin, boolean print){
 		List<RelativeStrengthIndexData> lstRSI = null;
 		lstRSI = new ArrayList<RelativeStrengthIndexData>();
 		
@@ -1546,6 +1814,8 @@ public class ObtenerMarketIndex {
 				System.out.println("Date,Open,High,Low,Close,Adj Close");
 			}
 			rHistData =	this.executeYahooIndexHistoricaldata(urlHistdata);
+			
+			
 			if (null != rHistData && null != rHistData.getQuery() 
 					&& null !=  rHistData.getQuery().getResults() && null != rHistData.getQuery().getResults().getQuote()){
 				int ctd = 0;
@@ -1672,11 +1942,11 @@ public class ObtenerMarketIndex {
 		
 		//Valor stock a hoy
 		List<RelativeStrengthIndexData> valuePonderadoToday = null;
-		valuePonderadoToday = this.getListaRSI(companySymbol, UtilGeneral.obtenerToday(), UtilGeneral.obtenerTodayMinusThree(), false);	
+		valuePonderadoToday = this.getListaRSIYahoo(companySymbol, UtilGeneral.obtenerToday(), UtilGeneral.obtenerTodayMinusThree(), false);	
 		
 		//Valor stock a principio del anio
 		List<RelativeStrengthIndexData> valuePonderadoBeginYear = null;
-		valuePonderadoBeginYear = this.getListaRSI(companySymbol, UtilGeneral.obtenerFirstDateOftheYearPlusOne(), UtilGeneral.obtenerFirstDateOftheYearMinusOne(), false);	
+		valuePonderadoBeginYear = this.getListaRSIYahoo(companySymbol, UtilGeneral.obtenerFirstDateOftheYearPlusOne(), UtilGeneral.obtenerFirstDateOftheYearMinusOne(), false);	
 		
 		Double valorActual = 0d;
 		Double valorBeginYear = 0d;
