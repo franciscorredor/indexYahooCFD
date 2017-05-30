@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -239,9 +240,10 @@ public class UtilGeneral {
 		        	//System.out.println(line);
 		        	RelativeStrengthIndexData rsid = new RelativeStrengthIndexData();
 		        	String[] torsid = line.split(",");
+		        
 			        rsid.setId(++ctd);
 			        DateFormat formatter1;
-			        formatter1 = new SimpleDateFormat("dd-MMM-yy");
+			        formatter1 = new SimpleDateFormat("d-MMM-yy", Locale.ENGLISH);
 			        rsid.setFecha(  formatter1.parse(torsid[0]) ) ;
 			        rsid.setClose(Double.parseDouble(torsid[4]));
 			        rsid.setHigh(Double.parseDouble(torsid[2]));
@@ -264,14 +266,14 @@ public class UtilGeneral {
 		        
 		    }
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("Error al leer ["+symbol+"](FileNotFoundException)");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("Error al leer ["+symbol+"](IOException)");
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("Error al leer ["+symbol+"](ParseException)");
 		}
 		
 		return lstRSI;

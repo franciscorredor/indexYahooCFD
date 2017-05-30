@@ -18,14 +18,15 @@ import javax.persistence.Table;
  * @version	1.0  
  */
 @NamedNativeQueries({ 
-	@NamedNativeQuery(name = "findCompanies", query = " SELECT	com.SCN_CODIGO as id, com.SCN_NAME as name, sci.SCI_URL_INDEX as urlIndex, scq.SCQ_URL_QUOTE as urlQuote \n"+
+	@NamedNativeQuery(name = "findCompanies", query = " SELECT	com.SCN_GOOGLE_SYMBOL as googleSymbol, com.SCN_CODIGO as id, com.SCN_NAME as name, sci.SCI_URL_INDEX as urlIndex, scq.SCQ_URL_QUOTE as urlQuote \n"+
 														" FROM		indexyahoocfd.iyc_stack_company_index sci  	INNER JOIN indexyahoocfd.iyc_stock_companies com   	on com.SCN_CODIGO = sci.SCN_CODIGO \n"+ 
 														" inner join indexyahoocfd.iyc_stack_company_quotes scq	on scq.scn_codigo = com.scn_codigo \n"+
 														" ORDER by com.SCN_CODIGO", resultClass = Company.class),
-	@NamedNativeQuery(name = "findCompanyById", query = "SELECT	com.SCN_CODIGO as id, com.SCN_NAME as name, sci.SCI_URL_INDEX as urlIndex, scq.SCQ_URL_QUOTE as urlQuote FROM		indexyahoocfd.iyc_stack_company_index sci  INNER JOIN  indexyahoocfd.iyc_stock_companies com   on com.SCN_CODIGO = sci.SCN_CODIGO inner join indexyahoocfd.iyc_stack_company_quotes scq	on scq.scn_codigo = com.scn_codigo WHERE  com.SCN_CODIGO = :companyId  ", resultClass = Company.class),
-	@NamedNativeQuery(name = "findCompanyBySymbol", query = " SELECT	com.SCN_CODIGO as id, com.SCN_NAME as name, ch.symbol as urlIndex, ch.utctime as urlQuote  \n"+
+	@NamedNativeQuery(name = "findCompanyById", query = "SELECT	com.SCN_GOOGLE_SYMBOL as googleSymbol, com.SCN_CODIGO as id, com.SCN_NAME as name, sci.SCI_URL_INDEX as urlIndex, scq.SCQ_URL_QUOTE as urlQuote FROM		indexyahoocfd.iyc_stack_company_index sci  INNER JOIN  indexyahoocfd.iyc_stock_companies com   on com.SCN_CODIGO = sci.SCN_CODIGO inner join indexyahoocfd.iyc_stack_company_quotes scq	on scq.scn_codigo = com.scn_codigo WHERE  com.SCN_CODIGO = :companyId  ", resultClass = Company.class),
+	@NamedNativeQuery(name = "findCompanyBySymbol", query = " SELECT	com.SCN_GOOGLE_SYMBOL as googleSymbol, com.SCN_CODIGO as id, com.SCN_NAME as name, ch.symbol as urlIndex, ch.utctime as urlQuote  \n"+
 															" FROM		indexyahoocfd.iyc_quote_company_history ch  	INNER JOIN indexyahoocfd.iyc_stock_companies com   	on com.SCN_CODIGO = ch.SCN_CODIGO \n"+ 
-															" WHERE	ch.symbol = :cmpSymbol \n"+
+															//" WHERE	ch.symbol = :cmpSymbol \n"+
+															" WHERE	com.SCN_GOOGLE_SYMBOL = :cmpSymbol \n"+
 															" ORDER by com.SCN_CODIGO LIMIT 1 ", resultClass = Company.class),
 })
 
@@ -64,6 +65,8 @@ public class Company  implements Serializable {
     private String urlIndex;
     
     private String urlQuote;
+    
+    private String googleSymbol;
     
     
     // ////////////////////////////////////////////////////////////////////////
@@ -113,14 +116,29 @@ public class Company  implements Serializable {
 		this.urlQuote = urlQuote;
 	}
 	
+	/**
+	 * @return the googleSymbol
+	 */
+	public String getGoogleSymbol() {
+		return googleSymbol;
+	}
+	/**
+	 * @param googleSymbol the googleSymbol to set
+	 */
+	public void setGoogleSymbol(String googleSymbol) {
+		this.googleSymbol = googleSymbol;
+	}
+	
 	
 	@Override
     public String toString() {
 	StringBuffer s = new StringBuffer();
 	s.append(" name [" + this.name + "]");
 	s.append(" urlQuote [\n" + this.urlQuote + "\n]");
+	s.append(" googleSymbol [\n" + this.googleSymbol + "\n]");
 	
 	return s.toString();
     }
+	
 
 }

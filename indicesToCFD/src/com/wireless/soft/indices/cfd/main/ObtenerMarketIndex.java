@@ -216,7 +216,7 @@ public class ObtenerMarketIndex {
 				break;	
 			case "11":
 				System.out.println("\n Obtener tendencia de la compania en n meses (0) - alza 	(1)	- baja		(2)	Alza		(3)	Baja \n");
-				System.out.println(" " + omi.getTendencia(args[1],  Integer.parseInt( args[2] )));
+				System.out.println(" " + omi.getTendenciaGoogle(args[1],  Integer.parseInt( args[2] )));
 				break;
 			case "12":
 				System.out.println("\n Evaluar data mining statistical modeling ");
@@ -629,7 +629,7 @@ public class ObtenerMarketIndex {
 						
 						double ytd = 0;
 						try{
-							ytd = this.getYearToDateReturn(qhcNow.getSymbol());
+							ytd = this.getYearToDateReturn(cmp.getGoogleSymbol());
 						}catch (IllegalStateException ie){
 							//System.out.println("ie.getMessage(this.getYearToDateReturn): " + ie.getMessage());
 						}catch(Exception e){
@@ -774,7 +774,7 @@ public class ObtenerMarketIndex {
 						
 						double ytd = 0;
 						try{
-							ytd = this.getYearToDateReturn(qhcNow.getSymbol());
+							ytd = this.getYearToDateReturn(cmp.getGoogleSymbol());
 						}catch (IllegalStateException ie){
 							//System.out.println("ie.getMessage(this.getYearToDateReturn): " + ie.getMessage());
 						}catch(Exception e){
@@ -971,7 +971,7 @@ public class ObtenerMarketIndex {
 			addAR.setDayHigh(Double.valueOf(qhcNow.getDay_high()));
 			addAR.setFechaIteracion1(qhcBefore.getFechaCreacion());
 			addAR.setFechaIteracion2(qhcNow.getFechaCreacion());
-			addAR.setSymbol(qhcNow.getSymbol());
+			addAR.setSymbol(cmp.getGoogleSymbol());
 			
 			try {
 				// Obtencion de PE ratio by company
@@ -1088,7 +1088,7 @@ public class ObtenerMarketIndex {
 				addAR.setDayHigh(Double.valueOf(qhcNow.getDay_high()));
 				addAR.setFechaIteracion1(qhcBefore.getFechaCreacion());
 				addAR.setFechaIteracion2(qhcNow.getFechaCreacion());
-				addAR.setSymbol(qhcNow.getSymbol());
+				addAR.setSymbol(cmp.getGoogleSymbol());
 				//01Aug2016
 				//Adicionar funcionalidad que consulta los indicadores YTD & 1YR return from Bloomberg.
 				addAR.setYearReturn(this.obtenerReturnIndex(cmp));
@@ -1145,7 +1145,7 @@ public class ObtenerMarketIndex {
 				addAR.setDayHigh(Double.valueOf(qhcNow.getDay_high()));
 				addAR.setFechaIteracion1(qhcBefore.getFechaCreacion());
 				addAR.setFechaIteracion2(qhcNow.getFechaCreacion());
-				addAR.setSymbol(qhcNow.getSymbol());
+				addAR.setSymbol(cmp.getGoogleSymbol());
 				//01Aug2016
 				//Adicionar funcionalidad que consulta los indicadores YTD & 1YR return from Bloomberg.
 				addAR.setYearReturn(this.obtenerReturnIndex(cmp));
@@ -1396,6 +1396,7 @@ public class ObtenerMarketIndex {
 	 * nDays debe ser negativo para que sirva el algoritmo
 	 * Metodo no se usa porque yahoo descontinuo el servicio, usar relativeStrengthIndexFromGoogle
 	 */
+	/*
 	@Deprecated
 	private void relativeStrengthIndex(String companySymbol, int nDays, boolean print, String iteracion){
 		//obtener el historico de 14 dias o iteraciones!
@@ -1550,6 +1551,7 @@ public class ObtenerMarketIndex {
 
 		
 	}
+	*/
 	
 	
 	/*
@@ -1696,7 +1698,7 @@ public class ObtenerMarketIndex {
 				dmCmp.setIsTockPriceMayorMedia( isStockPriceMayorMedia );
 				//Obtener tendencia (0) - alza 	(1)	- baja		(2)	Alza		(3)	Baja
 				diasIntentos = -1;
-				dmCmp.setTendencia(getTendencia(companySymbol,-1));
+				dmCmp.setTendencia(getTendenciaGoogle(companySymbol,-1));
 				
 				admEnt.updateDataMiningCompany(dmCmp);
 
@@ -1723,7 +1725,7 @@ public class ObtenerMarketIndex {
 		(3)	Baja
 		enum TENDENCIA {minusalza, minusbaja, ALZA, BAJA;}
      */
-	private Integer getTendencia(String companySymbol, int nDays){
+	private Integer getTendenciaGoogle(String companySymbol, int nDays){
 		
 		//yyyy-MM-dd
 		String fechaHoy = UtilGeneral.obtenerToday();  
@@ -1740,7 +1742,7 @@ public class ObtenerMarketIndex {
 		
 		
 			
-		switch (this.getTendencia(companySymbol, fechaHoy, mesatras)) {
+		switch (this.getTendenciaGoogle(companySymbol, fechaHoy, mesatras)) {
 		case minusalza:
 			return 0; // "-alza";
 		case minusbaja:
@@ -1751,7 +1753,7 @@ public class ObtenerMarketIndex {
 			return 3; //"BAJA";
 		case NO_EVALUADA:
 			System.out.println("Se llama de forma recursiva a getTendencia " + (diasIntentos--));
-			return getTendencia(companySymbol, nDays + (diasIntentos));
+			return getTendenciaGoogle(companySymbol, nDays + (diasIntentos));
 		default:
 			break; 
 
@@ -1774,7 +1776,8 @@ public class ObtenerMarketIndex {
 			if (string != null){
 				string = string.replace(',', '.');
 			}
-		  this.relativeStrengthIndex(string.trim(), Integer.parseInt(diasAtras), false, idIteracion);
+		  //this.relativeStrengthIndex(string.trim(), Integer.parseInt(diasAtras), false, idIteracion);
+		  this.relativeStrengthIndexFromGoogle(string.trim(), Integer.parseInt(diasAtras), false, idIteracion);
 		}
 		
 		
@@ -1798,6 +1801,7 @@ public class ObtenerMarketIndex {
 	 * Ya no se usa porque el servicio historico de Yahoo ya no esta trayendo la informacion
 	 *   se debe usar el metodo: relativeStrengthIndexDinamico
 	 */
+	/*
 	@Deprecated
 	private List<RelativeStrengthIndexData> getListaRSIYahoo(String symbol, String dateEnd, String dateBegin, boolean print){
 		List<RelativeStrengthIndexData> lstRSI = null;
@@ -1852,6 +1856,7 @@ public class ObtenerMarketIndex {
 		
 		return lstRSI;
 	}
+	*/
 	
 	
 	/**
@@ -1862,7 +1867,8 @@ public class ObtenerMarketIndex {
 	 * @return
 	 * Obtiene la tendencia de la compania
 	 */
-	private TENDENCIA getTendencia(String symbol, String dateEnd, String dateBegin){
+	private TENDENCIA getTendenciaGoogle(String symbol, String dateEnd, String dateBegin){
+		Fixme..
 		
 		Double valorTresMesesAtras = null;
 		Double valorHoy = null;
@@ -1875,8 +1881,8 @@ public class ObtenerMarketIndex {
 		ReturnSingleDataYahooFinance rHistDataHoy = null;
 		ReturnSingleDataYahooFinance rHistDataTresMonthBefore = null;
 		try {
-			urlDataHoy = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+dateEnd+"%22%20and%20endDate%20%3D%20%22"+dateEnd+"%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
-			urlDataTresMonthBefore = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+dateBegin+"%22%20and%20endDate%20%3D%20%22"+dateBegin+"%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
+			--> urlDataHoy = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+dateEnd+"%22%20and%20endDate%20%3D%20%22"+dateEnd+"%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
+			--> urlDataTresMonthBefore = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+dateBegin+"%22%20and%20endDate%20%3D%20%22"+dateBegin+"%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
 			rHistDataHoy =	this.executeYahooIndexSingleData(urlDataHoy);
 			rHistDataTresMonthBefore =	this.executeYahooIndexSingleData(urlDataTresMonthBefore);
 			if (null != rHistDataHoy && null != rHistDataHoy.getQuery() 
@@ -1942,11 +1948,12 @@ public class ObtenerMarketIndex {
 		
 		//Valor stock a hoy
 		List<RelativeStrengthIndexData> valuePonderadoToday = null;
-		valuePonderadoToday = this.getListaRSIYahoo(companySymbol, UtilGeneral.obtenerToday(), UtilGeneral.obtenerTodayMinusThree(), false);	
+		valuePonderadoToday = UtilGeneral.getListaRSIGoogle(companySymbol, UtilGeneral.obtenerToday(), UtilGeneral.obtenerTodayMinusThree(), false);
+		//valuePonderadoToday = this.getListaRSIYahoo(companySymbol, UtilGeneral.obtenerToday(), UtilGeneral.obtenerTodayMinusThree(), false);	
 		
 		//Valor stock a principio del anio
 		List<RelativeStrengthIndexData> valuePonderadoBeginYear = null;
-		valuePonderadoBeginYear = this.getListaRSIYahoo(companySymbol, UtilGeneral.obtenerFirstDateOftheYearPlusOne(), UtilGeneral.obtenerFirstDateOftheYearMinusOne(), false);	
+		valuePonderadoBeginYear = UtilGeneral.getListaRSIGoogle(companySymbol, UtilGeneral.obtenerFirstDateOftheYearPlusOne(), UtilGeneral.obtenerFirstDateOftheYearMinusOne(), false);	
 		
 		Double valorActual = 0d;
 		Double valorBeginYear = 0d;
