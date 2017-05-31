@@ -1,7 +1,9 @@
 package com.wireless.soft.indices.cfd.main;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.net.URL;
@@ -14,6 +16,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import org.apache.log4j.PropertyConfigurator;
@@ -328,6 +331,13 @@ public class ObtenerMarketIndex {
 
 	}
 	
+	/**
+	 * @param url
+	 * @return
+	 * @throws IOException
+	 */
+	/*
+	@Deprecated
 	private ReturnSingleDataYahooFinance executeYahooIndexSingleData(String url)
 			throws IOException {
 		try {
@@ -347,6 +357,50 @@ public class ObtenerMarketIndex {
 			System.out.println("[" + e.getMessage() + "]Error en ReturnSingleDataYahooFinance executeYahooIndexSingleData:" + url);
 			//e.printStackTrace();
 		}
+		return null;
+
+	}*/
+	
+	/**
+	 * @param url
+	 * @return
+	 * @throws IOException
+	 * Retorna el valor de la copañia
+	 */
+	private Double executeGoogleIndexSingleData(String url)
+			throws IOException {
+		
+		try(InputStream input = new URL( url ).openStream()) {
+			
+			
+			
+			BufferedReader br = new BufferedReader(new InputStreamReader(input, "UTF-8"));
+		    StringBuilder sb = new StringBuilder();
+		    String line = br.readLine();
+
+		    while (line != null) {
+		    	
+		        sb.append(line);
+		        sb.append(System.lineSeparator());
+		        line = br.readLine();
+		        if (null != line){
+		        	String[] torsid = line.split(",");
+			        
+			        return Double.parseDouble(torsid[4]);
+			                
+			        
+		        }
+		        
+		    }
+		} catch (FileNotFoundException e) {
+			//e.printStackTrace();
+			System.out.println("Error al leer ["+url+"](FileNotFoundException)");
+		} catch (IOException e) {
+			//e.printStackTrace();
+			System.out.println("Error al leer ["+url+"](IOException)");
+		} 
+		
+		
 		return null;
 
 	}
@@ -1868,7 +1922,6 @@ public class ObtenerMarketIndex {
 	 * Obtiene la tendencia de la compania
 	 */
 	private TENDENCIA getTendenciaGoogle(String symbol, String dateEnd, String dateBegin){
-		Fixme..
 		
 		Double valorTresMesesAtras = null;
 		Double valorHoy = null;
@@ -1881,8 +1934,13 @@ public class ObtenerMarketIndex {
 		ReturnSingleDataYahooFinance rHistDataHoy = null;
 		ReturnSingleDataYahooFinance rHistDataTresMonthBefore = null;
 		try {
-			--> urlDataHoy = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+dateEnd+"%22%20and%20endDate%20%3D%20%22"+dateEnd+"%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
-			--> urlDataTresMonthBefore = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+dateBegin+"%22%20and%20endDate%20%3D%20%22"+dateBegin+"%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
+			//urlDataHoy = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+dateEnd+"%22%20and%20endDate%20%3D%20%22"+dateEnd+"%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
+			//urlDataTresMonthBefore = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+dateBegin+"%22%20and%20endDate%20%3D%20%22"+dateBegin+"%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
+			urlDataHoy = "http://www.google.com/finance/historical?q="+symbol.replace(":", "%3A")+"&startdate="+dateEnd.replace(" ", "%20")+"&enddate="+dateEnd.replace(" ", "%20")+"&output=csv";
+			urlDataTresMonthBefore = "http://www.google.com/finance/historical?q="+symbol.replace(":", "%3A")+"&startdate="+dateBegin.replace(" ", "%20")+"&enddate="+dateBegin.replace(" ", "%20")+"&output=csv";
+			valorHoy =	this.executeGoogleIndexSingleData(urlDataHoy);
+			valorTresMesesAtras =	this.executeGoogleIndexSingleData(urlDataTresMonthBefore);
+			/*
 			rHistDataHoy =	this.executeYahooIndexSingleData(urlDataHoy);
 			rHistDataTresMonthBefore =	this.executeYahooIndexSingleData(urlDataTresMonthBefore);
 			if (null != rHistDataHoy && null != rHistDataHoy.getQuery() 
@@ -1894,6 +1952,7 @@ public class ObtenerMarketIndex {
 					valorTresMesesAtras = Double.parseDouble(rHistDataTresMonthBefore.getQuery().getResults().getQuote().getAdj_Close());
 				
 			}
+			*/
 			
 			if (null == valorHoy | null == valorTresMesesAtras){
 				return TENDENCIA.NO_EVALUADA;

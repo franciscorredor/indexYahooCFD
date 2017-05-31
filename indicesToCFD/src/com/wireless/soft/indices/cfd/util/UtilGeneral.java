@@ -2,7 +2,6 @@ package com.wireless.soft.indices.cfd.util;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -113,7 +112,7 @@ public class UtilGeneral {
 		
 		if (null != calendar) {
 
-			SimpleDateFormat format1 = new SimpleDateFormat(format); // "yyyy-MM-dd HH:mm:ss.SSS0"
+			SimpleDateFormat format1 = new SimpleDateFormat(format, Locale.ENGLISH); // "yyyy-MM-dd HH:mm:ss.SSS0"
 			retornoFF = format1.format(calendar.getTime());
 		}else{
 			retornoFF = "Fecha Null";
@@ -185,7 +184,7 @@ public class UtilGeneral {
 		        	String[] torsid = line.split(",");
 			        rsid.setId(++ctd);
 			        DateFormat formatter1;
-			        formatter1 = new SimpleDateFormat("yyyy-MMM-DD");
+			        formatter1 = new SimpleDateFormat("yyyy-MMM-DD", Locale.ENGLISH);
 			        rsid.setFecha(  formatter1.parse(torsid[0]) ) ;
 			        rsid.setClose(Double.parseDouble(torsid[4]));
 			        rsid.setHigh(Double.parseDouble(torsid[2]));
@@ -323,7 +322,7 @@ public class UtilGeneral {
 		
 		String fh = null;
 		DateFormat formatter1;
-		formatter1 = new SimpleDateFormat("MMM dd, yyyy");
+		formatter1 = new SimpleDateFormat("MMM+d,+yyyy", Locale.ENGLISH);
 		fh = formatter1.format(new Date());
 		
 		
@@ -339,7 +338,7 @@ public class UtilGeneral {
 		
 		String fh = null;
 		DateFormat formatter1;
-		formatter1 = new SimpleDateFormat("yyMMddHHmm");
+		formatter1 = new SimpleDateFormat("yyMMddHHmm", Locale.ENGLISH);
 		fh = formatter1.format(new Date());
 		
 		
@@ -364,7 +363,8 @@ public class UtilGeneral {
 //		
 //		Date today = new Date();
 		DateFormat formatter1;
-		formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+		//formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+		formatter1 = new SimpleDateFormat("MMM+d,+yyyy", Locale.ENGLISH);
 		dateOneMothAgo = formatter1.format(new Date(cal.getTimeInMillis()));
 		
 		
@@ -389,7 +389,7 @@ public class UtilGeneral {
 //		
 //		Date today = new Date();
 		DateFormat formatter1;
-		formatter1 = new SimpleDateFormat("MMM dd, yyyy");
+		formatter1 = new SimpleDateFormat("MMM+d,+yyyy", Locale.ENGLISH);
 		dateOneMothAgo = formatter1.format(new Date(cal.getTimeInMillis()));
 		
 		
@@ -409,7 +409,7 @@ public class UtilGeneral {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, -5); // I just want date before 90 days. you can give that you want.
 		DateFormat formatter1;
-		formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+		formatter1 = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 		dateThreeDaysAgo = formatter1.format(new Date(cal.getTimeInMillis()));
 		
 		return dateThreeDaysAgo;
@@ -425,7 +425,7 @@ public class UtilGeneral {
 		String year = null;
 		
 		DateFormat formatterYear;
-		formatterYear = new SimpleDateFormat("yyyy");
+		formatterYear = new SimpleDateFormat("yyyy", Locale.ENGLISH);
 		year = formatterYear.format(new Date());
 		
 		Calendar cal = Calendar.getInstance();
@@ -435,7 +435,7 @@ public class UtilGeneral {
 		//cal.add(Calendar.DATE, -362); --Evaluar si al restar estos dias es un dia habil, tener en cuenta una fecha fija seteando el valor del primer dia del anio
 		
 		DateFormat formatter1;
-		formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+		formatter1 = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 		firstDayYearMinusOne = formatter1.format(new Date(cal.getTimeInMillis()));
 		
 		
@@ -453,7 +453,7 @@ public class UtilGeneral {
 		String year = null;
 		
 		DateFormat formatterYear;
-		formatterYear = new SimpleDateFormat("yyyy");
+		formatterYear = new SimpleDateFormat("yyyy", Locale.ENGLISH);
 		year = formatterYear.format(new Date());
 		
 		Calendar cal = Calendar.getInstance();
@@ -463,7 +463,7 @@ public class UtilGeneral {
 		//cal.add(Calendar.DATE, -367); --Evaluar si al restar estos dias es un dia habil, tener en cuenta una fecha fija seteando el valor del primer dia del anio
 		
 		DateFormat formatter1;
-		formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+		formatter1 = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 		firstDayYearPlusOne = formatter1.format(new Date(cal.getTimeInMillis()));
 		
 		
