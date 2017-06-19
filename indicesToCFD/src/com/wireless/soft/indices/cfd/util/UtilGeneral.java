@@ -22,6 +22,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.wireless.soft.indices.cfd.business.adm.AdminEntity;
 import com.wireless.soft.indices.cfd.business.entities.Company;
 import com.wireless.soft.indices.cfd.business.entities.DataMiningCompany;
 import com.wireless.soft.indices.cfd.collections.CompanyRanking;
@@ -250,7 +251,7 @@ public class UtilGeneral {
 			        lstRSI.add(rsid);
 			        
 			        if (print){
-			        	System.out.println(formatter1.parse(torsid[0])+","
+			        	System.out.println(torsid[0]+","
 			        					+Double.parseDouble(torsid[1])+","
 			        					+Double.parseDouble(torsid[2])+","
 			        					+Double.parseDouble(torsid[3])+","
@@ -265,13 +266,16 @@ public class UtilGeneral {
 		        
 		    }
 		} catch (FileNotFoundException e) {
-			//e.printStackTrace();
-			System.out.println("Error al leer ["+symbol+"](FileNotFoundException)");
+			
+				lstRSI = getListaRSIGoogleByHTML(symbol, dateEnd, dateBegin, print);
+			
+			
+			if (lstRSI == null || (lstRSI != null &&  lstRSI.size() < 3)){
+				System.out.println("Error al leer ["+symbol+"](FileNotFoundException)");
+			}
 		} catch (IOException e) {
-			//e.printStackTrace();
 			System.out.println("Error al leer ["+symbol+"](IOException)");
 		} catch (ParseException e) {
-			//e.printStackTrace();
 			System.out.println("Error al leer ["+symbol+"](ParseException)");
 		}
 		
@@ -494,6 +498,98 @@ public class UtilGeneral {
 		return retornoDMC;
 	}
 	
+	
+	/*
+	 * Method to get historical prices from HTML format
+	 */
+	public static List<RelativeStrengthIndexData> getListaRSIGoogleByHTML(String symbol, String dateEnd, String dateBegin, boolean print){
+
+		List<RelativeStrengthIndexData> lstRSI = null;
+		AdminEntity admEnt = new AdminEntity();
+		String urlHistdata = null;
+		Company cmp = new Company();
+		cmp.setUrlIndex(symbol);
+		
+		try {
+			cmp = admEnt.getCompanyBySymbol(cmp);
+		
+			if (cmp != null && cmp.getCid() != null){
+						lstRSI = new ArrayList<RelativeStrengthIndexData>();              
+						urlHistdata = "http://www.google.ca/finance/historical?cid="+cmp.getCid()+"&startdate="+dateBegin.replace(" ", "%20")+"&enddate="+dateEnd.replace(" ", "%20")+"&num=30";
+			
+						
+						if (print){
+							System.out.println("urlHistdata ("+symbol+"): ["+urlHistdata+"]");
+							System.out.println("Date,Open,High,Low,Close");
+						}
+						
+						Document doc;
+						doc = Jsoup.connect(urlHistdata).timeout(3000).get();
+						Elements newsHeadlines = doc.select("table.gf-table.historical_price");
+			
+						for (Element table : newsHeadlines) {
+							
+							Elements rows = table.select("tr");
+			
+							int ctd = 0;
+							for (int i = 1; i < rows.size(); i++) { //first row is the col names so skip it.
+								
+							    Element row = rows.get(i);
+							    Elements cols = row.select("td");
+							    //System.out.println("[" + cols.text() + "]");
+							    
+							    //Open	High	Low	Close	
+							    //0		1		2	3
+							    
+							    	Elements dataDate = cols.select("td.lm");
+							    	Elements dataValue = cols.select("td.rgt");
+							    	//Elements dataVolume = cols.select("td.rgt.rm");
+							    	//System.out.print("[" + dataDate.text() + "], ["+ dataValue.text() +"], ["+ dataVolume.text() +"]");
+							    	RelativeStrengthIndexData rsid = new RelativeStrengthIndexData();
+						        	String[] torsid = dataValue.text().split(" ");
+						        
+							        rsid.setId(++ctd);
+							        DateFormat formatter1;
+							        formatter1 = new SimpleDateFormat("MMM d, yyyy", Locale.ENGLISH);
+							        rsid.setFecha(  formatter1.parse(dataDate.text().trim()) ) ;
+							        rsid.setClose(Double.parseDouble(torsid[3]));
+							        rsid.setHigh(Double.parseDouble(torsid[1]));
+							        rsid.setLow(Double.parseDouble(torsid[2]));
+							        lstRSI.add(rsid);
+							        
+							        //"Date,Open,High,Low,Close"
+							        if (print){
+							        	System.out.println(dataDate.text().trim()+","
+							        					+Double.parseDouble(torsid[0])+","
+							        					+Double.parseDouble(torsid[1])+","
+							        					+Double.parseDouble(torsid[2])+","
+							        					+Double.parseDouble(torsid[3])
+							        					);
+							        }
+							        
+							        if (ctd > 13){
+							        	break;
+							        }
+							}
+							//System.out.print("[" + table.text() + "]");
+						}
+			}//End IF
+			
+			
+		    
+		} catch (IOException e) {
+			System.out.println("Error al obtener historico by HTML: " + e.getMessage());
+			System.out.println("{"+urlHistdata+"}");
+		} catch (ParseException e) {
+			System.out.println("Error al leer ["+symbol+"](ParseException)");
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
+		return lstRSI;
+	
+		
+	}
 	
 	
 
