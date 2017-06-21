@@ -1752,7 +1752,11 @@ public class ObtenerMarketIndex {
 				dmCmp.setIsTockPriceMayorMedia( isStockPriceMayorMedia );
 				//Obtener tendencia (0) - alza 	(1)	- baja		(2)	Alza		(3)	Baja
 				diasIntentos = -1;
-				dmCmp.setTendencia(getTendenciaGoogle(companySymbol,-1));
+				if (cmp.getCid() != null){
+					System.out.println("DEbe obtener tendencia by HTML");
+				}else{
+					dmCmp.setTendencia(getTendenciaGoogle(companySymbol,-1));
+				}
 				
 				admEnt.updateDataMiningCompany(dmCmp);
 
@@ -1936,8 +1940,8 @@ public class ObtenerMarketIndex {
 		try {
 			//urlDataHoy = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+dateEnd+"%22%20and%20endDate%20%3D%20%22"+dateEnd+"%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
 			//urlDataTresMonthBefore = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+dateBegin+"%22%20and%20endDate%20%3D%20%22"+dateBegin+"%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
-			urlDataHoy = "http://www.google.com/finance/historical?q="+symbol.replace(":", "%3A")+"&startdate="+dateEnd.replace(" ", "%20")+"&enddate="+dateEnd.replace(" ", "%20")+"&output=csv";
-			urlDataTresMonthBefore = "http://www.google.com/finance/historical?q="+symbol.replace(":", "%3A")+"&startdate="+dateBegin.replace(" ", "%20")+"&enddate="+dateBegin.replace(" ", "%20")+"&output=csv";
+			urlDataHoy = "https://www.google.ca/finance/historical?q="+symbol.replace(":", "%3A")+"&startdate="+dateEnd.replace(" ", "%20")+"&enddate="+dateEnd.replace(" ", "%20")+"&output=csv";
+			urlDataTresMonthBefore = "https://www.google.ca/finance/historical?q="+symbol.replace(":", "%3A")+"&startdate="+dateBegin.replace(" ", "%20")+"&enddate="+dateBegin.replace(" ", "%20")+"&output=csv";
 			valorHoy =	this.executeGoogleIndexSingleData(urlDataHoy);
 			valorTresMesesAtras =	this.executeGoogleIndexSingleData(urlDataTresMonthBefore);
 			/*

@@ -149,9 +149,9 @@ public class Company  implements Serializable {
     public String toString() {
 	StringBuffer s = new StringBuffer();
 	s.append(" name [" + this.name + "]");
-	s.append(" urlQuote [\n" + this.urlQuote + "\n]");
-	s.append(" googleSymbol [\n" + this.googleSymbol + "\n]");
-	s.append(" cid [\n" + this.cid + "\n]");
+	s.append(" \n urlQuote [" + this.urlQuote + "\n]");
+	s.append(" googleSymbol [" + this.googleSymbol + "]");
+	s.append(" cid [" + this.cid + "]");
 	
 	return s.toString();
     }

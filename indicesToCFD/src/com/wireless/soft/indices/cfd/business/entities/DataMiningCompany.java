@@ -415,7 +415,7 @@ public class DataMiningCompany implements Serializable{
 	s.append(" relativeStrengthIndex [" + this.relativeStrengthIndex + "]");
 	s.append(" stockPrice [" + this.stockPrice + "]");
 	if (null != this.getCompany()){
-		s.append(" company [" + this.getCompany().toString() + "]");
+		s.append(" \n company [" + this.getCompany().toString() + "]");
 	}
 	
 

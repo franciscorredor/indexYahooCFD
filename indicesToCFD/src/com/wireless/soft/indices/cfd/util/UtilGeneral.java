@@ -168,7 +168,7 @@ public class UtilGeneral {
 		List<RelativeStrengthIndexData> lstRSI = null;
 		lstRSI = new ArrayList<RelativeStrengthIndexData>();
 		//try(BufferedReader br = new BufferedReader(new FileReader("/nbr/relativeStrengthIndex/table_888.L.csv"))) {
-		try(InputStream input = new URL( "http://www.google.com/finance/historical?q=ETR%3ASKB&startdate=Nov%201,%202011&enddate=Nov%2030,%202011&output=csv" ).openStream()) {
+		try(InputStream input = new URL( "https://www.google.ca/finance/historical?q=ETR%3ASKB&startdate=Nov%201,%202011&enddate=Nov%2030,%202011&output=csv" ).openStream()) {
 			BufferedReader br = new BufferedReader(new InputStreamReader(input, "UTF-8"));
 		    StringBuilder sb = new StringBuilder();
 		    String line = br.readLine();
@@ -218,7 +218,7 @@ public class UtilGeneral {
 	public static List<RelativeStrengthIndexData> getListaRSIGoogle(String symbol, String dateEnd, String dateBegin, boolean print){
 		List<RelativeStrengthIndexData> lstRSI = null;
 		lstRSI = new ArrayList<RelativeStrengthIndexData>();
-		String urlHistdata = "http://www.google.com/finance/historical?q="+symbol.replace(":", "%3A")+"&startdate="+dateBegin.replace(" ", "%20")+"&enddate="+dateEnd.replace(" ", "%20")+"&output=csv";
+		String urlHistdata = "https://www.google.ca/finance/historical?q="+symbol.replace(":", "%3A")+"&startdate="+dateBegin.replace(" ", "%20")+"&enddate="+dateEnd.replace(" ", "%20")+"&output=csv";
 		try(InputStream input = new URL( urlHistdata ).openStream()) {
 			
 			if (print){
