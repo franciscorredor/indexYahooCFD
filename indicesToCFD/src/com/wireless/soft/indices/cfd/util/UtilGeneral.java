@@ -219,6 +219,8 @@ public class UtilGeneral {
 		List<RelativeStrengthIndexData> lstRSI = null;
 		lstRSI = new ArrayList<RelativeStrengthIndexData>();
 		String urlHistdata = "https://www.google.ca/finance/historical?q="+symbol.replace(":", "%3A")+"&startdate="+dateBegin.replace(" ", "%20")+"&enddate="+dateEnd.replace(" ", "%20")+"&output=csv";
+		int ctd = 0;
+		String[] torsid = null;
 		try(InputStream input = new URL( urlHistdata ).openStream()) {
 			
 			if (print){
@@ -230,7 +232,7 @@ public class UtilGeneral {
 		    StringBuilder sb = new StringBuilder();
 		    String line = br.readLine();
 
-		    int ctd = 0;
+		    ctd = 0;
 		    while (line != null) {
 		    	
 		        sb.append(line);
@@ -239,24 +241,32 @@ public class UtilGeneral {
 		        if (null != line){
 		        	//System.out.println(line);
 		        	RelativeStrengthIndexData rsid = new RelativeStrengthIndexData();
-		        	String[] torsid = line.split(",");
+		        	torsid = line.split(",");
 		        
 			        rsid.setId(++ctd);
 			        DateFormat formatter1;
 			        formatter1 = new SimpleDateFormat("d-MMM-yy", Locale.ENGLISH);
 			        rsid.setFecha(  formatter1.parse(torsid[0]) ) ;
-			        rsid.setClose(Double.parseDouble(torsid[4]));
-			        rsid.setHigh(Double.parseDouble(torsid[2]));
-			        rsid.setLow(Double.parseDouble(torsid[3]));
+			        try{rsid.setClose(Double.parseDouble(torsid[4]));}catch(NumberFormatException n){rsid.setClose(0);}
+			        try{rsid.setHigh(Double.parseDouble(torsid[2]));}catch(NumberFormatException n){rsid.setHigh(0);}
+			        try{rsid.setLow(Double.parseDouble(torsid[3]));}catch(NumberFormatException n){rsid.setLow(0);}
 			        lstRSI.add(rsid);
 			        
 			        if (print){
+			        	try{
 			        	System.out.println(torsid[0]+","
 			        					+Double.parseDouble(torsid[1])+","
 			        					+Double.parseDouble(torsid[2])+","
 			        					+Double.parseDouble(torsid[3])+","
 			        					+Double.parseDouble(torsid[4])
 			        					);
+			        	}catch(NumberFormatException n){
+			        		System.out.println(torsid[0]+","
+		        					+torsid[1]+","
+		        					+torsid[2]+","
+		        					+torsid[3]+","
+		        					+torsid[4]);
+			        	}
 			        }
 			        
 			        if (ctd > 13){
@@ -278,7 +288,7 @@ public class UtilGeneral {
 		} catch (ParseException e) {
 			System.out.println("Error al leer ["+symbol+"](ParseException)");
 		} catch (NumberFormatException nf){
-			System.out.println("Error al leer ["+symbol+"](NumberFormatException)");
+			System.out.println("Error al leer ["+symbol+"](NumberFormatException) ["+ctd+"]["+torsid+"]");
 		}
 		
 		return lstRSI;

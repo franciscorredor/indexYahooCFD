@@ -1872,7 +1872,7 @@ public class ObtenerMarketIndex {
 		case NO_EVALUADA:
 			System.out.println("Se llama de forma recursiva a getTendencia " + (diasIntentos--));
 			this.variableGlobalIntentos++;
-			if (variableGlobalIntentos > 7){
+			if (variableGlobalIntentos > 3){
 				return null;
 			}
 			return getTendenciaGoogle(companySymbol, nDays + (diasIntentos));
@@ -1925,7 +1925,7 @@ public class ObtenerMarketIndex {
 		case NO_EVALUADA:
 			System.out.println("Se llama de forma recursiva a getTendencia " + (diasIntentos--));
 			this.variableGlobalIntentos++;
-			if (variableGlobalIntentos > 7){
+			if (variableGlobalIntentos > 3){
 				return null;
 			}
 			return getTendenciaGoogleByHTML(cmp, nDays + (diasIntentos));
