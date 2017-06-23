@@ -20,6 +20,10 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import org.apache.log4j.PropertyConfigurator;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -392,6 +396,57 @@ public class ObtenerMarketIndex {
 		        }
 		        
 		    }
+		} catch (FileNotFoundException e) {
+			//e.printStackTrace();
+			System.out.println("Error al leer ["+url+"](FileNotFoundException)");
+		} catch (IOException e) {
+			//e.printStackTrace();
+			System.out.println("Error al leer ["+url+"](IOException)");
+		} 
+		
+		
+		return null;
+
+	}
+	
+	/**
+	 * @param url
+	 * @return
+	 * @throws IOException
+	 * Retorna el valor de la copañia
+	 */
+	private Double executeGoogleIndexSingleDataByHTML(String url)
+			throws IOException {
+		
+		try {
+			
+			//-----------------------------------------------------------
+			Document doc;
+			doc = Jsoup.connect(url).timeout(3000).get();
+			Elements newsHeadlines = doc.select("table.gf-table.historical_price");
+
+			for (Element table : newsHeadlines) {
+				
+				Elements rows = table.select("tr");
+
+				for (int i = 1; i < rows.size(); i++) { //first row is the col names so skip it.
+					
+				    Element row = rows.get(i);
+				    Elements cols = row.select("td");
+				    
+				    //Open	High	Low	Close	
+				    //0		1		2	3
+				    
+				    	Elements dataValue = cols.select("td.rgt");
+			        	String[] torsid = dataValue.text().split(" ");
+			        	
+			        	//System.out.print("executeGoogleIndexSingleDataByHTML:" + Double.parseDouble(torsid[3]));
+			        	
+			        	return Double.parseDouble(torsid[3]);
+
+				}
+				//System.out.print("[" + table.text() + "]");
+			}			
 		} catch (FileNotFoundException e) {
 			//e.printStackTrace();
 			System.out.println("Error al leer ["+url+"](FileNotFoundException)");
@@ -1753,7 +1808,8 @@ public class ObtenerMarketIndex {
 				//Obtener tendencia (0) - alza 	(1)	- baja		(2)	Alza		(3)	Baja
 				diasIntentos = -1;
 				if (cmp.getCid() != null){
-					System.out.println("DEbe obtener tendencia by HTML");
+					//System.out.println("by HTML");
+					dmCmp.setTendencia(getTendenciaGoogleByHTML(cmp,-1));
 				}else{
 					dmCmp.setTendencia(getTendenciaGoogle(companySymbol,-1));
 				}
@@ -1812,6 +1868,55 @@ public class ObtenerMarketIndex {
 		case NO_EVALUADA:
 			System.out.println("Se llama de forma recursiva a getTendencia " + (diasIntentos--));
 			return getTendenciaGoogle(companySymbol, nDays + (diasIntentos));
+		default:
+			break; 
+
+		}
+		
+		return null;
+		
+	}
+	
+	/**
+	 * @param companySymbol
+	 * @param nDays
+	 * Obtener la tendencia segun 4 estados
+	 * /*
+     * 	(0) - alza
+		(1)	- baja
+		(2)	Alza
+		(3)	Baja
+		enum TENDENCIA {minusalza, minusbaja, ALZA, BAJA;}
+     */
+	private Integer getTendenciaGoogleByHTML(Company cmp, int nDays){
+		
+		//yyyy-MM-dd
+		String fechaHoy = UtilGeneral.obtenerToday();  
+		String mesatras = UtilGeneral.obtenerTodayMinusNDays(-90); 
+		
+		if (nDays == 0){
+			fechaHoy = UtilGeneral.obtenerToday();  
+			mesatras = UtilGeneral.obtenerTodayMinusNDays(-90); 
+		}else{
+			fechaHoy = UtilGeneral.obtenerTodayMinusNDays(nDays);
+			mesatras = UtilGeneral.obtenerTodayMinusNDays(-90+nDays); 
+			
+		}
+		
+		
+			
+		switch (this.getTendenciaGoogleByHTML(cmp, fechaHoy, mesatras)) {
+		case minusalza:
+			return 0; // "-alza";
+		case minusbaja:
+			return 1; //"-baja";
+		case ALZA:
+			return 2; //"ALZA";
+		case BAJA:
+			return 3; //"BAJA";
+		case NO_EVALUADA:
+			System.out.println("Se llama de forma recursiva a getTendencia " + (diasIntentos--));
+			return getTendenciaGoogleByHTML(cmp, nDays + (diasIntentos));
 		default:
 			break; 
 
@@ -1935,8 +2040,8 @@ public class ObtenerMarketIndex {
 		String urlDataHoy = null;
 		String urlDataTresMonthBefore = null;
 		
-		ReturnSingleDataYahooFinance rHistDataHoy = null;
-		ReturnSingleDataYahooFinance rHistDataTresMonthBefore = null;
+		//ReturnSingleDataYahooFinance rHistDataHoy = null;
+		//ReturnSingleDataYahooFinance rHistDataTresMonthBefore = null;
 		try {
 			//urlDataHoy = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+dateEnd+"%22%20and%20endDate%20%3D%20%22"+dateEnd+"%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
 			//urlDataTresMonthBefore = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+dateBegin+"%22%20and%20endDate%20%3D%20%22"+dateBegin+"%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
@@ -1979,6 +2084,57 @@ public class ObtenerMarketIndex {
 				
 			
 			//System.out.print( tr.toString() );
+		} catch (IOException e) {
+			System.out.println("urlDataHoy: ["+urlDataHoy+"]");
+			System.out.println("urlDataTresMonthBefore: ["+urlDataTresMonthBefore+"]");
+			System.out.println("Error al evaluar la tendencia" + e.getMessage()) ;
+		} 
+		
+		
+		return TENDENCIA.NO_EVALUADA;
+	}
+	
+	/**
+	 * @param symbol
+	 * @param dateEnd
+	 * @param dateBegin
+	 * @param print
+	 * @return
+	 * Obtiene la tendencia de la compania
+	 */
+	private TENDENCIA getTendenciaGoogleByHTML(Company cmp, String dateEnd, String dateBegin){
+		
+		Double valorTresMesesAtras = null;
+		Double valorHoy = null;
+		
+		String urlDataHoy = null;
+		String urlDataTresMonthBefore = null;
+		
+		try {
+			urlDataHoy = "http://www.google.ca/finance/historical?cid="+cmp.getCid()+"&startdate="+dateEnd.replace(" ", "%20")+"&enddate="+dateEnd.replace(" ", "%20")+"&num=30";
+			urlDataTresMonthBefore = "http://www.google.ca/finance/historical?cid="+cmp.getCid()+"&startdate="+dateBegin.replace(" ", "%20")+"&enddate="+dateBegin.replace(" ", "%20")+"&num=30";
+			valorHoy =	this.executeGoogleIndexSingleDataByHTML(urlDataHoy);
+			valorTresMesesAtras =	this.executeGoogleIndexSingleDataByHTML(urlDataTresMonthBefore);
+			
+			if (null == valorHoy | null == valorTresMesesAtras){
+				return TENDENCIA.NO_EVALUADA;
+			}
+			
+			if (valorHoy > valorTresMesesAtras){
+				
+				double res = valorHoy - valorTresMesesAtras;
+				if (res < 1.2d){
+					return TENDENCIA.minusalza;
+				}
+				return TENDENCIA.ALZA;
+			}else{
+				double res = valorTresMesesAtras - valorHoy;
+				if (res < 1.2d){
+					return TENDENCIA.minusbaja;
+				}
+				return TENDENCIA.BAJA;	
+			}
+				
 		} catch (IOException e) {
 			System.out.println("urlDataHoy: ["+urlDataHoy+"]");
 			System.out.println("urlDataTresMonthBefore: ["+urlDataTresMonthBefore+"]");
