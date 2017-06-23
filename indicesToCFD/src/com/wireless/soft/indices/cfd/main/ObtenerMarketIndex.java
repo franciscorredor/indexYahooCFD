@@ -81,6 +81,8 @@ public class ObtenerMarketIndex {
     
     private static int diasIntentos = -1;
     
+    private int variableGlobalIntentos = 0;
+    
     
     
     
@@ -1822,6 +1824,8 @@ public class ObtenerMarketIndex {
 			System.out.println("Error al persistir el DataMining" + e.getMessage());
 			
 			
+		} finally{
+			variableGlobalIntentos = 0;
 		}
 
 		
@@ -1867,6 +1871,10 @@ public class ObtenerMarketIndex {
 			return 3; //"BAJA";
 		case NO_EVALUADA:
 			System.out.println("Se llama de forma recursiva a getTendencia " + (diasIntentos--));
+			this.variableGlobalIntentos++;
+			if (variableGlobalIntentos > 7){
+				return null;
+			}
 			return getTendenciaGoogle(companySymbol, nDays + (diasIntentos));
 		default:
 			break; 
@@ -1916,6 +1924,10 @@ public class ObtenerMarketIndex {
 			return 3; //"BAJA";
 		case NO_EVALUADA:
 			System.out.println("Se llama de forma recursiva a getTendencia " + (diasIntentos--));
+			this.variableGlobalIntentos++;
+			if (variableGlobalIntentos > 7){
+				return null;
+			}
 			return getTendenciaGoogleByHTML(cmp, nDays + (diasIntentos));
 		default:
 			break; 

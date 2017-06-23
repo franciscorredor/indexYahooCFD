@@ -277,6 +277,8 @@ public class UtilGeneral {
 			System.out.println("Error al leer ["+symbol+"](IOException)");
 		} catch (ParseException e) {
 			System.out.println("Error al leer ["+symbol+"](ParseException)");
+		} catch (NumberFormatException nf){
+			System.out.println("Error al leer ["+symbol+"](NumberFormatException)");
 		}
 		
 		return lstRSI;
