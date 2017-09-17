@@ -1343,7 +1343,8 @@ public class ObtenerMarketIndex {
 //					System.out.println(relativeStrengthIndexData.toString());
 //		}
 
-		
+		int win = 0;
+		int lst = 0;
 		//Iteracion 3 suma gain and lost
 		BigDecimal gain = new BigDecimal(0);
 		gain.setScale(10, BigDecimal.ROUND_UNNECESSARY);
@@ -1352,10 +1353,12 @@ public class ObtenerMarketIndex {
 		for (int i = 0; i < 14; i++) {
 			double change = lstRSI.get(i).getChange();
 			if (change > 0){
+				win++;
 				//System.out.println("change (+) >" + change);
 				gain = gain.add(new BigDecimal (change));
 				//System.out.println("gain >" + gain);
 			}else if (change <0){
+				lst++;
 				//System.out.println("change (-) >" + change);
 				lost = lost.add(new BigDecimal( Math.abs(change)));
 				//System.out.println("lost >" + lost);
@@ -1372,6 +1375,7 @@ public class ObtenerMarketIndex {
 		System.out.println("min:" + min);
 		System.out.println("diff:" + (max - min));
 		System.out.println("Porcentaje Incremento High:" + (((100*avgHigh)/avgLow)-100)   );
+		System.out.println("|win:[" +  win + "]|lost:[" +  lst + "]|diff(win-lost):[" +  (win-lst) + "] \n");
 		
 		
 	}
@@ -1749,6 +1753,8 @@ public class ObtenerMarketIndex {
 //		}
 
 		
+		int win = 0;
+		int lst = 0;
 		//Iteracion 3 suma gain and lost
 		BigDecimal gain = new BigDecimal(0);
 		gain.setScale(10, BigDecimal.ROUND_UNNECESSARY);
@@ -1759,10 +1765,12 @@ public class ObtenerMarketIndex {
 				try{
 				double change = lstRSI.get(i).getChange();
 				if (change > 0) {
+					win++;
 					// System.out.println("change (+) >" + change);
 					gain = gain.add(new BigDecimal(change));
 					// System.out.println("gain >" + gain);
 				} else if (change < 0) {
+					lst++;
 					// System.out.println("change (-) >" + change);
 					lost = lost.add(new BigDecimal(Math.abs(change)));
 					// System.out.println("lost >" + lost);
@@ -1788,6 +1796,7 @@ public class ObtenerMarketIndex {
 		System.out.print("|diff:[" + String.format( "%.4f", (max - min) )+ (diff>49?"Diferencia mayor a 49 DataMining*":"") +"]");
 		System.out.print("|%IncrementoHigh:[" + String.format( "%.4f", (((100*avgHigh)/avgLow)-100)) + (porcentajeIncremento>=3?"%IncMayorIgual3 DataMining *":"") + "]");
 		System.out.print("|media:[" +  String.format( "%.2f",  (max+min)/2 ) + "] \n");
+		System.out.println("|win:[" +  win + "]|lost:[" +  lst + "]|diff(win-lost):[" +  (win-lst) + "] \n");
 		//}
 		//Almacenar informacion de Data Mining si el numero
 		//de la iteracion contine informacion
@@ -2057,6 +2066,9 @@ public class ObtenerMarketIndex {
 		try {
 			//urlDataHoy = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+dateEnd+"%22%20and%20endDate%20%3D%20%22"+dateEnd+"%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
 			//urlDataTresMonthBefore = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22"+symbol+"%22%20and%20startDate%20%3D%20%22"+dateBegin+"%22%20and%20endDate%20%3D%20%22"+dateBegin+"%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
+			//https://www.google.com/finance/historical?q=EPA:CA
+			//https://pypi.python.org/pypi/googlefinance
+			//
 			urlDataHoy = "https://www.google.ca/finance/historical?q="+symbol.replace(":", "%3A")+"&startdate="+dateEnd.replace(" ", "%20")+"&enddate="+dateEnd.replace(" ", "%20")+"&output=csv";
 			urlDataTresMonthBefore = "https://www.google.ca/finance/historical?q="+symbol.replace(":", "%3A")+"&startdate="+dateBegin.replace(" ", "%20")+"&enddate="+dateBegin.replace(" ", "%20")+"&output=csv";
 			valorHoy =	this.executeGoogleIndexSingleData(urlDataHoy);
