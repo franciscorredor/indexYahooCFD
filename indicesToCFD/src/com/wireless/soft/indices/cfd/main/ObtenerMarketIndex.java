@@ -707,6 +707,9 @@ public class ObtenerMarketIndex {
 						continue;
 					}
 					Double PERatio = Double.valueOf(fc.getpERatio()!=null?fc.getpERatio():"-1" );
+					if (PERatio < 0){
+						continue;
+					}
 					
 					//Obtencion precio mas bajo
 					Double price = Double.valueOf(qhcNow.getPrice()!=null?qhcNow.getPrice():"0");
@@ -2069,8 +2072,8 @@ public class ObtenerMarketIndex {
 			//https://www.google.com/finance/historical?q=EPA:CA
 			//https://pypi.python.org/pypi/googlefinance
 			//
-			urlDataHoy = "https://www.google.ca/finance/historical?q="+symbol.replace(":", "%3A")+"&startdate="+dateEnd.replace(" ", "%20")+"&enddate="+dateEnd.replace(" ", "%20")+"&output=csv";
-			urlDataTresMonthBefore = "https://www.google.ca/finance/historical?q="+symbol.replace(":", "%3A")+"&startdate="+dateBegin.replace(" ", "%20")+"&enddate="+dateBegin.replace(" ", "%20")+"&output=csv";
+			urlDataHoy = "https://finance.google.ca/finance/historical?q="+symbol.replace(":", "%3A")+"&startdate="+dateEnd.replace(" ", "%20")+"&enddate="+dateEnd.replace(" ", "%20")+"&output=csv";
+			urlDataTresMonthBefore = "https://finance.google.ca/finance/historical?q="+symbol.replace(":", "%3A")+"&startdate="+dateBegin.replace(" ", "%20")+"&enddate="+dateBegin.replace(" ", "%20")+"&output=csv";
 			valorHoy =	this.executeGoogleIndexSingleData(urlDataHoy);
 			valorTresMesesAtras =	this.executeGoogleIndexSingleData(urlDataTresMonthBefore);
 			/*
@@ -2135,8 +2138,8 @@ public class ObtenerMarketIndex {
 		String urlDataTresMonthBefore = null;
 		
 		try {
-			urlDataHoy = "http://www.google.ca/finance/historical?cid="+cmp.getCid()+"&startdate="+dateEnd.replace(" ", "%20")+"&enddate="+dateEnd.replace(" ", "%20")+"&num=30";
-			urlDataTresMonthBefore = "http://www.google.ca/finance/historical?cid="+cmp.getCid()+"&startdate="+dateBegin.replace(" ", "%20")+"&enddate="+dateBegin.replace(" ", "%20")+"&num=30";
+			urlDataHoy = "https://finance.google.ca/finance/historical?cid="+cmp.getCid()+"&startdate="+dateEnd.replace(" ", "%20")+"&enddate="+dateEnd.replace(" ", "%20")+"&num=30";
+			urlDataTresMonthBefore = "https://finance.google.ca/finance/historical?cid="+cmp.getCid()+"&startdate="+dateBegin.replace(" ", "%20")+"&enddate="+dateBegin.replace(" ", "%20")+"&num=30";
 			valorHoy =	this.executeGoogleIndexSingleDataByHTML(urlDataHoy);
 			valorTresMesesAtras =	this.executeGoogleIndexSingleDataByHTML(urlDataTresMonthBefore);
 			
