@@ -700,6 +700,10 @@ public class ObtenerMarketIndex {
 					Double valueNowVolume = Double.valueOf(qhcNow.getVolume());
 					lstMediaSearch.add(valueNowVolume);
 					
+					if(valueNowVolume == null || valueNowVolume.longValue() == 0){
+						continue;
+					}
+					
 					//Obtencion de PE ratio by company
 					FundamentalHistoryCompany fc = admEnt.getLastFundamentalRecord(cmp);
 					if (null == fc){
@@ -713,7 +717,13 @@ public class ObtenerMarketIndex {
 					
 					//Obtencion precio mas bajo
 					Double price = Double.valueOf(qhcNow.getPrice()!=null?qhcNow.getPrice():"0");
+					if (price == null || price.doubleValue() == 0){
+						continue;
+					}
+					
 					Double supportLevel = Double.valueOf(qhcNow.getYear_low()!=null?qhcNow.getYear_low():"0");
+					
+					
 					
 					
 					//System.out.println("Company{"+cmp.getName()+"} PERatio{"+PERatio+"}");
@@ -2348,21 +2358,21 @@ ORDER by d.DMC_FECHA_CREACION desc
 			
 			System.out.println("*******************(ini) [" +dataMiningCompany.getCompany().getName()+ "]*************************" );
 			if (probabiliadadWinTotal  > probabiliadadLostTotal && Double.parseDouble( dataMiningCompany.getRelativeStrengthIndex().replace(',','.').trim() ) < 60 ){
-				System.out.println("Tiene probabilidad de ganancia al final del dia ");
-				System.out.println ("probabiliadadWin - Lost *10000-->"+  ((probabiliadadWinTotal - probabiliadadLostTotal) * 10000) );
+				//System.out.println("Tiene probabilidad de ganancia al final del dia ");
+				System.out.println ("["+ dataMiningCompany.getCompany().getId()+"-"+dataMiningCompany.getCompany().getName() + "]probabiliadadWin - Lost *10000-->"+  ((probabiliadadWinTotal - probabiliadadLostTotal) * 10000) );
 				System.out.println(dataMiningCompany.toString());
 				
+			}else{
+				System.out.println ("["+ dataMiningCompany.getCompany().getId()+"-"+dataMiningCompany.getCompany().getName() + "]probabiliadadLost - Lost *10000-->"+  ((probabiliadadWinTotal - probabiliadadLostTotal) * 10000) );
 			}
 			
 			Double ytd = Double.parseDouble(dataMiningCompany.getYTDPlataforma().replace(',', '.').trim() );
 			
 			if ( Double.parseDouble(dataMiningCompany.getDiffMaxMin().replace(',','.').trim() ) > 49 |  Double.parseDouble( dataMiningCompany.getPercentageIncrement().replace(',','.').trim() ) >= 3
-					| dataMiningCompany.getLastDigitStockPrice() == 7 
 					| (ytd > 0 && ytd < 20)){
-				System.out.println("Diferencia mayor a 49 DataMining* OR %IncMayorIgual3 DataMining * OR lastDigit=7 OR YTD between 0 - 20");
+				System.out.println("Diferencia mayor a 49 DataMining* OR %IncMayorIgual3 DataMining OR YTD between 0 - 20");
 				System.out.println ("dataMiningCompany.getDiffMaxMin()"+  dataMiningCompany.getDiffMaxMin() );
 				System.out.println ("dataMiningCompany.getPercentageIncrement()"+ dataMiningCompany.getPercentageIncrement() );
-				System.out.println ("dataMiningCompany.getLastDigitStockPrice()"+ dataMiningCompany.getLastDigitStockPrice() );
 				System.out.println ("dataMiningCompany.getYTDPlataforma()"+ dataMiningCompany.getYTDPlataforma() );
 				System.out.println(dataMiningCompany.toString());
 			}
