@@ -168,12 +168,7 @@ public class ObtenerMarketIndex {
 			String accion = args[0];
 			switch (accion){
 			case "0":
-				System.out.println("\n Persiste info de las companias, consultando de yahoo  [Go long]");
-				omi.printPERatio();
-				System.out.println("Precio accion menor = & % volumen mayor a cero!" + " Time:" + new Date());
-				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.ONE);
-				System.out.println("Precio accion mayor & % volumen mayor a cero!" + "Time:" + new Date());
-				omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.THREE);
+				runManytimes(omi,argumento2,cortePorcentajePonderado);
 				break;
 			case "1":
 				System.out.println("\n Imprime el indicador OBV");
@@ -2391,6 +2386,32 @@ ORDER by d.DMC_FECHA_CREACION desc
 		}
 
 		
+		
+	}
+	
+	
+	/**
+	 * @param omi
+	 * @param argumento2
+	 * @param cortePorcentajePonderado
+	 * @throws BusinessException
+	 * @throws IOException
+	 */
+	private static void runManytimes(ObtenerMarketIndex omi, Integer argumento2, Integer cortePorcentajePonderado) throws BusinessException, IOException{
+
+		for (;;){
+			System.out.println("\n Persiste info de las companias, consultando de yahoo  [Go long]");
+			omi.printPERatio();
+			System.out.println("Precio accion menor = & % volumen mayor a cero!" + " Time:" + new Date());
+			omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.ONE);
+			System.out.println("Precio accion mayor & % volumen mayor a cero!" + "Time:" + new Date());
+			omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.THREE);
+			try {
+				Thread.sleep(12000000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}//20 minutos
+		}
 		
 	}
 
