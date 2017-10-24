@@ -2406,8 +2406,9 @@ ORDER by d.DMC_FECHA_CREACION desc
 			omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.ONE);
 			System.out.println("Precio accion mayor & % volumen mayor a cero!" + "Time:" + new Date());
 			omi.printOBV(argumento2, cortePorcentajePonderado, Evalua.THREE);
+			System.out.println("\n FIN, esperar 20 minutos.." + new Date());
 			try {
-				Thread.sleep(12000000);
+				Thread.sleep(1200000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}//20 minutos
