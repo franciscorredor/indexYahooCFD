@@ -45,6 +45,8 @@ public class AdminEntity {
     private EntityManager em;
     /** */
     private EntityTransaction tx;
+    
+    private static final AdminEntity INSTANCE = new AdminEntity();
 
     // ////////////////////////////////////////////////////////////////////////
     // Constructor de la clase
@@ -52,12 +54,16 @@ public class AdminEntity {
     /**
      * Constructor de la clase
      */
-    public AdminEntity() {
+    private AdminEntity() {
     	super();
 
     this.emf = Persistence.createEntityManagerFactory("entityManager");
 	this.em = this.emf.createEntityManager();
 	this.tx = this.em.getTransaction();
+    }
+    
+    public static AdminEntity getInstance() {
+        return INSTANCE;
     }
 
     // ////////////////////////////////////////////////////////////////////////

@@ -519,7 +519,7 @@ public class UtilGeneral {
 	public static List<RelativeStrengthIndexData> getListaRSIGoogleByHTML(String symbol, String dateEnd, String dateBegin, boolean print){
 
 		List<RelativeStrengthIndexData> lstRSI = null;
-		AdminEntity admEnt = new AdminEntity();
+		AdminEntity admEnt = AdminEntity.getInstance();
 		String urlHistdata = null;
 		Company cmp = new Company();
 		cmp.setUrlIndex(symbol);

@@ -88,7 +88,7 @@ public class ObtenerMarketIndex {
     
     
     public ObtenerMarketIndex(){
-    	admEnt = new AdminEntity();
+    	admEnt = AdminEntity.getInstance();
     }
 
 	
