@@ -15,15 +15,15 @@ import javax.persistence.Table;
 /**
  * @author 	Francisco Corredor
  * @since  	01Dec2015
- * @version	1.0  
+ * @version	2.0, 06Nov2017  
  */
 @NamedNativeQueries({ 
-	@NamedNativeQuery(name = "findCompanies", query = " SELECT	com.scn_cid as cid , com.SCN_GOOGLE_SYMBOL as googleSymbol, com.SCN_CODIGO as id, com.SCN_NAME as name, sci.SCI_URL_INDEX as urlIndex, scq.SCQ_URL_QUOTE as urlQuote \n"+
-														" FROM		indexyahoocfd.iyc_stack_company_index sci  	INNER JOIN indexyahoocfd.iyc_stock_companies com   	on com.SCN_CODIGO = sci.SCN_CODIGO \n"+ 
+	@NamedNativeQuery(name = "findCompanies", query = " SELECT	com.scn_cid as cid , com.SCN_GOOGLE_SYMBOL as googleSymbol, com.SCN_CODIGO as id, com.SCN_NAME as name, sci.SCI_URL_INDEX as urlIndex, com.SCN_MSN_QUOTE as urlQuote \n"+
+														" FROM		indexyahoocfd.iyc_stack_company_index sci  	INNER JOIN indexyahoocfd.iyc_stock_companies com   	on com.SCN_CODIGO = sci.SCN_CODIGO and com.SCN_MSN_QUOTE is not null \n"+ 
 														" inner join indexyahoocfd.iyc_stack_company_quotes scq	on scq.scn_codigo = com.scn_codigo \n"+
 														" ORDER by com.SCN_CODIGO", resultClass = Company.class),
-	@NamedNativeQuery(name = "findCompanyById", query = "SELECT	com.scn_cid as cid , com.SCN_GOOGLE_SYMBOL as googleSymbol, com.SCN_CODIGO as id, com.SCN_NAME as name, sci.SCI_URL_INDEX as urlIndex, scq.SCQ_URL_QUOTE as urlQuote FROM		indexyahoocfd.iyc_stack_company_index sci  INNER JOIN  indexyahoocfd.iyc_stock_companies com   on com.SCN_CODIGO = sci.SCN_CODIGO inner join indexyahoocfd.iyc_stack_company_quotes scq	on scq.scn_codigo = com.scn_codigo WHERE  com.SCN_CODIGO = :companyId  ", resultClass = Company.class),
-	@NamedNativeQuery(name = "findCompanyBySymbol", query = " SELECT	com.scn_cid as cid , com.SCN_GOOGLE_SYMBOL as googleSymbol, com.SCN_CODIGO as id, com.SCN_NAME as name, ch.symbol as urlIndex, ch.utctime as urlQuote  \n"+
+	@NamedNativeQuery(name = "findCompanyById", query = "SELECT	com.scn_cid as cid , com.SCN_GOOGLE_SYMBOL as googleSymbol, com.SCN_CODIGO as id, com.SCN_NAME as name, sci.SCI_URL_INDEX as urlIndex, com.SCN_MSN_QUOTE as urlQuote FROM		indexyahoocfd.iyc_stack_company_index sci  INNER JOIN  indexyahoocfd.iyc_stock_companies com   on com.SCN_CODIGO = sci.SCN_CODIGO inner join indexyahoocfd.iyc_stack_company_quotes scq	on scq.scn_codigo = com.scn_codigo WHERE  com.SCN_CODIGO = :companyId  ", resultClass = Company.class),
+	@NamedNativeQuery(name = "findCompanyBySymbol", query = " SELECT	com.scn_cid as cid , com.SCN_GOOGLE_SYMBOL as googleSymbol, com.SCN_CODIGO as id, com.SCN_NAME as name, ch.symbol as urlIndex, com.SCN_MSN_QUOTE as urlQuote  \n"+
 															" FROM		indexyahoocfd.iyc_quote_company_history ch  	INNER JOIN indexyahoocfd.iyc_stock_companies com   	on com.SCN_CODIGO = ch.SCN_CODIGO \n"+ 
 															//" WHERE	ch.symbol = :cmpSymbol \n"+
 															" WHERE	com.SCN_GOOGLE_SYMBOL = :cmpSymbol \n"+
@@ -41,6 +41,9 @@ public class Company  implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -91323491401835022L;
+	//private static String MSN_URL_QUOTE = "https://www.msn.com/en-us/money/stockdetails/analysis/";
+	private static String MSN_URL_QUOTE = "https://www.msn.com/en-us/money/stockdetails/";
+	
 	
 	// ////////////////////////////////////////////////////////////////////////
     // Nombre de los queries nombrados
@@ -112,7 +115,7 @@ public class Company  implements Serializable {
 	}
 	
 	public String getUrlQuote() {
-		return urlQuote;
+		return urlQuote==null?urlQuote:this.MSN_URL_QUOTE+urlQuote;
 	}
 	public void setUrlQuote(String urlQuote) {
 		this.urlQuote = urlQuote;
@@ -158,3 +161,4 @@ public class Company  implements Serializable {
 	
 
 }
+

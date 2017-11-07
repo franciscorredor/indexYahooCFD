@@ -8,7 +8,6 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import org.apache.log4j.PropertyConfigurator;
@@ -38,7 +36,6 @@ import com.wireless.soft.indices.cfd.business.entities.QuoteHistoryCompany;
 import com.wireless.soft.indices.cfd.collections.CompanyRanking;
 import com.wireless.soft.indices.cfd.collections.RelativeStrengthIndexData;
 import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnHistoricaldataYahooFinance;
-import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnSingleDataYahooFinance;
 import com.wireless.soft.indices.cfd.deserializable.json.object.ReturnYahooFinanceQuoteObject;
 import com.wireless.soft.indices.cfd.exception.BusinessException;
 import com.wireless.soft.indices.cfd.statistics.DiffMaxMin;
@@ -249,32 +246,127 @@ public class ObtenerMarketIndex {
 	}
 	
 	
-	
-	
 	/**
 	 * @param url
-	 * @return el indice de yahoo
+	 * @return el Quote de yahooIndex
 	 * @throws IOException
+	 * @throws Exception 
 	 */
-	/*
-	private ReturnIndexYahooFinanceObject executeYahooIndex(String url) throws IOException, InterruptedException {
+	private ReturnYahooFinanceQuoteObject executeYahooIndexQuoteHTML(String url)
+			throws IOException {
 
+		ReturnYahooFinanceQuoteObject.Query.Results.Quote q = new ReturnYahooFinanceQuoteObject().new Query().new Results().new Quote();
+		ReturnYahooFinanceQuoteObject.Query.Results r = new ReturnYahooFinanceQuoteObject().new Query().new Results();
+		ReturnYahooFinanceQuoteObject.Query qry = new ReturnYahooFinanceQuoteObject().new Query();
+		ReturnYahooFinanceQuoteObject y = new ReturnYahooFinanceQuoteObject();
+		// url =
+		// "https://www.msn.com/en-us/money/stockdetails/analysis/fi-160.1.BNP.PAR";
+		// url =
+		// "https://www.msn.com/en-us/money/stockdetails/analysis/fi-125.1.KOEBF.GREY";
 
-		    JsonElement result = executeJ(url);
-		    if (result.isJsonObject()) {
-			JsonElement error = result.getAsJsonObject().get("error");
-			if (error != null) {
-			    JsonElement code = result.getAsJsonObject().get("code");
-			    System.out.println("[Error] code:" + code);
+		try {
+			// -----------------------------------------------------------
+			Document doc;
+			doc = Jsoup.connect(url).timeout(10000).get();
+
+			Elements newsHeadlines = doc.select("p.truncated-string");
+			Elements newsHeadlines2 = doc.select("div.precurrentvalue");
+
+			/*
+			 * String[] strSplit = newsHeadlines.text().split(" ");
+			 * q.setBid(strSplit[0]); q.setAsk(strSplit[0]);
+			 * q.setPERatio(strSplit[15]);
+			 * 
+			 * url = "https://uk.finance.yahoo.com/quote/BNP.PA/news?p=BNP.PA";
+			 * 
+			 * Elements newsHeadlines = doc
+			 * //.select("span[src~=Trsdu(0.3s) Fw(b) Fz(36px) Mb(-4px) D(ib)]"
+			 * ); //.select("img[src~=(?i)\\.(png|jpe?g)]");
+			 * //.select("span[class~=(Trsdu)+]");
+			 * .select("span[class~=(Trsdu)+]");
+			 */
+			//System.out.println(" --> : " + newsHeadlines.text());
+			//System.out.println(" --> : " + newsHeadlines2.text());
+
+			String peratio = null;
+			String marketCap = null;
+			String volume = null;
+			String dayRange = null;
+
+			if (newsHeadlines != null) {
+				try {
+					peratio = newsHeadlines.text()
+							.substring(
+									newsHeadlines.text().indexOf(
+											"P/E Ratio (EPS)") + 16,
+									newsHeadlines.text().indexOf(
+											"(", newsHeadlines.text().indexOf(
+													"P/E Ratio (EPS)") + 16));
+				} catch (Exception e) {}
+				try {
+					marketCap = newsHeadlines.text()
+							.substring(
+									newsHeadlines.text().indexOf(
+											"Market Cap.") + 12,
+									newsHeadlines.text().indexOf(
+											"Dividend Rate (Yield)"));
+				} catch (Exception e) {}
+				try {
+					volume = newsHeadlines.text()
+							.substring(
+									newsHeadlines.text().indexOf(
+											"Volume (Avg)") + 13,
+									newsHeadlines.text().indexOf(
+											"(", newsHeadlines.text().indexOf(
+													"Volume (Avg)") + 13));
+				} catch (Exception e) {}
+				try {
+					dayRange = newsHeadlines.text()
+							.substring(
+									newsHeadlines.text().indexOf(
+											"Day's Range") + 12,
+									newsHeadlines.text().indexOf(
+											"52Wk Range"));
+				} catch (Exception e) {}
 			}
-		    }
+
+			//System.out.println(peratio == null ? null : peratio.trim());
+			q.setBid(newsHeadlines2.text() == null ? null : newsHeadlines2
+					.text().trim().replaceAll(",", ""));
+			q.setAsk(newsHeadlines2.text() == null ? null : newsHeadlines2
+					.text().trim().replaceAll(",", ""));
+			q.setPERatio(peratio);
+			q.setMarketCapitalization(marketCap);
+			q.setVolume(volume);
+			if (dayRange != null && dayRange.split("-").length > 0){
+				q.setDaysLow(dayRange.split("-")[0].replaceAll(",", ""));
+				q.setDaysHigh(dayRange.split("-")[1].replaceAll(",", ""));
+			}
 
 
-		    return gson.fromJson(result, ReturnIndexYahooFinanceObject.class);
+			r.setQuote(q);
+			qry.setResults(r);
+			y.setQuery(qry);
 
-		
-	   }
-	   */
+			return y;
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			System.out.println("Error al leer [" + url
+					+ "](FileNotFoundException)");
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Error al leer [" + url + "](IOException)");
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+
+		return null;
+
+	}
+	
+	
 	
 	/**
 	 * @param url
@@ -675,7 +767,7 @@ public class ObtenerMarketIndex {
 	private void printOBV(Integer numIteracionAntes,
 			Integer cortePorcentajePonderado, Evalua ev) {
 		List<CompanyRanking> cr = new LinkedList<CompanyRanking>();
-		List<Double> lstMediaSearch = new ArrayList<Double>();
+		//List<Double> lstMediaSearch = new ArrayList<Double>();
 		try {
 				/*
 				 * 0 --> Accion disminuye, volumen disminuye
@@ -692,17 +784,18 @@ public class ObtenerMarketIndex {
 					QuoteHistoryCompany qhcNow = (QuoteHistoryCompany) tmp[0];
 					
 					
+					/*
 					Double valueNowVolume = Double.valueOf(qhcNow.getVolume());
 					lstMediaSearch.add(valueNowVolume);
 					
 					if(valueNowVolume == null || valueNowVolume.longValue() == 0){
 						continue;
-					}
+					}*/
 					
 					//Obtencion de PE ratio by company
 					FundamentalHistoryCompany fc = admEnt.getLastFundamentalRecord(cmp);
 					if (null == fc){
-						System.out.print("Null al obtener [FundamentalHistoryCompany], Company:" + (null==cmp?"Compania en Nulo":cmp.getId()));
+						System.out.println("Null al obtener [FundamentalHistoryCompany], Company:" + (null==cmp?"Compania en Nulo":cmp.getId()));
 						continue;
 					}
 					Double PERatio = Double.valueOf(fc.getpERatio()!=null?fc.getpERatio():"-1" );
@@ -716,7 +809,7 @@ public class ObtenerMarketIndex {
 						continue;
 					}
 					
-					Double supportLevel = Double.valueOf(qhcNow.getYear_low()!=null?qhcNow.getYear_low():"0");
+					//Double supportLevel = Double.valueOf(qhcNow.getYear_low()!=null?qhcNow.getYear_low():"0");
 					
 					
 					
@@ -744,7 +837,8 @@ public class ObtenerMarketIndex {
 					 */
 					
 					if ((PERatio > 0 && PERatio <= 17)
-							&& (price > supportLevel)) {
+							//&& (price > supportLevel)
+							) {
 						
 						double ytd = 0;
 						try{
@@ -801,7 +895,7 @@ public class ObtenerMarketIndex {
 			}//END --> for companies
 			
 			//Imprime la media
-			UtilGeneral.imprimirMedia(lstMediaSearch);
+			//UtilGeneral.imprimirMedia(lstMediaSearch);
 
 			// Imprime Arreglo ordenado
 			Collections.sort(cr);
@@ -1132,33 +1226,19 @@ public class ObtenerMarketIndex {
 	 * @throws BusinessException
 	 * @throws IOException
 	 */
-	private  void printPERatio() throws BusinessException, IOException{
-		
-		
-    	
-			//ReturnYahooFinanceQuoteObject ri = this.executeYahooIndexQuote("http://query.yahooapis.com/v1/public/yql?q=select%20PERatio%20from%20yahoo.finance.quotes%20where%20symbol%20IN%20(%22LLOY.L%22)&format=json&env=http://datatables.org/alltables.env");
-			//ReturnYahooFinanceQuoteObject ri = this.executeYahooIndexQuote("http://query.yahooapis.com/v1/public/yql?q=select%20PERatio%20from%20yahoo.finance.quotes%20where%20symbol%20IN%20(%22888.L%22)&format=json&env=http://datatables.org/alltables.env");			
-			for (Company cmp : admEnt.getCompanies()) {
-				
-				
-				
-				if (null != cmp && null != cmp.getUrlIndex() 
-						&& cmp.getUrlIndex().length() > 3){
-				
-				ReturnYahooFinanceQuoteObject ri = this.executeYahooIndexQuote(cmp.getUrlQuote());
-				//System.out.println(cmp.getUrlQuote());
-				//Persiste en loa BD	
+	private void printPERatio() throws BusinessException, IOException {
+		for (Company cmp : admEnt.getCompanies()) {
+			if (null != cmp && null != cmp.getUrlIndex()
+					&& cmp.getUrlIndex().length() > 3) {
+				System.out.println("cmp" + cmp.getId());
+				ReturnYahooFinanceQuoteObject ri = 
+						this
+						.executeYahooIndexQuoteHTML(cmp.getUrlQuote());
 				this.persistirCompaniesFundamental(ri, cmp);
 				this.persistirCompaniesQuotes(ri, cmp);
-				//System.out.println("ReturnYahooFinanceQuoteObject: " + ri.toString());
-				
-				}
 			}
-			System.out.println("Persistio el analisis fundamental" + new Date());
-			
-    	
-    	
-    }
+		}
+	}
 	
 	//TODO: --> REalizar algoritmo cuando el precio este bajando , recuerde el laboratiorio q realizo con internet y q tiene q 
 	//comprar barato para vender caro. En el ponderado evaluar cuanto a disminuido el precio.

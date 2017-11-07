@@ -1,6 +1,9 @@
 package com.wireless.soft.indices.cfd.deserializable.json.object;
 
 import java.io.Serializable;
+import java.util.regex.Matcher;
+
+import com.wireless.soft.indices.cfd.util.UtilGeneral;
 
 /**
  * @author Francisco
@@ -167,7 +170,13 @@ public class ReturnYahooFinanceQuoteObject implements Serializable {
 				 * @return the pERatio
 				 */
 				public String getPERatio() {
-					return PERatio;
+					if (null == PERatio){
+						return PERatio;
+					}else{
+						PERatio = PERatio.trim();
+						return PERatio.equals("-")?null:PERatio; 
+					}
+					
 				}
 
 				/**
@@ -271,7 +280,59 @@ public class ReturnYahooFinanceQuoteObject implements Serializable {
 				 * @return the volume
 				 */
 				public String getVolume() {
-					return Volume;
+					if (this.Volume == null){
+						return Volume;
+					}else{
+						Volume = this.Volume.trim();
+						String mult = null;
+						String value = null;
+						
+						
+						 //Matcher matcher = "E[1-9]".matcher(Volume);
+						if (Volume.indexOf("E") > 0 && Volume.indexOf("P/E") < 0){
+							value = Volume.substring(0, Volume.indexOf("E"));
+							int vz = Integer.valueOf(Volume.substring(Volume.indexOf("E")+1,Volume.length()));
+							String zrs = "1";
+							for (int i= 0; i<vz;i++){
+								zrs = zrs + "0";
+							}
+							try{
+								double conv = Double.parseDouble(value) * Integer.valueOf(zrs);
+								
+								Volume = UtilGeneral.printNumberFormat(conv, "###.###");
+							}catch (Exception e){
+								Volume = null;
+								System.out.println("Error al obtener el volumen" + e.getMessage());
+								//e.printStackTrace();
+							}
+							
+						}else{
+								mult = Volume.substring(Volume.length()-1, Volume.length());
+								value = Volume.substring(0, Volume.length()-1);
+								int m = 1;
+								if (mult.equals("M")){
+									m=1000000;
+								}else if (mult.equals("B")){
+									m=1000000000;
+								}else if (mult.equals("k")){
+									m=1000;
+								}else{
+									Volume = value;
+								}
+								try{
+									double conv = Double.parseDouble(value) * m;
+									Volume = String.valueOf(conv);
+								}catch (Exception e){
+									Volume = null;
+									System.out.println("Error al obtener el volumen" + e.getMessage());
+									//e.printStackTrace();
+								}
+						}
+						System.out.println("mult(" + mult +") Volume (" + Volume + ")");
+						
+						return Volume;	
+					}
+					
 				}
 
 				/**

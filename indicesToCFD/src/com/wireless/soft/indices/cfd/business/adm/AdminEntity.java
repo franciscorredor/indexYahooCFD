@@ -112,14 +112,14 @@ public class AdminEntity {
 			
 
 			Quote q = rf.getQuery().getResults().getQuote();
-				if (null != q ){
+				if (null != q && null != q.getVolume() ){
 				try {
 					
 					QuoteHistoryCompany qhc = new QuoteHistoryCompany();
 					qhc.setCompany(cmp.getId());
 					qhc.setFechaCreacion(Calendar.getInstance());
 					//qhc.setName( f.getName() );
-					qhc.setSymbol(q.getSymbol());
+					//qhc.setSymbol(q.getSymbol());
 					//qhc.setTs(f.getTs());
 					//qhc.setType(f.getType());
 					//qhc.setUtctime(f.getUtctime());
@@ -132,7 +132,8 @@ public class AdminEntity {
 					//qhc.setIssuer_name_lang(f.getIssuer_name_lang());
 					qhc.setYear_high(q.getYearHigh());
 					qhc.setYear_low(q.getYearLow());
-					qhc.setPrice(q.getLastTradePriceOnly());
+					//qhc.setPrice(q.getLastTradePriceOnly());
+					qhc.setPrice(q.getAsk()); //Se modifica ahora trae de MSN
 					em.persist(qhc);
 					this.em.flush();
 					//_logger.info("PErsistio.." + qhc.toString());
@@ -314,7 +315,7 @@ public class AdminEntity {
 			
 
 			Quote q = rf.getQuery().getResults().getQuote();
-				if (null != q ){
+				if (null != q && null != q.getPERatio()){
 				try {
 
 					FundamentalHistoryCompany fhc = new FundamentalHistoryCompany();

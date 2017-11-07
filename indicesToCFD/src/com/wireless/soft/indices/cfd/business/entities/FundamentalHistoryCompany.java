@@ -31,7 +31,7 @@ import javax.persistence.Table;
 	@NamedNativeQuery(name = "findLastIteracionFundamentalHistoryByCompany", query = "SELECT	0 as id, FCH_CODIGO, SCN_CODIGO as company, SCN_CODIGO, FCH_FECHA_CREACION as fechaCreacion, FCH_FECHA_CREACION, PERatio, Bid, Ask, EBITDA, PriceSales, PriceEPSEstimateCurrentYear, PriceEPSEstimateNextYear, PEGRatio, MarketCapitalization, MarketCapRealtime "+
 																			"	FROM		indexyahoocfd.iyc_fundamental_company_history fundamentalhisto0_ "+
 																			"	WHERE	SCN_CODIGO = :company "+
-																			"	AND		FCH_FECHA_CREACION between  DATE_SUB(NOW(), INTERVAL 1 DAY)  AND NOW() "+  
+																			//"	AND		FCH_FECHA_CREACION between  DATE_SUB(NOW(), INTERVAL 1 DAY)  AND NOW() "+  
 																			"	ORDER	by FCH_FECHA_CREACION desc "+
 																			"	LIMIT 1 ", resultClass = FundamentalHistoryCompany.class)
  })
