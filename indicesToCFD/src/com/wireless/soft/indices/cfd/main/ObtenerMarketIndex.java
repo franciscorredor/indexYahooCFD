@@ -149,14 +149,15 @@ public class ObtenerMarketIndex {
 //			omi.obtenerReturnIndex(cmp);
 //		}
 		
+		/*
 		if (args[0].equals("test")) {
 			try {
-				ReturnHistoricaldataYahooFinance tr =	omi.executeYahooIndexHistoricaldata("http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22YHOO%22%20and%20startDate%20%3D%20%222016-07-01%22%20and%20endDate%20%3D%20%222016-08-04%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=");
-				System.out.print( tr.toString() );
+				//ReturnHistoricaldataYahooFinance tr =	omi.executeYahooIndexHistoricaldata("http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.historicaldata%20where%20symbol%20%3D%20%22YHOO%22%20and%20startDate%20%3D%20%222016-07-01%22%20and%20endDate%20%3D%20%222016-08-04%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=");
+				//System.out.print( tr.toString() );
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}		
+		}*/		
 		
 		
 		
@@ -330,7 +331,7 @@ public class ObtenerMarketIndex {
 				} catch (Exception e) {}
 			}
 
-			//System.out.println(peratio == null ? null : peratio.trim());
+			//System.out.println("peratio: " + peratio == null ? null : peratio.trim());
 			q.setBid(newsHeadlines2.text() == null ? null : newsHeadlines2
 					.text().trim().replaceAll(",", ""));
 			q.setAsk(newsHeadlines2.text() == null ? null : newsHeadlines2
@@ -367,33 +368,7 @@ public class ObtenerMarketIndex {
 	}
 	
 	
-	
-	/**
-	 * @param url
-	 * @return el Quote de yahooIndex
-	 * @throws IOException
-	 */
-	private ReturnYahooFinanceQuoteObject executeYahooIndexQuote(String url)
-			throws IOException {
-		try {
-			
-			JsonElement result = executeJ(url);
-			if (result.isJsonObject()) {
-				JsonElement error = result.getAsJsonObject().get("error");
-				if (error != null) {
-					JsonElement code = result.getAsJsonObject().get("code");
-					System.out.println("[Error] code:" + code);
-				}
-			}
 
-			return gson.fromJson(result, ReturnYahooFinanceQuoteObject.class);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-
-	}
 	
 
 	/**
@@ -401,28 +376,7 @@ public class ObtenerMarketIndex {
 	 * @return
 	 * @throws IOException
 	 */
-	private ReturnHistoricaldataYahooFinance executeYahooIndexHistoricaldata(String url)
-			throws IOException {
-		try {
-			
-			JsonElement result = executeJ(url);
-			if (result.isJsonObject()) {
-				JsonElement error = result.getAsJsonObject().get("error");
-				if (error != null) {
-					JsonElement code = result.getAsJsonObject().get("code");
-					System.out.println("[Error] code:" + code);
-				}
-			}
-
-			return gson.fromJson(result, ReturnHistoricaldataYahooFinance.class);
-
-		} catch (Exception e) {
-			System.out.println("[" + e.getMessage() + "]Error en ReturnHistoricaldataYahooFinance executeYahooIndexHistoricaldata:" + url);
-			//e.printStackTrace();
-		}
-		return null;
-
-	}
+	
 	
 	/**
 	 * @param url
@@ -795,10 +749,16 @@ public class ObtenerMarketIndex {
 					//Obtencion de PE ratio by company
 					FundamentalHistoryCompany fc = admEnt.getLastFundamentalRecord(cmp);
 					if (null == fc){
-						System.out.println("Null al obtener [FundamentalHistoryCompany], Company:" + (null==cmp?"Compania en Nulo":cmp.getId()));
+						System.out.print("," + (null==cmp?"":cmp.getId()));
 						continue;
 					}
-					Double PERatio = Double.valueOf(fc.getpERatio()!=null?fc.getpERatio():"-1" );
+					Double PERatio = null;
+					try{
+					PERatio =Double.valueOf(fc.getpERatio()!=null?fc.getpERatio():"-1" );
+					}catch (NumberFormatException n){
+						PERatio = 1001d;
+						System.out.println("PERatio mayor a mil:" + fc.getpERatio()+ "("+cmp.getId()+")");
+					}
 					if (PERatio < 0){
 						continue;
 					}
@@ -956,7 +916,7 @@ public class ObtenerMarketIndex {
 					//Obtencion de PE ratio by company
 					FundamentalHistoryCompany fc = admEnt.getLastFundamentalRecord(cmp);
 					if (null == fc){
-						System.out.print("Null al obtener [FundamentalHistoryCompany], Company:" + (null==cmp?"Compania en Nulo":cmp.getId()));
+						System.out.print("," + (null==cmp?"":cmp.getId()));
 						continue;
 					}
 					
@@ -1124,7 +1084,7 @@ public class ObtenerMarketIndex {
 					while (true) {
 						iteracionUpDown++;
 						// 1. Persiste info compania
-						ReturnYahooFinanceQuoteObject ri = this.executeYahooIndexQuote(cmp.getUrlQuote());
+						ReturnYahooFinanceQuoteObject ri = this.executeYahooIndexQuoteHTML(cmp.getUrlQuote());
 						//System.out.println(cmp.getUrlQuote());
 						//Persiste en loa BD	
 						this.persistirCompaniesFundamental(ri, cmp);
@@ -1230,7 +1190,7 @@ public class ObtenerMarketIndex {
 		for (Company cmp : admEnt.getCompanies()) {
 			if (null != cmp && null != cmp.getUrlIndex()
 					&& cmp.getUrlIndex().length() > 3) {
-				System.out.println("cmp" + cmp.getId());
+				//System.out.println("cmp" + cmp.getId());
 				ReturnYahooFinanceQuoteObject ri = 
 						this
 						.executeYahooIndexQuoteHTML(cmp.getUrlQuote());

@@ -1,7 +1,6 @@
 package com.wireless.soft.indices.cfd.deserializable.json.object;
 
 import java.io.Serializable;
-import java.util.regex.Matcher;
 
 import com.wireless.soft.indices.cfd.util.UtilGeneral;
 
@@ -302,7 +301,7 @@ public class ReturnYahooFinanceQuoteObject implements Serializable {
 								Volume = UtilGeneral.printNumberFormat(conv, "###.###");
 							}catch (Exception e){
 								Volume = null;
-								System.out.println("Error al obtener el volumen" + e.getMessage());
+								//System.out.println("Error al obtener el volumen" + e.getMessage());
 								//e.printStackTrace();
 							}
 							
@@ -324,11 +323,11 @@ public class ReturnYahooFinanceQuoteObject implements Serializable {
 									Volume = String.valueOf(conv);
 								}catch (Exception e){
 									Volume = null;
-									System.out.println("Error al obtener el volumen" + e.getMessage());
+									//System.out.println("Error al obtener el volumen" + e.getMessage());
 									//e.printStackTrace();
 								}
 						}
-						System.out.println("mult(" + mult +") Volume (" + Volume + ")");
+						//System.out.println("mult(" + mult +") Volume (" + Volume + ")");
 						
 						return Volume;	
 					}
