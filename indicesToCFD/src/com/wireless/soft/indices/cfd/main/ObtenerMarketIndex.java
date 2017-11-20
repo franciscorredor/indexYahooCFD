@@ -764,7 +764,13 @@ public class ObtenerMarketIndex {
 					}
 					
 					//Obtencion precio mas bajo
-					Double price = Double.valueOf(qhcNow.getPrice()!=null?qhcNow.getPrice():"0");
+					Double price = null; 
+					try{
+						price = Double.valueOf(qhcNow.getPrice()!=null?qhcNow.getPrice():"0");
+					}catch (NumberFormatException n){
+						System.out.println("price:" + qhcNow.getPrice()+ "("+cmp.getId()+")");
+					}
+							
 					if (price == null || price.doubleValue() == 0){
 						continue;
 					}
